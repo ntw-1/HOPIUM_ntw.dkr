@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "model_id": "module_b_Iddq_v1",
+  "parameter": "Iddq",
+  "target": "value_168h",
+  "production_features": [
+    "value_0h",
+    "value_24h",
+    "delta_24_0"
+  ],
+  "forbidden_features": [
+    "value_96h",
+    "value_168h"
+  ],
+  "selected_model_class": "GradientBoostingRegressor",
+  "selection_metric": "MAE_val",
+  "winner_MAE_val": 25.524624,
+  "all_candidates_val_MAE": {
+    "DummyRegressor": 33.676759,
+    "Ridge": 33.002522,
+    "RandomForestRegressor": 25.691555,
+    "GradientBoostingRegressor": 25.524624
+  },
+  "all_candidates_metrics": {
+    "DummyRegressor": {
+      "MAE_train": 34.426168,
+      "MAE_val": 33.676759,
+      "RMSE_val": 50.935076,
+      "MAPE_val": 1.726388
+    },
+    "Ridge": {
+      "MAE_train": 33.92859,
+      "MAE_val": 33.002522,
+      "RMSE_val": 50.287879,
+      "MAPE_val": 1.649151
+    },
+    "RandomForestRegressor": {
+      "MAE_train": 26.343839,
+      "MAE_val": 25.691555,
+      "RMSE_val": 42.436683,
+      "MAPE_val": 1.325786
+    },
+    "GradientBoostingRegressor": {
+      "MAE_train": 21.990176,
+      "MAE_val": 25.524624,
+      "RMSE_val": 43.843745,
+      "MAPE_val": 1.297647
+    }
+  },
+  "dataset_id": "dev_burnin_data_seed42_v1",
+  "dataset_sha256": "",
+  "split_seed": 42,
+  "train_lots": [
+    "LOT_016",
+    "LOT_010",
+    "LOT_015",
+    "LOT_008",
+    "LOT_013",
+    "LOT_011",
+    "LOT_007",
+    "LOT_020",
+    "LOT_004",
+    "LOT_001",
+    "LOT_017",
+    "LOT_006"
+  ],
+  "val_lots": [
+    "LOT_012",
+    "LOT_019",
+    "LOT_003",
+    "LOT_005"
+  ],
+  "blind_lots_identity": [
+    "LOT_018",
+    "LOT_002",
+    "LOT_014",
+    "LOT_009"
+  ],
+  "blind_test_metrics": "DEFERRED — Phase 8 final evaluation only.",
+  "uncertainty_method": "quantile_interval_envelope",
+  "registered_at_utc": "2026-09-26T22:20:39.181889+00:00",
+  "lab_version": "v1.0.0-phase3",
+  "notes": "blind_lots_identity records which lots are locked for Phase 8. No predictions or metrics have been computed on blind lots in Phase 3."
+}

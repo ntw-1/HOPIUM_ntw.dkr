@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "model_id": "module_b_leakage_current_v1",
+  "parameter": "leakage_current",
+  "target": "value_168h",
+  "production_features": [
+    "value_0h",
+    "value_24h",
+    "delta_24_0"
+  ],
+  "forbidden_features": [
+    "value_96h",
+    "value_168h"
+  ],
+  "selected_model_class": "RandomForestRegressor",
+  "selection_metric": "MAE_val",
+  "winner_MAE_val": 3.979152,
+  "all_candidates_val_MAE": {
+    "DummyRegressor": 4.830938,
+    "Ridge": 4.43567,
+    "RandomForestRegressor": 3.979152,
+    "GradientBoostingRegressor": 4.129953
+  },
+  "all_candidates_metrics": {
+    "DummyRegressor": {
+      "MAE_train": 5.113705,
+      "MAE_val": 4.830938,
+      "RMSE_val": 7.538664,
+      "MAPE_val": 0.538703
+    },
+    "Ridge": {
+      "MAE_train": 4.587594,
+      "MAE_val": 4.43567,
+      "RMSE_val": 6.794533,
+      "MAPE_val": 0.498262
+    },
+    "RandomForestRegressor": {
+      "MAE_train": 3.960824,
+      "MAE_val": 3.979152,
+      "RMSE_val": 6.44923,
+      "MAPE_val": 0.447837
+    },
+    "GradientBoostingRegressor": {
+      "MAE_train": 3.321523,
+      "MAE_val": 4.129953,
+      "RMSE_val": 6.723253,
+      "MAPE_val": 0.470025
+    }
+  },
+  "dataset_id": "dev_burnin_data_seed42_v1",
+  "dataset_sha256": "",
+  "split_seed": 42,
+  "train_lots": [
+    "LOT_016",
+    "LOT_010",
+    "LOT_015",
+    "LOT_008",
+    "LOT_013",
+    "LOT_011",
+    "LOT_007",
+    "LOT_020",
+    "LOT_004",
+    "LOT_001",
+    "LOT_017",
+    "LOT_006"
+  ],
+  "val_lots": [
+    "LOT_012",
+    "LOT_019",
+    "LOT_003",
+    "LOT_005"
+  ],
+  "blind_lots_identity": [
+    "LOT_018",
+    "LOT_002",
+    "LOT_014",
+    "LOT_009"
+  ],
+  "blind_test_metrics": "DEFERRED — Phase 8 final evaluation only.",
+  "uncertainty_method": "rf_tree_std",
+  "registered_at_utc": "2026-09-26T22:20:39.368412+00:00",
+  "lab_version": "v1.0.0-phase3",
+  "notes": "blind_lots_identity records which lots are locked for Phase 8. No predictions or metrics have been computed on blind lots in Phase 3."
+}

@@ -1,0 +1,94 @@
+# =============================================================================
+# SIH26170 Model Lab Configuration — Phase 3
+# =============================================================================
+# All model hyperparameter choices here are configurable starting points, not
+# final tuned values. They are selected for reasonable baseline performance on
+# the synthetic dataset, not as production-hardened configurations.
+# =============================================================================
+
+model_lab_config:
+  lab_version: "v1.0.0-phase3"
+
+  # ---------------------------------------------------------------------------
+  # Dataset inputs
+  # ---------------------------------------------------------------------------
+  dataset:
+    csv_path: "data/dev_burnin_data.csv"
+    meta_path: "data/dev_burnin_data.meta.json"
+
+  # ---------------------------------------------------------------------------
+  # Parameters to train models for
+  # ---------------------------------------------------------------------------
+  parameters:
+    - Iddq
+    - leakage_current
+    - propagation_delay
+
+  # ---------------------------------------------------------------------------
+  # Production feature set (explicit allowlist)
+  # value_96h and value_168h must NEVER enter X.
+  # ---------------------------------------------------------------------------
+  production_features:
+    - value_0h
+    - value_24h
+    - delta_24_0
+
+  target_column: value_168h
+
+  # ---------------------------------------------------------------------------
+  # Deterministic lot-level split
+  # Seed governs the lot shuffle only; lot list is sorted first for determinism.
+  # ---------------------------------------------------------------------------
+  split:
+    seed: 42
+    train_frac: 0.60    # 12 of 20 lots
+    val_frac: 0.20      # 4  of 20 lots
+    blind_frac: 0.20    # 4  of 20 lots (LOCKED until Phase 8)
+    split_output_path: "models/registered/split_info.json"
+
+  # ---------------------------------------------------------------------------
+  # Model registry
+  # ---------------------------------------------------------------------------
+  registry:
+    output_dir: "models/registered"
+
+  # ---------------------------------------------------------------------------
+  # Random seeds for model reproducibility
+  # ---------------------------------------------------------------------------
+  random_seed: 42
+
+  # ---------------------------------------------------------------------------
+  # Candidate model hyperparameters
+  # Intentionally conservative: small n_estimators, limited depth.
+  # ---------------------------------------------------------------------------
+  candidates:
+    Ridge:
+      alpha: 1.0
+
+    RandomForestRegressor:
+      n_estimators: 100
+      max_depth: 5
+      min_samples_leaf: 3
+
+    GradientBoostingRegressor:
+      n_estimators: 100
+      max_depth: 3
+      learning_rate: 0.1
+      subsample: 0.8
+
+    DummyRegressor:
+      strategy: "mean"
+
+  # ---------------------------------------------------------------------------
+  # Uncertainty estimation config
+  # ---------------------------------------------------------------------------
+  uncertainty:
+    # For GradientBoostingRegressor: train quantile siblings at q_lo and q_hi
+    quantile_lo: 0.10
+    quantile_hi: 0.90
+    # For RandomForestRegressor: std of individual tree predictions
+    rf_uncertainty_method: "tree_std"
+    # For Ridge: constant residual std on training set
+    ridge_uncertainty_method: "residual_std"
+    # For DummyRegressor: std of training targets
+    dummy_uncertainty_method: "target_std"

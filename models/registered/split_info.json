@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "split_seed": 42,
+  "dataset_id": "dev_burnin_data_seed42_v1",
+  "dataset_sha256": "",
+  "train_lots": [
+    "LOT_016",
+    "LOT_010",
+    "LOT_015",
+    "LOT_008",
+    "LOT_013",
+    "LOT_011",
+    "LOT_007",
+    "LOT_020",
+    "LOT_004",
+    "LOT_001",
+    "LOT_017",
+    "LOT_006"
+  ],
+  "val_lots": [
+    "LOT_012",
+    "LOT_019",
+    "LOT_003",
+    "LOT_005"
+  ],
+  "blind_lots": [
+    "LOT_018",
+    "LOT_002",
+    "LOT_014",
+    "LOT_009"
+  ],
+  "n_train": 12,
+  "n_val": 4,
+  "n_blind": 4,
+  "note": "Blind lots are LOCKED until Phase 8 final evaluation. Blind-test metrics are NOT recorded in Phase 3."
+}
