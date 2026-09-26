@@ -1,0 +1,395 @@
+{
+  "report_metadata": {
+    "tester_version": "v1.0.0-phase2",
+    "generator_version": "v1.0.0-phase1",
+    "dataset_id": "dev_burnin_data_seed42_v1",
+    "content_hash_sha256": "c484dfcecd3179822a409b6c4bf61888ff57372c5658857a39a10722c706c9d0"
+  },
+  "summary": {
+    "overall_status": "PASS",
+    "hard_failures_count": 0,
+    "warnings_count": 1,
+    "info_count": 25,
+    "total_checks_evaluated": 26
+  },
+  "category_summary": {
+    "provenance": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "Companion metadata file loaded successfully.",
+        "All required metadata fields present in .meta.json.",
+        "Canonical UTF-8 SHA-256 content hash verified (c484dfcecd31...)."
+      ]
+    },
+    "schema": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "All 10 required columns are present.",
+        "All parameter names belong to allowed set ['Iddq', 'leakage_current', 'propagation_delay'].",
+        "All parameters match their designated measurement units."
+      ]
+    },
+    "completeness": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "Zero NULL values found in production input features (value_0h, value_24h).",
+        "All (lot_id, component_id, parameter_name) keys are strictly unique.",
+        "All components have complete parameter trajectory sets (all 3 parameters present)."
+      ]
+    },
+    "temporal": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "All measurement timepoint values are finite numbers.",
+        "Trajectory absolute delta summary — Mean |24h - 0h|: 0.4915, Mean |168h - 0h|: 8.1915",
+        "Trajectory relative change (|168h - 0h| / 0h) quantiles — min: 0.0000, median: 0.0624, p95: 4.6886, p99: 17.8674, max: 993539.0000"
+      ]
+    },
+    "domain": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "All measurements for non-negative parameters are >= 0.0.",
+        "All rows satisfy synthetic_spec_min < synthetic_spec_max."
+      ]
+    },
+    "statistical_sanity": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [
+        "Found 58 parameter rows with value_0h > 6 sigma from parameter mean. Review recommended."
+      ],
+      "info": [
+        "Dataset contains 20 lots, 2000 unique components, and 6000 total rows.",
+        "Computed per-parameter summary statistics across all timepoints."
+      ]
+    },
+    "correlation_structure": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "Computed empirical cross-parameter correlation matrix R_emp at 0h."
+      ]
+    },
+    "anomaly_prevalence": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "No companion groundtruth dictionary provided; skipping ground-truth prevalence check."
+      ]
+    },
+    "feature_leakage": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "Zero ground-truth classification fields found in dataset CSV.",
+        "CSV structure contains required 0h/24h production input fields and 96h/168h reference/target fields. Phase 3 Model Lab must independently isolate [value_0h, value_24h] during feature extraction."
+      ]
+    },
+    "split_readiness": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "Dataset contains 20 distinct lots, meeting the lot-level partitioning requirement.",
+        "Lot size distribution is balanced (range: 100 to 100 components/lot)."
+      ]
+    },
+    "sih_compliance": {
+      "status": "PASS",
+      "hard_failures": [],
+      "warnings": [],
+      "info": [
+        "Dataset contains all SIH26170 required timepoints (['value_0h', 'value_24h', 'value_96h', 'value_168h']).",
+        "Dataset contains all SIH26170 required parameters (['Iddq', 'leakage_current', 'propagation_delay']).",
+        "Ground truth target value_168h is 100% complete across all trajectory rows."
+      ]
+    }
+  },
+  "descriptive_statistics": {
+    "num_lots": 20,
+    "num_components": 2000,
+    "total_rows": 6000
+  },
+  "detailed_findings": [
+    {
+      "category": "provenance",
+      "level": "INFORMATION",
+      "check_name": "metadata_file_exists",
+      "message": "Companion metadata file loaded successfully.",
+      "details": {}
+    },
+    {
+      "category": "provenance",
+      "level": "INFORMATION",
+      "check_name": "required_metadata_fields",
+      "message": "All required metadata fields present in .meta.json.",
+      "details": {}
+    },
+    {
+      "category": "provenance",
+      "level": "INFORMATION",
+      "check_name": "sha256_content_hash_match",
+      "message": "Canonical UTF-8 SHA-256 content hash verified (c484dfcecd31...).",
+      "details": {
+        "sha256_hash": "c484dfcecd3179822a409b6c4bf61888ff57372c5658857a39a10722c706c9d0"
+      }
+    },
+    {
+      "category": "schema",
+      "level": "INFORMATION",
+      "check_name": "required_columns",
+      "message": "All 10 required columns are present.",
+      "details": {
+        "required_columns": [
+          "lot_id",
+          "component_id",
+          "parameter_name",
+          "unit",
+          "value_0h",
+          "value_24h",
+          "value_96h",
+          "value_168h",
+          "synthetic_spec_min",
+          "synthetic_spec_max"
+        ]
+      }
+    },
+    {
+      "category": "schema",
+      "level": "INFORMATION",
+      "check_name": "allowed_parameters",
+      "message": "All parameter names belong to allowed set ['Iddq', 'leakage_current', 'propagation_delay'].",
+      "details": {}
+    },
+    {
+      "category": "schema",
+      "level": "INFORMATION",
+      "check_name": "parameter_unit_consistency",
+      "message": "All parameters match their designated measurement units.",
+      "details": {}
+    },
+    {
+      "category": "completeness",
+      "level": "INFORMATION",
+      "check_name": "null_production_inputs",
+      "message": "Zero NULL values found in production input features (value_0h, value_24h).",
+      "details": {}
+    },
+    {
+      "category": "completeness",
+      "level": "INFORMATION",
+      "check_name": "duplicate_component_parameter_keys",
+      "message": "All (lot_id, component_id, parameter_name) keys are strictly unique.",
+      "details": {}
+    },
+    {
+      "category": "completeness",
+      "level": "INFORMATION",
+      "check_name": "incomplete_component_trajectories",
+      "message": "All components have complete parameter trajectory sets (all 3 parameters present).",
+      "details": {}
+    },
+    {
+      "category": "temporal",
+      "level": "INFORMATION",
+      "check_name": "non_finite_timepoints",
+      "message": "All measurement timepoint values are finite numbers.",
+      "details": {}
+    },
+    {
+      "category": "temporal",
+      "level": "INFORMATION",
+      "check_name": "trajectory_delta_summary",
+      "message": "Trajectory absolute delta summary — Mean |24h - 0h|: 0.4915, Mean |168h - 0h|: 8.1915",
+      "details": {
+        "mean_delta_24_0": 0.4914692351666666,
+        "max_delta_24_0": 4.020041000000006,
+        "mean_delta_168_0": 8.191547589166667,
+        "max_delta_168_0": 160.6619
+      }
+    },
+    {
+      "category": "temporal",
+      "level": "INFORMATION",
+      "check_name": "trajectory_relative_change_statistics",
+      "message": "Trajectory relative change (|168h - 0h| / 0h) quantiles — min: 0.0000, median: 0.0624, p95: 4.6886, p99: 17.8674, max: 993539.0000",
+      "details": {
+        "min_relative_change": 1.4720870539327041e-05,
+        "median_relative_change": 0.06238153965054395,
+        "p95_relative_change": 4.688608727085086,
+        "p99_relative_change": 17.8673582404258,
+        "max_relative_change": 993539.0
+      }
+    },
+    {
+      "category": "domain",
+      "level": "INFORMATION",
+      "check_name": "non_negative_parameters",
+      "message": "All measurements for non-negative parameters are >= 0.0.",
+      "details": {}
+    },
+    {
+      "category": "domain",
+      "level": "INFORMATION",
+      "check_name": "synthetic_spec_limit_consistency",
+      "message": "All rows satisfy synthetic_spec_min < synthetic_spec_max.",
+      "details": {}
+    },
+    {
+      "category": "statistical_sanity",
+      "level": "INFORMATION",
+      "check_name": "dataset_counts",
+      "message": "Dataset contains 20 lots, 2000 unique components, and 6000 total rows.",
+      "details": {
+        "num_lots": 20,
+        "num_components": 2000,
+        "total_rows": 6000
+      }
+    },
+    {
+      "category": "statistical_sanity",
+      "level": "INFORMATION",
+      "check_name": "parameter_summary_statistics",
+      "message": "Computed per-parameter summary statistics across all timepoints.",
+      "details": {
+        "parameter_statistics": {
+          "Iddq": {
+            "count": 2000,
+            "value_0h_mean": 10.588936388499999,
+            "value_0h_std": 5.11050700376538,
+            "value_0h_min": 0.0,
+            "value_0h_max": 68.939108,
+            "value_24h_mean": 10.937939581,
+            "value_168h_mean": 30.435874499999997
+          },
+          "leakage_current": {
+            "count": 2000,
+            "value_0h_mean": 5.4020044455,
+            "value_0h_std": 3.510593643117193,
+            "value_0h_min": 0.503852,
+            "value_0h_max": 41.323769,
+            "value_24h_mean": 5.503388069500001,
+            "value_168h_mean": 8.258588095999999
+          },
+          "propagation_delay": {
+            "count": 2000,
+            "value_0h_mean": 120.639956205,
+            "value_0h_std": 10.602281546156346,
+            "value_0h_min": 77.991502,
+            "value_0h_max": 219.502997,
+            "value_24h_mean": 121.162790474,
+            "value_168h_mean": 122.44950322449999
+          }
+        }
+      }
+    },
+    {
+      "category": "statistical_sanity",
+      "level": "WARNING",
+      "check_name": "extreme_value_outliers",
+      "message": "Found 58 parameter rows with value_0h > 6 sigma from parameter mean. Review recommended.",
+      "details": {
+        "extreme_outlier_count": 58
+      }
+    },
+    {
+      "category": "correlation_structure",
+      "level": "INFORMATION",
+      "check_name": "empirical_correlation_matrix",
+      "message": "Computed empirical cross-parameter correlation matrix R_emp at 0h.",
+      "details": {
+        "empirical_correlation_matrix": {
+          "Iddq": {
+            "Iddq": 1.0,
+            "leakage_current": 0.039969161322067764,
+            "propagation_delay": 0.1112972144413982
+          },
+          "leakage_current": {
+            "Iddq": 0.039969161322067764,
+            "leakage_current": 1.0,
+            "propagation_delay": 0.04352124779149282
+          },
+          "propagation_delay": {
+            "Iddq": 0.1112972144413982,
+            "leakage_current": 0.04352124779149282,
+            "propagation_delay": 1.0
+          }
+        }
+      }
+    },
+    {
+      "category": "anomaly_prevalence",
+      "level": "INFORMATION",
+      "check_name": "ground_truth_prevalence",
+      "message": "No companion groundtruth dictionary provided; skipping ground-truth prevalence check.",
+      "details": {}
+    },
+    {
+      "category": "feature_leakage",
+      "level": "INFORMATION",
+      "check_name": "ground_truth_embedded_in_csv",
+      "message": "Zero ground-truth classification fields found in dataset CSV.",
+      "details": {}
+    },
+    {
+      "category": "feature_leakage",
+      "level": "INFORMATION",
+      "check_name": "trajectory_field_structure",
+      "message": "CSV structure contains required 0h/24h production input fields and 96h/168h reference/target fields. Phase 3 Model Lab must independently isolate [value_0h, value_24h] during feature extraction.",
+      "details": {}
+    },
+    {
+      "category": "split_readiness",
+      "level": "INFORMATION",
+      "check_name": "minimum_lot_count_for_split",
+      "message": "Dataset contains 20 distinct lots, meeting the lot-level partitioning requirement.",
+      "details": {
+        "lot_count": 20
+      }
+    },
+    {
+      "category": "split_readiness",
+      "level": "INFORMATION",
+      "check_name": "lot_size_balance",
+      "message": "Lot size distribution is balanced (range: 100 to 100 components/lot).",
+      "details": {
+        "min_components_per_lot": 100,
+        "max_components_per_lot": 100
+      }
+    },
+    {
+      "category": "sih_compliance",
+      "level": "INFORMATION",
+      "check_name": "sih_timepoints_present",
+      "message": "Dataset contains all SIH26170 required timepoints (['value_0h', 'value_24h', 'value_96h', 'value_168h']).",
+      "details": {}
+    },
+    {
+      "category": "sih_compliance",
+      "level": "INFORMATION",
+      "check_name": "sih_parameters_present",
+      "message": "Dataset contains all SIH26170 required parameters (['Iddq', 'leakage_current', 'propagation_delay']).",
+      "details": {}
+    },
+    {
+      "category": "sih_compliance",
+      "level": "INFORMATION",
+      "check_name": "sih_168h_target_availability",
+      "message": "Ground truth target value_168h is 100% complete across all trajectory rows.",
+      "details": {}
+    }
+  ]
+}
