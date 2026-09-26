@@ -1,0 +1,16 @@
+{
+  "is_synthetic": true,
+  "generator_version": "v1.0.0-phase1",
+  "random_seed": 42,
+  "dataset_id": "demo_burnin_data_seed42_v1",
+  "content_hash_sha256": "8d1b869fa218186b608810c3576f527269af4a38b4835161914ea720ec7207fd",
+  "num_lots": 5,
+  "components_per_lot": 50,
+  "total_rows": 750,
+  "generation_timestamp_utc": "2026-09-26T21:41:09Z",
+  "config_snapshot": {
+    "num_lots": 5,
+    "components_per_lot": 50
+  },
+  "disclaimer": "SYNTHETIC DATASET GENERATED FOR SIH26170 EXPERIMENTATION. NOT REAL ISRO/INDUSTRY DATA."
+}

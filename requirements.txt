@@ -1,0 +1,10 @@
+# Core Data Ingestion & Trajectory Processing
+pandas>=2.0.0
+numpy>=1.24.0
+pyyaml>=6.0
+
+# Baseline Machine Learning & Metrics (Module A & Module B Model Lab)
+scikit-learn>=1.3.0
+
+# Quality Gates & Automated Unit Testing
+pytest>=7.4.0
