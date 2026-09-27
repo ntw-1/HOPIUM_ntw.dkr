@@ -11,7 +11,7 @@ This document defines strict operational rules, architectural constraints, and e
 ## 1. Feature Boundary Constraints (Module B)
 - **Production Input Features:** Production inference for Module B **must strictly consume only** `Value_0h` and `Value_24h` (and engineered features derived solely from `Value_0h` and `Value_24h`, e.g., $\Delta_{24-0}$).
 - **Target Variable:** `Value_168h` is the ground truth prediction target.
-- **Strictly Forbidden Inputs:** `Value_96h` and `Value_168h` **must never** be included as input features for production predictions. Data leakage tests must verify this constraint.
+- **Strictly Forbidden Inputs:** `Value_96h` and `Value_168h` **must never** be included as input features for production predictions. Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, `Value_96h` is explicitly forbidden as a Module B prediction input. Data leakage tests must verify this constraint.
 
 ---
 

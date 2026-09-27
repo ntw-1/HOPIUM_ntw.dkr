@@ -16,8 +16,8 @@ where $\Delta_{24-0} = \text{value\_24h} - \text{value\_0h}$.
 $$y = \text{value\_168h}$$
 
 ### Strictly Forbidden Production Inputs
-- `value_96h`
-- `value_168h`
+- `value_96h` (Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, `value_96h` is explicitly forbidden as a Module B prediction input).
+- `value_168h` (This is the target).
 
 *Data leakage check tests in `tests/` will automatically fail any pipeline where `value_96h` or `value_168h` are present in feature matrix $\mathbf{X}$.*
 
@@ -57,6 +57,6 @@ The Model Lab will evaluate multiple candidate models under identical lot-level 
 
 ## 4. Module A Contract (Population Anomaly Detection)
 
-- **Input:** Multivariate matrix of component parameters at `0h` and `24h` for all components in a given lot.
+- **Input:** Multivariate matrix of component parameters for all components in a given lot. Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, Module A may use later telemetry including `value_96h`.
 - **Output:** Population Anomaly Score $S_{\text{pop}} \in [0, 1]$ indicating component deviation relative to its lot population distribution.
 - **Algorithms under evaluation:** Robust Mahalanobis distance, Isolation Forest, PCA reconstruction error.

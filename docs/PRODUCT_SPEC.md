@@ -13,8 +13,8 @@ Standard screening relies on measuring components at fixed timepoints (`0h`, `24
 ---
 
 ## 2. Core Objectives
-1. **Early Anomaly Detection (Module A):** Identify component-level multivariate outliers within manufacturing lot populations using 0h and 24h readings.
-2. **Parametric Drift Prediction (Module B):** Predict component parameter values at 168h (`Value_168h`) using exclusively early production readings (`Value_0h`, `Value_24h`).
+1. **Early Anomaly Detection (Module A):** Identify component-level multivariate outliers within manufacturing lot populations. Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, Module A may use later burn-in measurements including `Value_96h`.
+2. **Parametric Drift Prediction (Module B):** Forecast component parameter values at 168h (`Value_168h`) using exclusively early production readings (`Value_0h`, `Value_24h`). Confirmed from the original SIH26170 problem statement, `Value_96h` is explicitly forbidden as a Module B prediction input. (Deterministic derived features like `delta_24_0` remain permitted).
 3. **Dynamic Risk Reasoning:** Provide dynamic safety score and risk boundaries based on population variance, predicted drift, and distance to datasheet specs, avoiding arbitrary static limits.
 4. **Human-in-the-Loop Screening:** Empower screening engineers with clear recommendations, diagnostic plots, and an immutable audit trail for final acceptance/rejection signoff.
 

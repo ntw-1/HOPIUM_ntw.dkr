@@ -1,0 +1,149 @@
+{
+  "Iddq": {
+    "selected_model": "RandomForestClassifier",
+    "val_pr_auc": 0.48570289125356303,
+    "blind_pr_auc": 0.32890370774639305,
+    "blind_roc_auc": 0.7455712050078247,
+    "blind_cm": {
+      "tn": 301,
+      "fp": 54,
+      "fn": 21,
+      "tp": 24
+    },
+    "blind_precision": 0.3076923076923077,
+    "blind_recall": 0.5333333333333333,
+    "fpr_operating_points": {
+      "1%": {
+        "threshold": 0.7181353382623762,
+        "actual_fpr": 0.01971830985915493,
+        "overall_recall": 0.24444444444444444,
+        "subgroup_recall": {
+          "hidden": 0.2222222222222222,
+          "subtle": 0.07142857142857142,
+          "moderate": 0.3333333333333333,
+          "strong": 0.75
+        }
+      },
+      "5%": {
+        "threshold": 0.6166485472746379,
+        "actual_fpr": 0.09295774647887324,
+        "overall_recall": 0.37777777777777777,
+        "subgroup_recall": {
+          "hidden": 0.5,
+          "subtle": 0.14285714285714285,
+          "moderate": 0.3333333333333333,
+          "strong": 0.75
+        }
+      },
+      "10%": {
+        "threshold": 0.5241582441977403,
+        "actual_fpr": 0.13802816901408452,
+        "overall_recall": 0.4666666666666667,
+        "subgroup_recall": {
+          "hidden": 0.5,
+          "subtle": 0.21428571428571427,
+          "moderate": 0.6666666666666666,
+          "strong": 0.75
+        }
+      }
+    }
+  },
+  "leakage_current": {
+    "selected_model": "LogisticRegression",
+    "val_pr_auc": 0.27794425652143273,
+    "blind_pr_auc": 0.1929066425043915,
+    "blind_roc_auc": 0.49571205007824726,
+    "blind_cm": {
+      "tn": 200,
+      "fp": 155,
+      "fn": 25,
+      "tp": 20
+    },
+    "blind_precision": 0.11428571428571428,
+    "blind_recall": 0.4444444444444444,
+    "fpr_operating_points": {
+      "1%": {
+        "threshold": 0.54927968088255,
+        "actual_fpr": 0.011267605633802818,
+        "overall_recall": 0.1111111111111111,
+        "subgroup_recall": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.1111111111111111,
+          "strong": 1.0
+        }
+      },
+      "5%": {
+        "threshold": 0.5379581754468111,
+        "actual_fpr": 0.036619718309859155,
+        "overall_recall": 0.15555555555555556,
+        "subgroup_recall": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        }
+      },
+      "10%": {
+        "threshold": 0.5273619930530571,
+        "actual_fpr": 0.10422535211267606,
+        "overall_recall": 0.15555555555555556,
+        "subgroup_recall": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        }
+      }
+    }
+  },
+  "propagation_delay": {
+    "selected_model": "RandomForestClassifier",
+    "val_pr_auc": 0.13816029365089927,
+    "blind_pr_auc": 0.11223013789576852,
+    "blind_roc_auc": 0.3911111111111111,
+    "blind_cm": {
+      "tn": 212,
+      "fp": 143,
+      "fn": 33,
+      "tp": 12
+    },
+    "blind_precision": 0.07741935483870968,
+    "blind_recall": 0.26666666666666666,
+    "fpr_operating_points": {
+      "1%": {
+        "threshold": 0.637193239216786,
+        "actual_fpr": 0.0,
+        "overall_recall": 0.022222222222222223,
+        "subgroup_recall": {
+          "hidden": 0.05555555555555555,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      },
+      "5%": {
+        "threshold": 0.5685292938858987,
+        "actual_fpr": 0.061971830985915494,
+        "overall_recall": 0.044444444444444446,
+        "subgroup_recall": {
+          "hidden": 0.1111111111111111,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      },
+      "10%": {
+        "threshold": 0.55236725520975,
+        "actual_fpr": 0.12112676056338029,
+        "overall_recall": 0.08888888888888889,
+        "subgroup_recall": {
+          "hidden": 0.16666666666666666,
+          "subtle": 0.07142857142857142,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      }
+    }
+  }
+}

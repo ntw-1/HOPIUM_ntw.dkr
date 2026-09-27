@@ -30,6 +30,7 @@
           │       Module A        │                       │       Module B        │
           │  Population Outlier   │                       │  168h Prediction      │
           │    Score (S_pop)      │                       │   (Value_168h_pred)   │
+          │ (0h, 24h, 96h inputs) │                       │  (0h, 24h inputs only)│
           └───────────┬───────────┘                       └───────────┬───────────┘
                       │                                               │
                       └───────────────────────┬───────────────────────┘

@@ -1,0 +1,200 @@
+{
+  "Iddq": {
+    "value_0h": {
+      "nominal_fpr": 0.01971830985915493,
+      "overall_recall": 0.044444444444444446,
+      "recalls": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 348,
+        "fp": 7,
+        "fn": 43,
+        "tp": 2
+      }
+    },
+    "value_24h": {
+      "nominal_fpr": 0.016901408450704224,
+      "overall_recall": 0.044444444444444446,
+      "recalls": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 349,
+        "fp": 6,
+        "fn": 43,
+        "tp": 2
+      }
+    },
+    "delta_24_0": {
+      "nominal_fpr": 0.0028169014084507044,
+      "overall_recall": 0.08888888888888889,
+      "recalls": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.75
+      },
+      "cm": {
+        "tn": 354,
+        "fp": 1,
+        "fn": 41,
+        "tp": 4
+      }
+    },
+    "Combined (Module A)": {
+      "nominal_fpr": 0.022535211267605635,
+      "overall_recall": 0.13333333333333333,
+      "recalls": {
+        "hidden": 0.1111111111111111,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.75
+      },
+      "cm": {
+        "tn": 347,
+        "fp": 8,
+        "fn": 39,
+        "tp": 6
+      }
+    }
+  },
+  "leakage_current": {
+    "value_0h": {
+      "nominal_fpr": 0.028169014084507043,
+      "overall_recall": 0.022222222222222223,
+      "recalls": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 345,
+        "fp": 10,
+        "fn": 44,
+        "tp": 1
+      }
+    },
+    "value_24h": {
+      "nominal_fpr": 0.028169014084507043,
+      "overall_recall": 0.022222222222222223,
+      "recalls": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 345,
+        "fp": 10,
+        "fn": 44,
+        "tp": 1
+      }
+    },
+    "delta_24_0": {
+      "nominal_fpr": 0.0028169014084507044,
+      "overall_recall": 0.0,
+      "recalls": {
+        "hidden": 0.0,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 354,
+        "fp": 1,
+        "fn": 45,
+        "tp": 0
+      }
+    },
+    "Combined (Module A)": {
+      "nominal_fpr": 0.030985915492957747,
+      "overall_recall": 0.022222222222222223,
+      "recalls": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 344,
+        "fp": 11,
+        "fn": 44,
+        "tp": 1
+      }
+    }
+  },
+  "propagation_delay": {
+    "value_0h": {
+      "nominal_fpr": 0.014084507042253521,
+      "overall_recall": 0.06666666666666667,
+      "recalls": {
+        "hidden": 0.1111111111111111,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 350,
+        "fp": 5,
+        "fn": 42,
+        "tp": 3
+      }
+    },
+    "value_24h": {
+      "nominal_fpr": 0.014084507042253521,
+      "overall_recall": 0.06666666666666667,
+      "recalls": {
+        "hidden": 0.1111111111111111,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 350,
+        "fp": 5,
+        "fn": 42,
+        "tp": 3
+      }
+    },
+    "delta_24_0": {
+      "nominal_fpr": 0.0,
+      "overall_recall": 0.0,
+      "recalls": {
+        "hidden": 0.0,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 355,
+        "fp": 0,
+        "fn": 45,
+        "tp": 0
+      }
+    },
+    "Combined (Module A)": {
+      "nominal_fpr": 0.014084507042253521,
+      "overall_recall": 0.06666666666666667,
+      "recalls": {
+        "hidden": 0.1111111111111111,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "cm": {
+        "tn": 350,
+        "fp": 5,
+        "fn": 42,
+        "tp": 3
+      }
+    }
+  }
+}

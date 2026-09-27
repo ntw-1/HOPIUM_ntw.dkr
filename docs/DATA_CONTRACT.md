@@ -19,7 +19,7 @@ Each row in a component burn-in dataset represents a single electronic component
 | `unit` | String | Unit of measurement (e.g., `uA`, `nA`, `ps`) | Non-empty string |
 | `value_0h` | Float | Measurement at 0 hours (pre-burn-in) | Numeric (non-null) |
 | `value_24h` | Float | Measurement at 24 hours | Numeric (non-null) |
-| `value_96h` | Float | Measurement at 96 hours (historical reference / ground truth) | Numeric (nullable in screening) |
+| `value_96h` | Float | Measurement at 96 hours (Permitted for Module A; Strictly Forbidden for Module B) | Numeric (nullable in screening) |
 | `value_168h` | Float | Measurement at 168 hours (ground truth prediction target) | Numeric (nullable in screening) |
 | `spec_min` | Float | Official datasheet minimum limit (if applicable) | Numeric or NaN |
 | `spec_max` | Float | Official datasheet maximum limit (if applicable) | Numeric or NaN |

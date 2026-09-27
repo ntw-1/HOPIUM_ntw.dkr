@@ -1,0 +1,202 @@
+{
+  "metadata": {
+    "dataset_id": "dev_burnin_data_seed42_v1",
+    "dataset_sha256": "",
+    "split_seed": 42,
+    "blind_lots": [
+      "LOT_002",
+      "LOT_018",
+      "LOT_014",
+      "LOT_009"
+    ],
+    "n_blind_lots": 4
+  },
+  "parameters": {
+    "Iddq": {
+      "model_id": "module_b_Iddq_v1",
+      "selected_model_class": "GradientBoostingRegressor",
+      "uncertainty_method": "quantile_interval_envelope",
+      "sample_count": 400,
+      "aggregate_metrics": {
+        "MAE": 27.746568307718466,
+        "RMSE": 47.574637783939295,
+        "mean_error": 3.0000694699124266,
+        "median_absolute_error": 10.400081733996474,
+        "max_absolute_error": 152.7443798338416
+      },
+      "error_distribution": {
+        "residual_mean": 3.0000694699124266,
+        "residual_median": 8.844985198141394,
+        "residual_std": 47.4799509629983,
+        "residual_quantiles": {
+          "q05": -138.3791812716867,
+          "q25": 6.355134938842756,
+          "q75": 15.746386503379442,
+          "q95": 53.01584742332014
+        },
+        "absolute_error_quantiles": {
+          "q50": 10.400081733996474,
+          "q75": 25.50791580593166,
+          "q90": 82.90129194542155,
+          "q95": 139.96483703169258,
+          "q99": 150.33077399431613
+        }
+      },
+      "uncertainty_metrics": {
+        "empirical_coverage": 0.8125,
+        "average_interval_width": 54.16235892528279,
+        "median_interval_width": 14.11141120211056
+      },
+      "behavioral_groups": {
+        "nominal": {
+          "count": 355,
+          "MAE": 17.33507428901401,
+          "RMSE": 27.408941578591072,
+          "mean_error": 17.183416793855685,
+          "median_absolute_error": 9.402578481848993,
+          "max_absolute_error": 152.7443798338416
+        },
+        "latent_degradation": {
+          "count": 45,
+          "MAE": 109.88168778860921,
+          "RMSE": 119.13061797468825,
+          "mean_error": -108.8907816411955,
+          "median_absolute_error": 132.1733607057551,
+          "max_absolute_error": 152.48345125839953
+        }
+      },
+      "latent_degrader_metrics": {
+        "count": 45,
+        "MAE": 109.88168778860921,
+        "RMSE": 119.13061797468825,
+        "mean_error": -108.8907816411955,
+        "median_absolute_error": 132.1733607057551,
+        "max_absolute_error": 152.48345125839953
+      }
+    },
+    "leakage_current": {
+      "model_id": "module_b_leakage_current_v1",
+      "selected_model_class": "RandomForestRegressor",
+      "uncertainty_method": "rf_tree_std",
+      "sample_count": 400,
+      "aggregate_metrics": {
+        "MAE": 4.126094842858813,
+        "RMSE": 6.647222232839138,
+        "mean_error": 0.026159916694039546,
+        "median_absolute_error": 2.0886621999244213,
+        "max_absolute_error": 20.557998877371936
+      },
+      "error_distribution": {
+        "residual_mean": 0.026159916694039546,
+        "residual_median": 1.9616406785559741,
+        "residual_std": 6.64717075690925,
+        "residual_quantiles": {
+          "q05": -19.174785879316445,
+          "q25": 1.6835754971069854,
+          "q75": 2.472929390007237,
+          "q95": 3.9806859168059896
+        },
+        "absolute_error_quantiles": {
+          "q50": 2.0886621999244213,
+          "q75": 3.097111409581947,
+          "q90": 17.32633580209471,
+          "q95": 19.174785879316442,
+          "q99": 19.871063363386668
+        }
+      },
+      "uncertainty_metrics": {
+        "empirical_coverage": 0.0825,
+        "average_interval_width": 3.124090555924631,
+        "median_interval_width": 2.2189682150336725
+      },
+      "behavioral_groups": {
+        "nominal": {
+          "count": 355,
+          "MAE": 2.3403299922524616,
+          "RMSE": 2.531070388721935,
+          "mean_error": 2.3382669199197665,
+          "median_absolute_error": 2.015672860115691,
+          "max_absolute_error": 8.808691398758837
+        },
+        "latent_degradation": {
+          "count": 45,
+          "MAE": 18.213795330975582,
+          "RMSE": 18.499238854675017,
+          "mean_error": -18.213795330975582,
+          "median_absolute_error": 19.105041493002968,
+          "max_absolute_error": 20.557998877371936
+        }
+      },
+      "latent_degrader_metrics": {
+        "count": 45,
+        "MAE": 18.213795330975582,
+        "RMSE": 18.499238854675017,
+        "mean_error": -18.213795330975582,
+        "median_absolute_error": 19.105041493002968,
+        "max_absolute_error": 20.557998877371936
+      }
+    },
+    "propagation_delay": {
+      "model_id": "module_b_propagation_delay_v1",
+      "selected_model_class": "Ridge",
+      "uncertainty_method": "residual_std",
+      "sample_count": 400,
+      "aggregate_metrics": {
+        "MAE": 0.78389968626004,
+        "RMSE": 0.9806217806486377,
+        "mean_error": -0.07040240687875304,
+        "median_absolute_error": 0.6572849618287577,
+        "max_absolute_error": 2.756112865151181
+      },
+      "error_distribution": {
+        "residual_mean": -0.07040240687875304,
+        "residual_median": -0.06775594871801616,
+        "residual_std": 0.9780912931767584,
+        "residual_quantiles": {
+          "q05": -1.7957209351119223,
+          "q25": -0.7175716514370158,
+          "q75": 0.5966539277623077,
+          "q95": 1.4934743219577835
+        },
+        "absolute_error_quantiles": {
+          "q50": 0.6572849618287577,
+          "q75": 1.1045202421012128,
+          "q90": 1.641557403046643,
+          "q95": 1.9480253185290646,
+          "q99": 2.485539670580575
+        }
+      },
+      "uncertainty_metrics": {
+        "empirical_coverage": 0.715,
+        "average_interval_width": 2.0770520701730004,
+        "median_interval_width": 2.0770520701730106
+      },
+      "behavioral_groups": {
+        "nominal": {
+          "count": 355,
+          "MAE": 0.7785214963083074,
+          "RMSE": 0.9732834615976239,
+          "mean_error": -0.05948514794940172,
+          "median_absolute_error": 0.6505374583618391,
+          "max_absolute_error": 2.756112865151181
+        },
+        "latent_degradation": {
+          "count": 45,
+          "MAE": 0.8263276292125978,
+          "RMSE": 1.0366932833999545,
+          "mean_error": -0.1565274495436357,
+          "median_absolute_error": 0.7108748432934817,
+          "max_absolute_error": 2.5325576116446626
+        }
+      },
+      "latent_degrader_metrics": {
+        "count": 45,
+        "MAE": 0.8263276292125978,
+        "RMSE": 1.0366932833999545,
+        "mean_error": -0.1565274495436357,
+        "median_absolute_error": 0.7108748432934817,
+        "max_absolute_error": 2.5325576116446626
+      }
+    }
+  }
+}

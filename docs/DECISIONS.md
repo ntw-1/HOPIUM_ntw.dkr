@@ -47,3 +47,10 @@
 - **Context:** Advanced neural architectures, live database clusters, and hardware streaming protocols introduce significant complexity.
 - **Decision:** Defer PINNs, TabPFN, PyTorch/TensorFlow, PostgreSQL/TimescaleDB, MQTT, and OPC-UA until empirical research and experimental data justify them.
 - **Consequences:** Keeps initial phases focused on core SIH26170 screening objectives.
+
+## ADR-006: External Enforcement of Module B Input Constraint
+
+- **Status:** Approved
+- **Context:** Previous ambiguity existed regarding whether predicting `Value_168h` strictly using only `Value_0h` and `Value_24h` was an internal architectural choice or an external requirement. 
+- **Decision:** Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, the requirement that Module B must forecast `Value_168h` using *only* `Value_0h` and `Value_24h` is an external rule. `Value_96h` is explicitly forbidden as a Module B prediction input. However, Module A may use `Value_96h` for anomaly detection, and deterministic derived features (e.g. `delta_24_0`) remain permitted.
+- **Consequences:** This documents that the 0h/24h prediction bottleneck in Module B is a strict SIH requirement, and cannot be bypassed simply by feeding 96h telemetry to the regression model.

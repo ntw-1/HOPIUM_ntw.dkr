@@ -1,0 +1,560 @@
+{
+  "Iddq": {
+    "F0": {
+      "selected_model": "GradientBoostingRegressor",
+      "val_mae": 25.52462437131853,
+      "val_rmse": 43.84374548437102,
+      "blind_mae": 27.746568307718466,
+      "blind_rmse": 47.574637783939295,
+      "mean_error": 3.0000694699124266,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 17.33507428901401,
+          "true_slope_mean": 0.0062022015090543265,
+          "pred_slope_mean": 0.10848444432962387
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 136.92153390961164,
+          "true_slope_mean": 0.9466937733843538,
+          "pred_slope_mean": 0.1316846429699988
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 40.56351965753533,
+          "true_slope_mean": 0.9528163526785715,
+          "pred_slope_mean": 0.7777221532789809
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 111.93904471395646,
+          "true_slope_mean": 0.9447384788359788,
+          "pred_slope_mean": 0.2784346412529046
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 94.51306580794365,
+          "true_slope_mean": 0.9490326712962963,
+          "pred_slope_mean": 0.386454898629965
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.1323943661971831,
+        "latent_high_risk_tpr": 0.4888888888888889,
+        "nominal_medium_risk_fpr": 0.5492957746478874,
+        "latent_medium_risk_tpr": 0.8888888888888888
+      }
+    },
+    "F1": {
+      "selected_model": "RandomForestRegressor",
+      "val_mae": 25.70980405912119,
+      "val_rmse": 42.45848322796937,
+      "blind_mae": 28.15710863566679,
+      "blind_rmse": 46.5618337600294,
+      "mean_error": 3.4320425585619514,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 17.853782967659537,
+          "true_slope_mean": 0.0062022015090543265,
+          "pred_slope_mean": 0.11160427379264616
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 135.7672510120551,
+          "true_slope_mean": 0.9466937733843538,
+          "pred_slope_mean": 0.13855537450307348
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 35.152908603915606,
+          "true_slope_mean": 0.9528163526785715,
+          "pred_slope_mean": 0.7563146108222379
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 111.93864947036704,
+          "true_slope_mean": 0.9447384788359788,
+          "pred_slope_mean": 0.2784369938933179
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 96.50018463294896,
+          "true_slope_mean": 0.9490326712962963,
+          "pred_slope_mean": 0.3764955070067443
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.14084507042253522,
+        "latent_high_risk_tpr": 0.4666666666666667,
+        "nominal_medium_risk_fpr": 0.8591549295774648,
+        "latent_medium_risk_tpr": 1.0
+      }
+    },
+    "F2": {
+      "selected_model": "RandomForestRegressor",
+      "val_mae": 25.70980405912119,
+      "val_rmse": 42.45848322796937,
+      "blind_mae": 28.15710863566679,
+      "blind_rmse": 46.5618337600294,
+      "mean_error": 3.4320425585619514,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 17.853782967659537,
+          "true_slope_mean": 0.0062022015090543265,
+          "pred_slope_mean": 0.11160427379264616
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 135.7672510120551,
+          "true_slope_mean": 0.9466937733843538,
+          "pred_slope_mean": 0.13855537450307348
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 35.152908603915606,
+          "true_slope_mean": 0.9528163526785715,
+          "pred_slope_mean": 0.7563146108222379
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 111.93864947036704,
+          "true_slope_mean": 0.9447384788359788,
+          "pred_slope_mean": 0.2784369938933179
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 96.50018463294896,
+          "true_slope_mean": 0.9490326712962963,
+          "pred_slope_mean": 0.3764955070067443
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.14084507042253522,
+        "latent_high_risk_tpr": 0.4666666666666667,
+        "nominal_medium_risk_fpr": 0.8591549295774648,
+        "latent_medium_risk_tpr": 1.0
+      }
+    },
+    "F3": {
+      "selected_model": "GradientBoostingRegressor",
+      "val_mae": 25.58313187484938,
+      "val_rmse": 43.984782908203364,
+      "blind_mae": 27.98073674592705,
+      "blind_rmse": 47.58455781375676,
+      "mean_error": 3.6163391000208573,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 17.8451112455828,
+          "true_slope_mean": 0.0062022015090543265,
+          "pred_slope_mean": 0.11131382017937265
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 136.6427792993631,
+          "true_slope_mean": 0.9466937733843538,
+          "pred_slope_mean": 0.13334389660243054
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 37.303124616188214,
+          "true_slope_mean": 0.9528163526785715,
+          "pred_slope_mean": 0.7827961298135881
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 112.4126492838597,
+          "true_slope_mean": 0.9447384788359788,
+          "pred_slope_mean": 0.27561556643205215
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 85.73790115817953,
+          "true_slope_mean": 0.9490326712962963,
+          "pred_slope_mean": 0.4386880215452277
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.15774647887323945,
+        "latent_high_risk_tpr": 0.5111111111111111,
+        "nominal_medium_risk_fpr": 0.5859154929577465,
+        "latent_medium_risk_tpr": 0.8888888888888888
+      }
+    }
+  },
+  "leakage_current": {
+    "F0": {
+      "selected_model": "RandomForestRegressor",
+      "val_mae": 3.9791518725848336,
+      "val_rmse": 6.44923024143089,
+      "blind_mae": 4.126094842858813,
+      "blind_rmse": 6.647222232839138,
+      "mean_error": 0.026159916694039546,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 2.3403299922524616,
+          "true_slope_mean": 0.001905770053655265,
+          "pred_slope_mean": 0.015824025529368162
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 19.053320673008393,
+          "true_slope_mean": 0.1288206862244898,
+          "pred_slope_mean": 0.015408063170868387
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 12.079772533034205,
+          "true_slope_mean": 0.13127944345238096,
+          "pred_slope_mean": 0.059376035517653525
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 18.409518346480056,
+          "true_slope_mean": 0.12883567030423282,
+          "pred_slope_mean": 0.019255203956137234
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 19.242653344778436,
+          "true_slope_mean": 0.1301481369047619,
+          "pred_slope_mean": 0.015608533662033134
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.022222222222222223,
+        "nominal_medium_risk_fpr": 0.008450704225352112,
+        "latent_medium_risk_tpr": 0.06666666666666667
+      }
+    },
+    "F1": {
+      "selected_model": "RandomForestRegressor",
+      "val_mae": 3.978756268460742,
+      "val_rmse": 6.449036121911148,
+      "blind_mae": 4.126224137575182,
+      "blind_rmse": 6.64809502675282,
+      "mean_error": 0.02496449860259716,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 2.339708238204223,
+          "true_slope_mean": 0.001905770053655265,
+          "pred_slope_mean": 0.01582057605480571
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 19.064864897761957,
+          "true_slope_mean": 0.1288206862244898,
+          "pred_slope_mean": 0.015339347547335277
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 12.096785533544125,
+          "true_slope_mean": 0.13127944345238096,
+          "pred_slope_mean": 0.05927476765747544
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 18.411894425651322,
+          "true_slope_mean": 0.12883567030423282,
+          "pred_slope_mean": 0.019241060627736842
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 19.242653344778436,
+          "true_slope_mean": 0.1301481369047619,
+          "pred_slope_mean": 0.015608533662033127
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.022222222222222223,
+        "nominal_medium_risk_fpr": 0.008450704225352112,
+        "latent_medium_risk_tpr": 0.06666666666666667
+      }
+    },
+    "F2": {
+      "selected_model": "RandomForestRegressor",
+      "val_mae": 3.978756268460742,
+      "val_rmse": 6.449036121911148,
+      "blind_mae": 4.126224137575182,
+      "blind_rmse": 6.64809502675282,
+      "mean_error": 0.02496449860259716,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 2.339708238204223,
+          "true_slope_mean": 0.001905770053655265,
+          "pred_slope_mean": 0.01582057605480571
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 19.064864897761957,
+          "true_slope_mean": 0.1288206862244898,
+          "pred_slope_mean": 0.015339347547335277
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 12.096785533544125,
+          "true_slope_mean": 0.13127944345238096,
+          "pred_slope_mean": 0.05927476765747544
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 18.411894425651322,
+          "true_slope_mean": 0.12883567030423282,
+          "pred_slope_mean": 0.019241060627736842
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 19.242653344778436,
+          "true_slope_mean": 0.1301481369047619,
+          "pred_slope_mean": 0.015608533662033127
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.022222222222222223,
+        "nominal_medium_risk_fpr": 0.008450704225352112,
+        "latent_medium_risk_tpr": 0.06666666666666667
+      }
+    },
+    "F3": {
+      "selected_model": "RandomForestRegressor",
+      "val_mae": 3.9960059240481804,
+      "val_rmse": 6.535364599600744,
+      "blind_mae": 4.060991655901616,
+      "blind_rmse": 6.604583752044044,
+      "mean_error": 0.02945444374898738,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 2.3045886076447957,
+          "true_slope_mean": 0.001905770053655265,
+          "pred_slope_mean": 0.015622226863620707
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 19.183111170773003,
+          "true_slope_mean": 0.1288206862244898,
+          "pred_slope_mean": 0.014635500684174291
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 10.711443489176197,
+          "true_slope_mean": 0.13127944345238096,
+          "pred_slope_mean": 0.06752085125490359
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 17.82588757398552,
+          "true_slope_mean": 0.12883567030423282,
+          "pred_slope_mean": 0.02272919664955712
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 19.332488885275314,
+          "true_slope_mean": 0.1301481369047619,
+          "pred_slope_mean": 0.015073798301932626
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.044444444444444446,
+        "nominal_medium_risk_fpr": 0.005633802816901409,
+        "latent_medium_risk_tpr": 0.06666666666666667
+      }
+    }
+  },
+  "propagation_delay": {
+    "F0": {
+      "selected_model": "Ridge",
+      "val_mae": 0.8115631723396989,
+      "val_rmse": 1.0161881370043668,
+      "blind_mae": 0.7835264772654473,
+      "blind_rmse": 0.9802558870232692,
+      "mean_error": -0.06980755673322517,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 0.7780999472068152,
+          "true_slope_mean": 0.010885927330650568,
+          "pred_slope_mean": 0.010534763653907094
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 0.8199190097054684,
+          "true_slope_mean": 0.015125508928571448,
+          "pred_slope_mean": 0.012132539738204773
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 1.3304135214426154,
+          "true_slope_mean": 0.016866534226190454,
+          "pred_slope_mean": 0.009776873450005136
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 0.6455222127061467,
+          "true_slope_mean": 0.009851585648148132,
+          "pred_slope_mean": 0.010184932011496442
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 0.9739099552668731,
+          "true_slope_mean": 0.010269609788359767,
+          "pred_slope_mean": 0.012793455795148347
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.0,
+        "nominal_medium_risk_fpr": 0.0,
+        "latent_medium_risk_tpr": 0.0
+      }
+    },
+    "F1": {
+      "selected_model": "Ridge",
+      "val_mae": 0.8115631725563139,
+      "val_rmse": 1.0161881371726507,
+      "blind_mae": 0.783526477253333,
+      "blind_rmse": 0.9802558870136091,
+      "mean_error": -0.06980755671097129,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 0.7780999471595735,
+          "true_slope_mean": 0.010885927330650568,
+          "pred_slope_mean": 0.010534763654314855
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 0.8199190103505286,
+          "true_slope_mean": 0.015125508928571448,
+          "pred_slope_mean": 0.012132539733868538
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 1.3304135211143908,
+          "true_slope_mean": 0.016866534226190454,
+          "pred_slope_mean": 0.009776873453260625
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 0.6455222129806018,
+          "true_slope_mean": 0.009851585648148132,
+          "pred_slope_mean": 0.010184932012354589
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 0.9739099551854211,
+          "true_slope_mean": 0.010269609788359767,
+          "pred_slope_mean": 0.012793455788533843
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.0,
+        "nominal_medium_risk_fpr": 0.0,
+        "latent_medium_risk_tpr": 0.0
+      }
+    },
+    "F2": {
+      "selected_model": "Ridge",
+      "val_mae": 0.811564269404181,
+      "val_rmse": 1.016188989318891,
+      "blind_mae": 0.7835264159194586,
+      "blind_rmse": 0.9802558381310587,
+      "mean_error": -0.06980744406021672,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 0.7780997079564815,
+          "true_slope_mean": 0.010885927330650568,
+          "pred_slope_mean": 0.01053476571883419
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 0.8199222766590221,
+          "true_slope_mean": 0.015125508928571448,
+          "pred_slope_mean": 0.012132517776793523
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 1.330411859140355,
+          "true_slope_mean": 0.016866534226190454,
+          "pred_slope_mean": 0.009776889937557875
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 0.6455236026928711,
+          "true_slope_mean": 0.009851585648148132,
+          "pred_slope_mean": 0.010184936357403685
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 0.9739095427747912,
+          "true_slope_mean": 0.010269609788359767,
+          "pred_slope_mean": 0.012793422295500066
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.0,
+        "nominal_medium_risk_fpr": 0.0,
+        "latent_medium_risk_tpr": 0.0
+      }
+    },
+    "F3": {
+      "selected_model": "Ridge",
+      "val_mae": 0.8110442011026805,
+      "val_rmse": 1.0156479438514545,
+      "blind_mae": 0.7834448471418932,
+      "blind_rmse": 0.9798429006506004,
+      "mean_error": -0.06951291079020344,
+      "subgroups": {
+        "nominal": {
+          "count": 355,
+          "mae": 0.7780765736320367,
+          "true_slope_mean": 0.010885927330650568,
+          "pred_slope_mean": 0.010536498904498405
+        },
+        "latent_subtle": {
+          "count": 14,
+          "mae": 0.8204678170938148,
+          "true_slope_mean": 0.015125508928571448,
+          "pred_slope_mean": 0.012128557543210235
+        },
+        "latent_strong": {
+          "count": 4,
+          "mae": 1.3285254652867415,
+          "true_slope_mean": 0.016866534226190454,
+          "pred_slope_mean": 0.009803689915137184
+        },
+        "latent_hidden": {
+          "count": 18,
+          "mae": 0.6433818330909236,
+          "true_slope_mean": 0.009851585648148132,
+          "pred_slope_mean": 0.01018629289514344
+        },
+        "latent_moderate": {
+          "count": 9,
+          "mae": 0.9754701023652486,
+          "true_slope_mean": 0.010269609788359767,
+          "pred_slope_mean": 0.012794512791082775
+        }
+      },
+      "diagnostic": {
+        "nominal_high_risk_fpr": 0.0,
+        "latent_high_risk_tpr": 0.0,
+        "nominal_medium_risk_fpr": 0.0,
+        "latent_medium_risk_tpr": 0.0
+      }
+    }
+  }
+}
