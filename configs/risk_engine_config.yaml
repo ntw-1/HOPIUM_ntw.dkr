@@ -1,0 +1,106 @@
+# =============================================================================
+# SIH26170 Dynamic Risk Engine Configuration — Phase 5 (v2 — scale-aware)
+# =============================================================================
+# PROTOTYPE ENGINEERING LOGIC ONLY.
+# All thresholds and rules are synthetic assumptions for SIH26170 demonstration.
+# They are NOT official ISRO safety limits, datasheet specifications, or
+# certified engineering acceptance criteria.
+# =============================================================================
+
+risk_engine_config:
+  engine_version: "v2.0.0-phase5"
+
+  # ---------------------------------------------------------------------------
+  # Population anomaly thresholds (from Module A Modified Z-Score output)
+  # ---------------------------------------------------------------------------
+  population_anomaly:
+    low_threshold: 3.5        # Matches Module A anomaly_threshold
+    high_threshold: 6.0
+
+  # ---------------------------------------------------------------------------
+  # Drift evidence thresholds — scale-aware (v2 revision)
+  #
+  # PRIMARY criterion:  abs(predicted_168h - value_0h) / spec_range
+  #
+  # This expresses "what fraction of the allowable spec window is consumed by
+  # the predicted 0h→168h drift." It is dimensionless, scale-invariant across
+  # all three parameters (Iddq [uA], leakage_current [nA], propagation_delay
+  # [ps]), and directly interpretable in engineering terms.
+  #
+  # Threshold calibration is grounded in the Phase 1 synthetic dataset
+  # distribution of Module B predictions on demo_burnin_data.csv:
+  #
+  #   Parameter          p50 drift/spec   p75 drift/spec   p95 drift/spec
+  #   Iddq               24.7%            48.5%            127.5%
+  #   leakage_current     8.3%            10.2%             14.1%
+  #   propagation_delay   1.8%             2.1%              2.6%
+  #
+  # drift_frac_spec_medium = 0.20 (20%):
+  #   - Iddq: flags bottom ~40% of components (below p50); upper tail is HIGH
+  #   - leakage_current: flags only genuine outlier tail (above p95)
+  #   - propagation_delay: not triggered at all (p95 = 2.6% < 20%)
+  #   This calibration reflects the physical reality that leakage_current and
+  #   propagation_delay drift much less relative to their spec ranges.
+  #
+  # drift_frac_spec_high = 0.60 (60%):
+  #   - Iddq: flags top ~30% of components (above p75)
+  #   - leakage_current and propagation_delay: extremely rare to trigger
+  #
+  # These thresholds produce differentiated, physically meaningful output:
+  # components drifting 60%+ of their spec window in a week warrant HIGH
+  # attention; drifting 20–60% warrants MEDIUM; below 20% is LOW on this axis.
+  # ---------------------------------------------------------------------------
+  drift:
+    # PRIMARY: predicted drift as fraction of spec range
+    drift_frac_spec_medium: 0.20    # >= 20% of spec range => MEDIUM drift signal
+    drift_frac_spec_high: 0.60      # >= 60% of spec range => HIGH drift signal
+
+    # Fallback (when spec range unavailable): fraction of predicted value
+    drift_frac_predicted_medium: 0.20
+    drift_frac_predicted_high: 0.50
+
+    # SUPPLEMENTARY: early trajectory ratio (predicted_drift / delta_24_0)
+    # Applied ONLY when |delta_24_0| >= min_delta_fraction_of_spec * spec_range
+    # so the denominator is physically meaningful (not numerical noise).
+    # Even when triggered, can raise risk by at most one level (MEDIUM max).
+    #
+    # min_delta_fraction_of_spec = 0.02 (2% of spec range):
+    #   Iddq spec_range=50: delta must be >= 1.0 uA  (actual p95 delta = 0.73 uA -> rarely fires)
+    #   leakage_current spec_range=30: delta must be >= 0.60 nA (p95 delta = 0.30 nA -> rarely fires)
+    #   propagation_delay spec_range=100: delta must be >= 2.0 ps (p75 delta = 1.26 ps -> some fire)
+    # This gate ensures only large, physically significant early deltas engage the ratio.
+    min_delta_fraction_of_spec: 0.02
+    supplementary_trajectory_ratio: 5.0  # If delta gate passes and ratio >= 5x => add MEDIUM
+
+  # ---------------------------------------------------------------------------
+  # Uncertainty evidence thresholds
+  # Expressed as fraction of (spec_max - spec_min) range.
+  #
+  # Calibration from Module B predictions on demo data:
+  #   Iddq unc/spec_range:              p50=27.8%, p75=257.7%, p95=317.5%
+  #   leakage_current unc/spec_range:   p50=7.3%,  p75=13.8%,  p95=23.4%
+  #   propagation_delay unc/spec_range: constant ~2.1% (residual_std method)
+  #
+  # Threshold 0.30 (30%):
+  #   - Iddq: flags approximately the top half of components (p50 is 27.8%)
+  #   - leakage_current: flags only outlier tail (above p95)
+  #   - propagation_delay: never triggered (2.1% << 30%)
+  # ---------------------------------------------------------------------------
+  uncertainty:
+    interval_fraction_of_spec_range_high: 0.30
+    interval_fraction_of_predicted_high: 0.50
+
+  # ---------------------------------------------------------------------------
+  # Risk level escalation rules (applied in order, highest wins)
+  # ---------------------------------------------------------------------------
+  risk_escalation_rules:
+    reference_limit_breach_level: HIGH
+    predicted_spec_crossing_level: HIGH
+    upper_bound_crosses_spec_max_level: MEDIUM
+    strong_population_anomaly_level: MEDIUM
+    moderate_population_anomaly_level: MEDIUM
+    high_uncertainty_alone_level: MEDIUM
+    moderate_drift_level: MEDIUM
+    high_drift_level: HIGH
+    anomaly_plus_drift_level: HIGH
+    anomaly_plus_high_uncertainty_level: MEDIUM
