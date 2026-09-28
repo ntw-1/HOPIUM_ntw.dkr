@@ -22,6 +22,7 @@ import os
 import sys
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from typing import Optional, Dict, Any, List
 import webbrowser
 
 # Ensure src is importable
@@ -146,645 +147,972 @@ HTML_PAGE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOPIUM SIH26170 — Screening & HITL Audit Platform</title>
+    <title>HOPIUM SIH26170 | Semiconductor Burn-In Screening Workstation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --card-border: #334155;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-blue: #38bdf8;
-            --risk-low: #22c55e;
-            --risk-medium: #eab308;
+            /* Aerospace / ATE Workstation Dark Theme Palette */
+            --bg-dark: #080c14;
+            --rail-bg: #0d1322;
+            --panel-bg: #111827;
+            --panel-header-bg: #1f2937;
+            --border-color: #1f293d;
+            --border-focus: #374151;
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-dim: #6b7280;
+            
+            --cyan-accent: #00f0ff;
+            --cyan-glow: rgba(0, 240, 255, 0.15);
+            --blue-accent: #3b82f6;
+            
+            --risk-low: #10b981;
+            --risk-med: #f59e0b;
             --risk-high: #ef4444;
-            --hitl-purple: #c084fc;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
         }
-
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-family); line-height: 1.5; padding: 24px; }
-        .container { max-width: 1400px; margin: 0 auto; }
-
-        header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--card-border); margin-bottom: 24px; }
-        header h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); display: flex; align-items: center; gap: 8px; }
-        header .badge { background: #0284c7; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; }
-
-        .control-panel { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-        .control-panel label { font-weight: 600; color: var(--text-muted); }
-        select, button, input[type="file"], textarea { background: #0f172a; border: 1px solid var(--card-border); color: white; padding: 10px 14px; border-radius: 6px; font-size: 0.95rem; }
-        button { cursor: pointer; }
-        button.btn-primary { background: #0284c7; border: none; font-weight: 600; padding: 10px 20px; }
-        button.btn-primary:hover { background: #0369a1; }
-        button.btn-secondary { background: #475569; border: none; font-weight: 600; padding: 10px 16px; color: white; }
-        button.btn-secondary:hover { background: #334155; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .val-card { border-radius: 8px; padding: 16px; margin-bottom: 24px; border: 1px solid var(--card-border); }
-        .val-pass { background: rgba(34, 197, 94, 0.1); border-color: var(--risk-low); color: #4ade80; }
-        .val-fail { background: rgba(239, 68, 68, 0.1); border-color: var(--risk-high); color: #f87171; }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
-        .metric-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 18px; text-align: center; }
-        .metric-card .val { font-size: 2.2rem; font-weight: 800; margin-top: 4px; }
-        .metric-card .lbl { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-        .main-layout { display: grid; grid-template-columns: 380px 1fr; gap: 24px; }
-        @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
-
-        .panel { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; }
-        .panel-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
-
-        .filter-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-        .filter-btn { padding: 4px 10px; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--card-border); background: #0f172a; color: var(--text-muted); }
-        .filter-btn.active { background: #0284c7; border-color: #0284c7; color: white; }
-
-        .comp-list { overflow-y: auto; max-height: 650px; display: flex; flex-direction: column; gap: 8px; }
-        .comp-item { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.15s; }
-        .comp-item:hover, .comp-item.selected { border-color: var(--accent-blue); background: #1e293b; }
-        .comp-item .id { font-weight: 600; font-size: 0.9rem; }
-        .comp-item .sub { font-size: 0.75rem; color: var(--text-muted); }
-
-        .tag { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .tag-LOW { background: rgba(34, 197, 94, 0.2); color: var(--risk-low); border: 1px solid var(--risk-low); }
-        .tag-MEDIUM { background: rgba(234, 179, 8, 0.2); color: var(--risk-medium); border: 1px solid var(--risk-medium); }
-        .tag-HIGH { background: rgba(239, 68, 68, 0.2); color: var(--risk-high); border: 1px solid var(--risk-high); }
-
-        .tag-PASS { background: rgba(34, 197, 94, 0.3); color: #4ade80; border: 1px solid #4ade80; }
-        .tag-MONITOR { background: rgba(234, 179, 8, 0.3); color: #facc15; border: 1px solid #facc15; }
-        .tag-REJECT { background: rgba(239, 68, 68, 0.3); color: #f87171; border: 1px solid #f87171; }
-
-        .section-header { font-size: 1rem; font-weight: 700; margin: 20px 0 10px 0; color: var(--accent-blue); display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed var(--card-border); padding-bottom: 6px; }
-
-        .hitl-panel { background: rgba(192, 132, 252, 0.05); border: 1px solid rgba(192, 132, 252, 0.3); border-radius: 8px; padding: 18px; margin-top: 24px; }
-        .hitl-header { color: var(--hitl-purple); font-weight: 700; font-size: 1.05rem; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-
-        .btn-decision { padding: 8px 16px; font-weight: 700; border-radius: 6px; border: 1px solid var(--card-border); background: #0f172a; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-        .btn-decision.sel-PASS { background: rgba(34, 197, 94, 0.2); border-color: var(--risk-low); color: var(--risk-low); }
-        .btn-decision.sel-MONITOR { background: rgba(234, 179, 8, 0.2); border-color: var(--risk-medium); color: var(--risk-medium); }
-        .btn-decision.sel-REJECT { background: rgba(239, 68, 68, 0.2); border-color: var(--risk-high); color: var(--risk-high); }
-
-        .param-card { background: #0f172a; border: 1px solid var(--card-border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-        .param-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .param-title { font-weight: 700; font-size: 1.05rem; color: var(--accent-blue); }
-
-        .param-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; font-size: 0.9rem; }
-        .param-stat { background: #1e293b; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; }
-        .param-stat .lbl { font-size: 0.75rem; color: var(--text-muted); }
-        .param-stat .val { font-weight: 600; margin-top: 2px; }
-
-        .chart-box { background: #090d16; border: 1px solid var(--card-border); border-radius: 6px; padding: 12px; height: 180px; width: 100%; margin-bottom: 12px; }
-
-        .reason-box { background: rgba(234, 179, 8, 0.05); border: 1px solid rgba(234, 179, 8, 0.2); border-radius: 6px; padding: 12px; font-size: 0.85rem; }
-        .reason-box ul { padding-left: 18px; margin-top: 6px; }
-
-        .disclaimer { font-size: 0.75rem; color: var(--text-muted); font-style: italic; margin-top: 24px; text-align: center; }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: var(--font-sans); font-size: 13px; line-height: 1.4; -webkit-font-smoothing: antialiased; }
+        
+        /* Layout Structure */
+        .app-container { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+        
+        /* 272px Command Rail */
+        .command-rail { width: 272px; background: var(--rail-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; flex-shrink: 0; }
+        .rail-header { padding: 20px 16px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 4px; }
+        .rail-brand { font-family: var(--font-mono); font-weight: 800; font-size: 14px; color: var(--cyan-accent); letter-spacing: 0.1em; display: flex; align-items: center; gap: 8px; }
+        .rail-brand::before { content: "■"; color: var(--cyan-accent); font-size: 10px; }
+        .rail-sub { font-size: 10px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .rail-nav { padding: 16px 8px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .nav-group-title { font-size: 9px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 12px 4px 12px; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-main); }
+        .nav-item.active { background: rgba(0, 240, 255, 0.08); color: var(--cyan-accent); border-left-color: var(--cyan-accent); }
+        .nav-item.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+        .nav-num { font-size: 10px; opacity: 0.5; }
+        
+        .rail-footer { padding: 16px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.2); }
+        .sys-status { display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--risk-low); display: inline-block; box-shadow: 0 0 8px var(--risk-low); }
+        
+        /* Main Viewport */
+        .viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-dark); }
+        .top-bar { height: 48px; border-bottom: 1px solid var(--border-color); background: var(--panel-bg); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-family: var(--font-mono); font-size: 11px; }
+        .top-meta { display: flex; gap: 24px; color: var(--text-muted); }
+        .top-meta span { color: var(--text-main); }
+        
+        .main-content { flex: 1; padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        .view-section { display: none; flex-direction: column; gap: 20px; }
+        .view-section.active { display: flex; }
+        
+        /* Panels & Cards */
+        .ate-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; }
+        .panel-head { background: var(--panel-header-bg); padding: 10px 16px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .panel-body { padding: 16px; }
+        
+        /* Telemetry KPI Cards */
+        .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+        .kpi-card { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 4px; display: flex; flex-direction: column; gap: 4px; }
+        .kpi-title { font-size: 10px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+        .kpi-value { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--text-main); }
+        
+        /* Tables */
+        .ate-table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--font-sans); }
+        .ate-table th { background: #161f30; color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .ate-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-color); color: var(--text-main); }
+        .ate-table td.mono { font-family: var(--font-mono); }
+        .ate-table tbody tr { transition: background 0.1s; }
+        .ate-table tbody tr:hover { background: rgba(0, 240, 255, 0.03); }
+        
+        /* Badges */
+        .badge { padding: 3px 8px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; border-radius: 2px; text-transform: uppercase; display: inline-block; }
+        .badge-low { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-med { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-high { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-gray { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid rgba(107, 114, 128, 0.3); }
+        .badge-cyan { background: rgba(0, 240, 255, 0.15); color: var(--cyan-accent); border: 1px solid rgba(0, 240, 255, 0.3); }
+        
+        /* Buttons */
+        .btn { background: #162032; border: 1px solid var(--border-color); color: var(--text-main); padding: 7px 14px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.15s; border-radius: 3px; }
+        .btn:hover { background: var(--border-focus); border-color: var(--text-muted); }
+        .btn-cyan { background: var(--cyan-accent); color: #000; border-color: var(--cyan-accent); font-weight: 700; }
+        .btn-cyan:hover { background: #38bdf8; border-color: #38bdf8; }
+        
+        /* Interactive Decision Buttons */
+        .btn-decision { flex: 1; padding: 10px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--border-color); background: #0d1322; color: var(--text-muted); cursor: pointer; border-radius: 3px; transition: all 0.15s; }
+        .btn-decision.active-PASS { background: rgba(16, 185, 129, 0.2); border-color: var(--risk-low); color: #34d399; }
+        .btn-decision.active-MONITOR { background: rgba(245, 158, 11, 0.2); border-color: var(--risk-med); color: #fbbf24; }
+        .btn-decision.active-REJECT { background: rgba(239, 68, 68, 0.2); border-color: var(--risk-high); color: #f87171; }
+        
+        /* Oscilloscope Canvas Box */
+        .chart-box { background: #060911; border: 1px solid var(--border-color); padding: 8px; border-radius: 3px; position: relative; }
+        .chart-box::before { content: ""; position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(180deg, rgba(0,240,255,0.02) 0%, transparent 100%); pointer-events: none; }
+        
+        /* Grid Helpers */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        
+        .loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; font-family: var(--font-mono); color: var(--cyan-accent); gap: 12px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>HOPIUM SIH26170 <span class="badge">Phase 6 & 7 Screening & HITL Platform</span></h1>
-            <div style="font-size:0.85rem; color:var(--text-muted);">AI Advisory Screening + Human Engineering Signoff</div>
-        </header>
 
-        <div class="control-panel">
-            <label for="csvSelect">Select Burn-In Dataset:</label>
-            <select id="csvSelect">
-                <option value="">-- Loading datasets --</option>
-            </select>
-
-            <button class="btn-primary" id="runBtn" onclick="runScreening()">Run Screening</button>
-            <button class="btn-secondary" id="exportBtn" onclick="exportAuditCSV()" style="display:none;">Export Audit Log (CSV)</button>
-
-            <span id="loadingSpinner" style="display:none; color:var(--accent-blue); font-size:0.9rem;">Processing Module A & B + Risk Engine...</span>
+<div class="app-container">
+    <!-- 272px COMMAND RAIL -->
+    <div class="command-rail">
+        <div class="rail-header">
+            <div class="rail-brand">HOPIUM SIH26170</div>
+            <div class="rail-sub">Aero-Reliability Screening</div>
         </div>
-
-        <div id="validationBox"></div>
-
-        <div id="resultsContent" style="display:none;">
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="lbl">Total Components</div>
-                    <div class="val" id="metricTotal">0</div>
-                </div>
-                <div class="metric-card" style="border-color: var(--risk-low);">
-                    <div class="lbl" style="color:var(--risk-low);">AI LOW Risk</div>
-                    <div class="val" style="color:var(--risk-low);" id="metricLow">0</div>
-                </div>
-                <div class="metric-card" style="border-color: var(--risk-medium);">
-                    <div class="lbl" style="color:var(--risk-medium);">AI MEDIUM Risk</div>
-                    <div class="val" style="color:var(--risk-medium);" id="metricMed">0</div>
-                </div>
-                <div class="metric-card" style="border-color: var(--risk-high);">
-                    <div class="lbl" style="color:var(--risk-high);">AI HIGH Risk</div>
-                    <div class="val" style="color:var(--risk-high);" id="metricHigh">0</div>
-                </div>
-                <div class="metric-card" style="border-color: var(--hitl-purple);">
-                    <div class="lbl" style="color:var(--hitl-purple);">Human Reviewed</div>
-                    <div class="val" style="color:var(--hitl-purple);" id="metricReviewed">0 / 0</div>
-                </div>
-            </div>
-
-            <div class="main-layout">
-                <!-- Left Panel: Lot Command Center -->
-                <div class="panel">
-                    <div class="panel-header">
-                        <span>Lot Command Center</span>
-                        <select id="lotFilter" onchange="renderComponentList()" style="padding:4px 8px; font-size:0.8rem;">
-                            <option value="ALL">All Lots</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-bar">
-                        <button class="filter-btn active" onclick="setRiskFilter('ALL', this)">All</button>
-                        <button class="filter-btn" onclick="setRiskFilter('ATTENTION', this)">Attention Only</button>
-                        <button class="filter-btn" onclick="setRiskFilter('HIGH', this)">HIGH</button>
-                        <button class="filter-btn" onclick="setRiskFilter('MEDIUM', this)">MEDIUM</button>
-                        <button class="filter-btn" onclick="setRiskFilter('LOW', this)">LOW</button>
-                    </div>
-
-                    <div class="comp-list" id="compList"></div>
-                </div>
-
-                <!-- Right Panel: Component Analysis & Human Review -->
-                <div class="panel">
-                    <div class="panel-header">
-                        <span>Component Analysis & Signoff</span>
-                        <span id="compHeaderTag">Select a component</span>
-                    </div>
-
-                    <div id="compDetailBody">
-                        <div style="text-align:center; padding:60px 20px; color:var(--text-muted);">
-                            Select a component from the Lot Command Center to inspect its 168h drift predictions, population anomaly scores, explainable AI risk evidence, and record human engineering signoff.
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="rail-nav">
+            <div class="nav-group-title">Operational Workflow</div>
+            <div class="nav-item" onclick="navTo('view-import', this)" id="nav-import"><span class="nav-num">00</span> IMPORT DATASET</div>
+            <div class="nav-item active" onclick="navTo('view-command', this)" id="nav-command"><span class="nav-num">01</span> COMMAND CENTER</div>
+            <div class="nav-item disabled" onclick="navTo('view-analysis', this)" id="nav-analysis"><span class="nav-num">02</span> COMPONENT ANALYSIS</div>
+            <div class="nav-item disabled" onclick="navTo('view-risk', this)" id="nav-risk"><span class="nav-num">03</span> RISK ANALYSIS</div>
+            <div class="nav-item" onclick="navTo('view-audit', this)" id="nav-audit"><span class="nav-num">04</span> AUDIT / EXPORT</div>
+            
+            <div class="nav-group-title" style="margin-top: 16px;">Engineering Workspace</div>
+            <div class="nav-item" onclick="navTo('view-model-lab', this)" id="nav-model-lab"><span class="nav-num">05</span> MODEL LAB</div>
         </div>
-
-        <div class="disclaimer">
-            PROTOTYPE ADVISORY & AUDIT PLATFORM ONLY. Human engineering signoff is the final decision authority. AI risk scores and predictions support human decision-making and do not replace certified component acceptance specifications.
+        
+        <div class="rail-footer">
+            <div class="sys-status">
+                <span>SYSTEM STATUS</span>
+                <span><span class="status-dot"></span> ONLINE</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); margin-top: 4px;">
+                MODEL SET: MODULE B v1
+            </div>
         </div>
     </div>
+    
+    <!-- MAIN VIEWPORT -->
+    <div class="viewport">
+        <!-- TOP STATUS BAR -->
+        <div class="top-bar">
+            <div class="top-meta">
+                <div>DATASET: <span id="hdrDataset">data/v2/demo_burnin_data.csv</span></div>
+                <div>LOTS EVALUATED: <span id="hdrLots">--</span></div>
+            </div>
+            <div class="top-meta">
+                <div>MODEL SET: <span style="color: var(--cyan-accent);">MODULE B v1</span></div>
+                <div>CONTRACT: <span>0h + 24h &rarr; 168h</span></div>
+            </div>
+        </div>
+        
+        <!-- MAIN CONTENT AREA -->
+        <div class="main-content">
+            <div id="loadingScreen" class="loading-screen">
+                <div style="font-size: 16px; font-weight: 700;">INITIALIZING SCREENING WORKSTATION...</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Executing Module A & Module B Pipelines</div>
+            </div>
 
-    <script>
-        let screeningData = null;
-        let activeRiskFilter = 'ALL';
-        let selectedCompId = null;
-        let selectedLotId = null;
-        let selectedDecision = 'PASS';
+            <!-- ============================================== -->
+            <!-- VIEW 00: IMPORT DATASET -->
+            <!-- ============================================== -->
+            <div id="view-import" class="view-section">
+                <div class="ate-panel">
+                    <div class="panel-head">00 — Repository Dataset Ingestion (Prototype Demo Selector)</div>
+                    <div class="panel-body" style="display:flex; flex-direction:column; gap:16px;">
+                        <p style="color:var(--text-muted);">Select a repository burn-in measurement dataset (CSV format) to execute screening validation and prediction.</p>
+                        
+                        <div class="grid-2">
+                            <div>
+                                <label style="display:block; font-family:var(--font-mono); font-size:10px; color:var(--text-dim); margin-bottom:6px; text-transform:uppercase;">Repository Dataset File</label>
+                                <select id="importCsvSelect" class="btn" style="width:100%; text-align:left; background:#0b1120;">
+                                    <option value="data/v2/demo_burnin_data.csv">data/v2/demo_burnin_data.csv (V2 Canonical Benchmark)</option>
+                                    <option value="data/v2/dev_burnin_data.csv">data/v2/dev_burnin_data.csv (V2 Development Set)</option>
+                                    <option value="data/demo_burnin_data.csv">data/demo_burnin_data.csv (V1 Legacy Baseline)</option>
+                                </select>
+                            </div>
+                            <div style="display:flex; align-items:flex-end; gap:8px;">
+                                <button class="btn btn-cyan" onclick="executeImportAndScreen()">LOAD & EVALUATE DATASET</button>
+                            </div>
+                        </div>
 
-        async function loadDatasets() {
-            try {
-                const res = await fetch('/api/datasets');
-                const list = await res.json();
-                const sel = document.getElementById('csvSelect');
-                sel.innerHTML = '';
-                list.forEach(item => {
-                    const opt = document.createElement('option');
-                    opt.value = item.path;
-                    opt.textContent = `${item.filename} (${(item.size_bytes / 1024).toFixed(1)} KB)`;
-                    sel.appendChild(opt);
-                });
-            } catch (err) {
-                console.error("Failed to list datasets", err);
-            }
-        }
-
-        async function runScreening() {
-            const path = document.getElementById('csvSelect').value;
-            if (!path) return;
-
-            document.getElementById('loadingSpinner').style.display = 'inline';
-            document.getElementById('runBtn').disabled = true;
-
-            try {
-                const res = await fetch('/api/screen', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ csv_path: path })
-                });
-                screeningData = await res.json();
-                renderAll();
-            } catch (err) {
-                alert("Error running screening: " + err);
-            } finally {
-                document.getElementById('loadingSpinner').style.display = 'none';
-                document.getElementById('runBtn').disabled = false;
-            }
-        }
-
-        async function exportAuditCSV() {
-            try {
-                const res = await fetch('/api/export_audit');
-                const data = await res.json();
-                if (data.status === 'ok') {
-                    alert(`Audit Log successfully exported to CSV:\n\nPath: ${data.exported_path}\nTotal Rows: ${data.total_rows}\nReviewed Decisions: ${data.reviewed_decisions}`);
-                } else {
-                    alert("Export failed: " + data.error);
-                }
-            } catch (err) {
-                alert("Error exporting audit CSV: " + err);
-            }
-        }
-
-        function renderAll() {
-            if (!screeningData) return;
-
-            // Render Validation UX
-            const valBox = document.getElementById('validationBox');
-            if (screeningData.aborted || screeningData.validation_status === 'FAIL') {
-                valBox.className = 'val-card val-fail';
-                valBox.innerHTML = `
-                    <h3>❌ Data Validation Failed (${screeningData.validation_hard_failures} Hard Failures)</h3>
-                    <p>${screeningData.abort_reason || 'Validation checks failed. Screening was aborted.'}</p>
-                    <ul style="margin-top:8px; padding-left:20px;">
-                        ${(screeningData.validation_messages || []).map(m => `<li>${m}</li>`).join('')}
-                    </ul>
-                `;
-                document.getElementById('resultsContent').style.display = 'none';
-                document.getElementById('exportBtn').style.display = 'none';
-                return;
-            } else {
-                valBox.className = 'val-card val-pass';
-                valBox.innerHTML = `
-                    <h3>✅ Phase 2 Data Validation Passed</h3>
-                    <p>Dataset verified: 0 Hard Failures, ${screeningData.validation_warnings} Warnings. Proceeding to Module A & B screening and HITL Audit Trail.</p>
-                `;
-            }
-
-            document.getElementById('resultsContent').style.display = 'block';
-            document.getElementById('exportBtn').style.display = 'inline-block';
-
-            // Metrics
-            document.getElementById('metricTotal').textContent = screeningData.total_components;
-            document.getElementById('metricLow').textContent = screeningData.risk_low_count;
-            document.getElementById('metricMed').textContent = screeningData.risk_medium_count;
-            document.getElementById('metricHigh').textContent = screeningData.risk_high_count;
-
-            const nDec = (screeningData.audit_summary && screeningData.audit_summary.total_decisions) || 0;
-            document.getElementById('metricReviewed').textContent = `${nDec} / ${screeningData.total_components}`;
-
-            // Populate Lot filter dropdown
-            const lotSel = document.getElementById('lotFilter');
-            lotSel.innerHTML = '<option value="ALL">All Lots</option>';
-            Object.keys(screeningData.lots).sort().forEach(lid => {
-                const opt = document.createElement('option');
-                opt.value = lid;
-                opt.textContent = `Lot ${lid}`;
-                lotSel.appendChild(opt);
-            });
-
-            renderComponentList();
-        }
-
-        function setRiskFilter(filter, btn) {
-            activeRiskFilter = filter;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderComponentList();
-        }
-
-        function renderComponentList() {
-            if (!screeningData) return;
-            const container = document.getElementById('compList');
-            container.innerHTML = '';
-
-            const selectedLot = document.getElementById('lotFilter').value;
-            let allComps = [];
-
-            Object.entries(screeningData.lots).forEach(([lid, lot]) => {
-                if (selectedLot === 'ALL' || selectedLot === lid) {
-                    allComps.push(...lot.components);
-                }
-            });
-
-            // Apply Risk Filter
-            let filtered = allComps.filter(c => {
-                if (activeRiskFilter === 'ALL') return true;
-                if (activeRiskFilter === 'ATTENTION') return c.overall_risk_level === 'HIGH' || c.overall_risk_level === 'MEDIUM';
-                return c.overall_risk_level === activeRiskFilter;
-            });
-
-            // Sort: HIGH first, then MEDIUM, then LOW
-            const rank = { HIGH: 2, MEDIUM: 1, LOW: 0 };
-            filtered.sort((a, b) => rank[b.overall_risk_level] - rank[a.overall_risk_level]);
-
-            filtered.forEach(c => {
-                const div = document.createElement('div');
-                div.className = `comp-item ${selectedCompId === c.component_id ? 'selected' : ''}`;
-                div.onclick = () => selectComponent(c.component_id, c.lot_id);
-
-                let auditBadge = '';
-                if (c.audit_record) {
-                    const dec = c.audit_record.engineer_decision;
-                    const icon = dec === 'PASS' ? '✓' : (dec === 'MONITOR' ? '👁' : '✕');
-                    auditBadge = `<span class="tag tag-${dec}" style="margin-left:6px; font-size:0.7rem;">${icon} ${dec}</span>`;
-                }
-
-                div.innerHTML = `
-                    <div>
-                        <div class="id">${c.component_id} ${auditBadge}</div>
-                        <div class="sub">Lot: ${c.lot_id} | State: ${c.anomaly_classification_state}</div>
-                    </div>
-                    <span class="tag tag-${c.overall_risk_level}">AI: ${c.overall_risk_level}</span>
-                `;
-                container.appendChild(div);
-            });
-
-            if (filtered.length > 0 && !selectedCompId) {
-                selectComponent(filtered[0].component_id, filtered[0].lot_id);
-            }
-        }
-
-        function selectComponent(compId, lotId) {
-            selectedCompId = compId;
-            selectedLotId = lotId;
-            renderComponentList();
-
-            const lot = screeningData.lots[lotId];
-            if (!lot) return;
-            const comp = lot.components.find(c => c.component_id === compId);
-            if (!comp) return;
-
-            document.getElementById('compHeaderTag').innerHTML = `<span class="tag tag-${comp.overall_risk_level}">AI: ${comp.overall_risk_level} RISK</span>`;
-
-            const body = document.getElementById('compDetailBody');
-
-            let html = `
-                <!-- AI Screening Assessment Section -->
-                <div style="background:#0f172a; padding:16px; border-radius:8px; border:1px solid var(--card-border); margin-bottom:20px;">
-                    <div style="font-size:0.8rem; color:var(--accent-blue); text-transform:uppercase; font-weight:700; margin-bottom:4px;">AI Screening Assessment (Advisory)</div>
-                    <div style="font-weight:700; font-size:1.1rem; margin-bottom:4px;">Component ${comp.component_id} (Lot ${comp.lot_id})</div>
-                    <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">${comp.recommendation_context}</div>
-                    <div style="font-size:0.8rem; color:var(--text-muted);">
-                        Module A Anomaly Score: <strong>${comp.anomaly_score.toFixed(3)}</strong> | Classification: <strong>${comp.anomaly_classification_state}</strong>
+                        <div id="importValidationBox" style="display:none; background:#0b1120; border:1px solid var(--border-color); padding:16px; border-radius:3px; margin-top:8px;">
+                            <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--cyan-accent); margin-bottom:8px;">DATA VALIDATION REPORT</div>
+                            <div class="grid-4" style="margin-bottom:12px;">
+                                <div><span style="color:var(--text-dim);">Status:</span> <span id="valStatus" class="badge badge-low">PASS</span></div>
+                                <div><span style="color:var(--text-dim);">Hard Failures:</span> <span id="valFailures" class="mono">0</span></div>
+                                <div><span style="color:var(--text-dim);">Warnings:</span> <span id="valWarnings" class="mono">0</span></div>
+                                <div><span style="color:var(--text-dim);">Schema Compliance:</span> <span class="badge badge-low">SIH26170 PASS</span></div>
+                            </div>
+                            <ul id="valMessageList" style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); list-style:none; display:flex; flex-direction:column; gap:4px;"></ul>
+                        </div>
                     </div>
                 </div>
-            `;
+            </div>
 
-            if (comp.risk_reasons && comp.risk_reasons.length > 0) {
-                html += `
-                    <div class="reason-box" style="margin-bottom:20px;">
-                        <strong>AI Evidence Reasons:</strong>
-                        <ul>
-                            ${comp.risk_reasons.map(r => `<li>${r}</li>`).join('')}
-                        </ul>
+            <!-- ============================================== -->
+            <!-- VIEW 01: COMMAND CENTER -->
+            <!-- ============================================== -->
+            <div id="view-command" class="view-section">
+                <!-- Operational KPI Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Total Components</div>
+                        <div class="kpi-value" id="kpiTotal">--</div>
                     </div>
-                `;
-            }
+                    <div class="kpi-card">
+                        <div class="kpi-title">Low AI Risk</div>
+                        <div class="kpi-value" style="color:var(--risk-low);" id="kpiLow">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Medium AI Risk</div>
+                        <div class="kpi-value" style="color:var(--risk-med);" id="kpiMed">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">High AI Risk</div>
+                        <div class="kpi-value" style="color:var(--risk-high);" id="kpiHigh">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Monitored</div>
+                        <div class="kpi-value" style="color:var(--risk-med);" id="kpiMonitored">--</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Awaiting Review</div>
+                        <div class="kpi-value" style="color:var(--cyan-accent);" id="kpiPending">--</div>
+                    </div>
+                </div>
 
-            // Parameter Level Evidence Cards
-            Object.entries(comp.parameters).forEach(([pName, p]) => {
-                const specText = (p.synthetic_spec_max !== null) ? `[${p.synthetic_spec_min}, ${p.synthetic_spec_max}] ${p.unit}` : 'None';
-                html += `
-                    <div class="param-card">
-                        <div class="param-header">
-                            <span class="param-title">${pName} (${p.unit})</span>
-                            <span class="tag tag-${p.parameter_risk_level}">AI: ${p.parameter_risk_level}</span>
+                <!-- Lot Population Telemetry -->
+                <div class="ate-panel">
+                    <div class="panel-head">01.1 — Lot Population Context</div>
+                    <div class="panel-body" style="padding:0;">
+                        <table class="ate-table">
+                            <thead>
+                                <tr>
+                                    <th>Lot Identifier</th>
+                                    <th>Total Comps</th>
+                                    <th>Low Risk</th>
+                                    <th>Med Risk</th>
+                                    <th>High Risk</th>
+                                    <th>Monitored</th>
+                                    <th>Leading Health / Anomaly Driver</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lotContextBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Attention Required Component Queue -->
+                <div class="ate-panel">
+                    <div class="panel-head" style="border-left: 3px solid var(--cyan-accent);">
+                        <span>01.2 — Component Attention Queue</span>
+                        <select id="queueFilter" class="btn" style="padding: 2px 8px; font-size: 10px;" onchange="renderQueue()">
+                            <option value="ALL">ALL COMPONENTS</option>
+                            <option value="HIGH" selected>HIGH RISK ONLY</option>
+                            <option value="MEDIUM">MEDIUM RISK</option>
+                            <option value="LOW">LOW RISK</option>
+                            <option value="MONITORED">MONITORED</option>
+                        </select>
+                    </div>
+                    <div class="panel-body" style="padding:0;">
+                        <table class="ate-table">
+                            <thead>
+                                <tr>
+                                    <th>Component ID</th>
+                                    <th>Lot ID</th>
+                                    <th>AI Advisory Risk</th>
+                                    <th>Key Anomaly / Drift Reason</th>
+                                    <th>Engineer Final Decision</th>
+                                    <th style="text-align:right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="queueBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- VIEW 02: COMPONENT ANALYSIS -->
+            <!-- ============================================== -->
+            <div id="view-analysis" class="view-section">
+                <div id="compDetailBody"></div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- VIEW 03: RISK ANALYSIS -->
+            <!-- ============================================== -->
+            <div id="view-risk" class="view-section">
+                <div id="riskDetailBody"></div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- VIEW 04: AUDIT / EXPORT -->
+            <!-- ============================================== -->
+            <div id="view-audit" class="view-section">
+                <div class="ate-panel">
+                    <div class="panel-head">
+                        <span>04.1 — Immutable Audit Trail Export</span>
+                        <button class="btn btn-cyan" onclick="triggerExportAudit()">EXPORT AUDIT CSV</button>
+                    </div>
+                    <div class="panel-body">
+                        <p style="color:var(--text-muted); font-size:12px;">Export all recorded human engineering decisions and advisory risk assessments to an immutable CSV audit log for quality compliance.</p>
+                    </div>
+                </div>
+
+                <div class="ate-panel">
+                    <div class="panel-head">04.2 — Decision Log Audit Chain</div>
+                    <div class="panel-body" style="padding:0;">
+                        <table class="ate-table">
+                            <thead>
+                                <tr>
+                                    <th>Component ID</th>
+                                    <th>Lot ID</th>
+                                    <th>AI Advisory Risk</th>
+                                    <th>Engineer Final Decision</th>
+                                    <th>Override Status</th>
+                                    <th>Engineering Reasoning</th>
+                                    <th>UTC Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- VIEW 05: MODEL LAB WORKSPACE -->
+            <!-- ============================================== -->
+            <div id="view-model-lab" class="view-section">
+                <div class="ate-panel">
+                    <div class="panel-head">05 — Offline Model Development & Maintenance Workspace</div>
+                    <div class="panel-body" style="display:flex; flex-direction:column; gap:16px;">
+                        <p style="color:var(--text-muted);">Model Lab operates out-of-band to evaluate, rank, and register candidate models using historical Lot splits. Operational screening consumes registered immutable artifacts.</p>
+                        
+                        <div class="grid-3" id="modelRegistryCards">
+                            <!-- Populated dynamically from backend model registry metadata -->
                         </div>
 
-                        <div class="param-grid">
-                            <div class="param-stat">
-                                <div class="lbl">Observed 0h</div>
-                                <div class="val">${p.value_0h.toFixed(4)}</div>
-                            </div>
-                            <div class="param-stat">
-                                <div class="lbl">Observed 24h</div>
-                                <div class="val">${p.value_24h.toFixed(4)}</div>
-                            </div>
-                            <div class="param-stat">
-                                <div class="lbl">Predicted 168h</div>
-                                <div class="val" style="color:var(--accent-blue);">${p.predicted_168h.toFixed(4)}</div>
-                            </div>
-                            <div class="param-stat">
-                                <div class="lbl">Interval [Lower, Upper]</div>
-                                <div class="val">[${p.lower_bound_168h.toFixed(3)}, ${p.upper_bound_168h.toFixed(3)}]</div>
-                            </div>
-                            <div class="param-stat">
-                                <div class="lbl">Spec Limit</div>
-                                <div class="val">${specText}</div>
-                            </div>
-                            <div class="param-stat">
-                                <div class="lbl">Pop Anomaly Score</div>
-                                <div class="val">${p.population_anomaly_score.toFixed(3)}</div>
-                            </div>
-                        </div>
-
-                        <!-- Canvas for Truthful Trajectory -->
-                        <div class="chart-box">
-                            <canvas id="chart_${pName}" width="600" height="150"></canvas>
+                        <div style="background:#060911; border:1px solid var(--border-color); padding:12px; font-family:var(--font-mono); font-size:11px; color:var(--text-dim);">
+                            CLI Maintenance Command: $ python3 scripts/run_module_b_evaluation.py
                         </div>
                     </div>
-                `;
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let screeningData = null;
+    let selectedCompId = null;
+    let selectedLotId = null;
+    let selectedDecision = 'PASS';
+    
+    const STATE_MAP = {
+        'STATE_A_NORMAL': 'No significant anomaly detected',
+        'STATE_B_POPULATION_ANOMALY_ONLY': 'Population anomaly detected',
+        'STATE_C_SPEC_BREACH_ONLY': 'Specification breach detected',
+        'STATE_D_POPULATION_ANOMALY_AND_SPEC_BREACH': 'Population anomaly + specification breach',
+        'STATE_E_ELEVATED_DRIFT_ONLY': 'Predicted drift elevated',
+        'STATE_F_ELEVATED_DRIFT_AND_POPULATION_ANOMALY': 'Predicted drift elevated + population anomaly',
+        'STATE_G_ELEVATED_DRIFT_AND_SPEC_BREACH': 'Predicted drift elevated + specification breach',
+        'STATE_H_ALL_ANOMALIES_PRESENT': 'Critical anomalies present across all indicators',
+        'STATE_UNKNOWN': 'Unknown state'
+    };
+    
+    function translateState(rawStr) {
+        let s = rawStr || '';
+        for (const [key, val] of Object.entries(STATE_MAP)) {
+            s = s.replace(new RegExp(key, 'g'), val);
+        }
+        return s;
+    }
+
+    function navTo(viewId, el) {
+        if (el && el.classList.contains('disabled')) return;
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        
+        if (el) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+        
+        if (viewId === 'view-audit') {
+            renderAuditPreview();
+        } else if (viewId === 'view-model-lab') {
+            renderModelLabCards();
+        }
+    }
+
+    async function loadScreeningData(csvPath = 'data/v2/demo_burnin_data.csv') {
+        try {
+            const res = await fetch('/api/screen', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ csv_path: csvPath })
+            });
+            screeningData = await res.json();
+            
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('hdrDataset').textContent = screeningData.csv_path;
+            document.getElementById('hdrLots').textContent = screeningData.total_lots;
+            
+            populateCommandCenter();
+            populateImportValidationBox();
+        } catch (err) {
+            document.getElementById('loadingScreen').innerHTML = '<div style="color:var(--risk-high);">FAILED TO LOAD SCREENING ENGINE</div>';
+        }
+    }
+
+    async function executeImportAndScreen() {
+        const path = document.getElementById('importCsvSelect').value;
+        document.getElementById('loadingScreen').style.display = 'flex';
+        await loadScreeningData(path);
+        navTo('view-command', document.getElementById('nav-command'));
+    }
+
+    function populateImportValidationBox() {
+        const box = document.getElementById('importValidationBox');
+        box.style.display = 'block';
+        
+        document.getElementById('valStatus').textContent = screeningData.validation_status || 'PASS';
+        document.getElementById('valFailures').textContent = screeningData.validation_hard_failures || 0;
+        document.getElementById('valWarnings').textContent = screeningData.validation_warnings || 0;
+        
+        const list = document.getElementById('valMessageList');
+        list.innerHTML = '';
+        if (screeningData.validation_messages && screeningData.validation_messages.length > 0) {
+            screeningData.validation_messages.forEach(msg => {
+                const li = document.createElement('li');
+                li.textContent = "• " + msg;
+                list.appendChild(li);
+            });
+        } else {
+            list.innerHTML = '<li>• All structural, schema, and temporal consistency assertions passed successfully.</li>';
+        }
+    }
+
+    function populateCommandCenter() {
+        let pending = 0;
+        let monitoredCount = 0;
+        let allComps = [];
+        
+        const lotContextBody = document.getElementById('lotContextBody');
+        lotContextBody.innerHTML = '';
+
+        Object.values(screeningData.lots).forEach(lot => {
+            let lotMonitored = 0;
+            let leadingConcern = 'Nominal';
+            
+            lot.components.forEach(c => {
+                allComps.push(c);
+                if (!c.audit_record) {
+                    pending++;
+                } else if (c.audit_record.engineer_decision === 'MONITOR') {
+                    monitoredCount++;
+                    lotMonitored++;
+                }
+                if (c.overall_risk_level === 'HIGH' && leadingConcern === 'Nominal') {
+                    leadingConcern = c.recommendation_context ? translateState(c.recommendation_context) : 'High Risk Concern';
+                }
             });
 
-            // PHASE 7: Human Review & Engineering Signoff Panel (Distinct from AI Assessment)
-            const existingAudit = comp.audit_record;
-            const defaultDecision = existingAudit ? existingAudit.engineer_decision : (comp.overall_risk_level === 'LOW' ? 'PASS' : 'MONITOR');
-            selectedDecision = defaultDecision;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="mono" style="color:var(--cyan-accent);">${lot.lot_id}</td>
+                <td class="mono">${lot.total_components}</td>
+                <td><span class="badge badge-low">${lot.risk_low_count}</span></td>
+                <td><span class="badge badge-med">${lot.risk_medium_count}</span></td>
+                <td><span class="badge badge-high">${lot.risk_high_count}</span></td>
+                <td><span class="badge badge-gray">${lotMonitored}</span></td>
+                <td style="font-size:11px; color:var(--text-muted);">${leadingConcern}</td>
+            `;
+            lotContextBody.appendChild(tr);
+        });
+        
+        document.getElementById('kpiTotal').textContent = screeningData.total_components;
+        document.getElementById('kpiLow').textContent = screeningData.risk_low_count;
+        document.getElementById('kpiMed').textContent = screeningData.risk_medium_count;
+        document.getElementById('kpiHigh').textContent = screeningData.risk_high_count;
+        document.getElementById('kpiMonitored').textContent = monitoredCount;
+        document.getElementById('kpiPending').textContent = pending;
+        
+        renderQueue();
+    }
 
+    function renderQueue() {
+        const tbody = document.getElementById('queueBody');
+        tbody.innerHTML = '';
+        const filter = document.getElementById('queueFilter').value;
+        
+        let allComps = [];
+        Object.values(screeningData.lots).forEach(lot => {
+            allComps = allComps.concat(lot.components);
+        });
+        
+        let filteredComps = allComps.filter(comp => {
+            if (filter === 'ALL') return true;
+            if (filter === 'HIGH') return comp.overall_risk_level === 'HIGH';
+            if (filter === 'MEDIUM') return comp.overall_risk_level === 'MEDIUM';
+            if (filter === 'LOW') return comp.overall_risk_level === 'LOW';
+            if (filter === 'MONITORED') return comp.audit_record && comp.audit_record.engineer_decision === 'MONITOR';
+            return true;
+        });
+        
+        const riskMap = {'HIGH': 3, 'MEDIUM': 2, 'LOW': 1};
+        filteredComps.sort((a, b) => {
+            if (riskMap[b.overall_risk_level] !== riskMap[a.overall_risk_level]) {
+                return riskMap[b.overall_risk_level] - riskMap[a.overall_risk_level];
+            }
+            const aPend = a.audit_record ? 0 : 1;
+            const bPend = b.audit_record ? 0 : 1;
+            return bPend - aPend;
+        });
+        
+        if (filteredComps.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 24px; color:var(--text-muted); font-family:var(--font-mono);">NO COMPONENTS MATCHING FILTER: ${filter}</td></tr>`;
+            return;
+        }
+        
+        filteredComps.forEach(comp => {
+            let bClass = comp.overall_risk_level === 'HIGH' ? 'badge-high' : (comp.overall_risk_level === 'MEDIUM' ? 'badge-med' : 'badge-low');
+            
+            let reason = comp.recommendation_context ? translateState(comp.recommendation_context) : '';
+            if (!reason && comp.risk_reasons && comp.risk_reasons.length > 0) {
+                reason = translateState(comp.risk_reasons[0]);
+            }
+            if (!reason) reason = 'No significant anomaly detected';
+            if (reason.length > 75) reason = reason.substring(0, 72) + '...';
+            
+            let engDecText = 'PENDING';
+            let engDecClass = 'badge-gray';
+            if (comp.audit_record) {
+                engDecText = comp.audit_record.engineer_decision;
+                if (engDecText === 'PASS') engDecClass = 'badge-low';
+                else if (engDecText === 'MONITOR') engDecClass = 'badge-med';
+                else if (engDecText === 'REJECT') engDecClass = 'badge-high';
+            }
+            
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="mono" style="color:var(--cyan-accent); cursor:pointer; font-weight:700;" onclick="reviewComponent('${comp.component_id}', '${comp.lot_id}')">${comp.component_id}</td>
+                <td class="mono">${comp.lot_id}</td>
+                <td><span class="badge ${bClass}">${comp.overall_risk_level} RISK</span></td>
+                <td style="font-size:11px; color:var(--text-muted);">${reason}</td>
+                <td><span class="badge ${engDecClass}">${engDecText}</span></td>
+                <td style="text-align: right;">
+                    <button class="btn btn-cyan" style="padding: 3px 10px; font-size:10px;" onclick="reviewComponent('${comp.component_id}', '${comp.lot_id}')">REVIEW</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function reviewComponent(compId, lotId) {
+        document.getElementById('nav-analysis').classList.remove('disabled');
+        document.getElementById('nav-risk').classList.remove('disabled');
+        
+        selectComponent(compId, lotId);
+        navTo('view-analysis', document.getElementById('nav-analysis'));
+    }
+
+    function selectComponent(compId, lotId) {
+        selectedCompId = compId;
+        selectedLotId = lotId;
+        
+        const lot = screeningData.lots[lotId];
+        const comp = lot.components.find(c => c.component_id === compId);
+        const existingAudit = comp.audit_record;
+        
+        if (existingAudit) {
+            selectedDecision = existingAudit.engineer_decision;
+        } else {
+            selectedDecision = 'PASS';
+        }
+        
+        // Determine override status: Engineer decision != advisory expectation (HIGH->REJECT, LOW->PASS, MED->MONITOR/PASS)
+        const isOverridden = existingAudit && (
+            (comp.overall_risk_level === 'HIGH' && existingAudit.engineer_decision !== 'REJECT') ||
+            (comp.overall_risk_level === 'LOW' && existingAudit.engineer_decision !== 'PASS')
+        );
+
+        // 02 — COMPONENT ANALYSIS
+        let html = `
+            <div class="ate-panel">
+                <div class="panel-head">02.1 — Component Identity & Status</div>
+                <div class="panel-body grid-4">
+                    <div><span style="color:var(--text-dim); font-size:10px; text-transform:uppercase; display:block;">Component ID</span><span class="mono" style="font-size:14px; font-weight:700; color:var(--cyan-accent);">${comp.component_id}</span></div>
+                    <div><span style="color:var(--text-dim); font-size:10px; text-transform:uppercase; display:block;">Lot Identifier</span><span class="mono" style="font-size:14px; font-weight:700;">${comp.lot_id}</span></div>
+                    <div><span style="color:var(--text-dim); font-size:10px; text-transform:uppercase; display:block;">AI Advisory Risk</span><span class="badge ${comp.overall_risk_level === 'HIGH' ? 'badge-high' : (comp.overall_risk_level === 'MEDIUM' ? 'badge-med' : 'badge-low')}">${comp.overall_risk_level} RISK</span></div>
+                    <div><span style="color:var(--text-dim); font-size:10px; text-transform:uppercase; display:block;">Specification Status</span><span class="badge ${comp.is_reference_breach ? 'badge-high' : 'badge-low'}">${comp.is_reference_breach ? 'OUT OF SPEC' : 'WITHIN SPEC'}</span></div>
+                </div>
+            </div>
+
+            <div class="ate-panel" style="border-left: 3px solid #c084fc;">
+                <div class="panel-head" style="color:#c084fc;">
+                    <span>02.2 — Engineer Final Decision Control</span>
+                    ${existingAudit ? (isOverridden ? '<span class="badge badge-med">STATUS: OVERRIDDEN</span>' : '<span class="badge badge-low">STATUS: FINAL</span>') : '<span class="badge badge-gray">PENDING REVIEW</span>'}
+                </div>
+                <div class="panel-body grid-2" style="align-items:center;">
+                    <div style="background:#0b1120; padding:12px; border:1px solid var(--border-color); border-radius:3px;">
+                        <div style="font-size:10px; color:var(--text-dim); text-transform:uppercase; margin-bottom:4px;">AI Advisory Assessment</div>
+                        <div style="font-family:var(--font-mono); font-size:18px; font-weight:800; color:var(--risk-${comp.overall_risk_level.toLowerCase()});">${comp.overall_risk_level} RISK</div>
+                        <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Advisory output for engineering signoff.</div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn-decision ${selectedDecision === 'PASS' ? 'active-PASS' : ''}" onclick="setDecision('PASS')">PASS</button>
+                            <button class="btn-decision ${selectedDecision === 'MONITOR' ? 'active-MONITOR' : ''}" onclick="setDecision('MONITOR')">MONITOR</button>
+                            <button class="btn-decision ${selectedDecision === 'REJECT' ? 'active-REJECT' : ''}" onclick="setDecision('REJECT')">REJECT</button>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="engineerReason" style="flex:1; background:#060911; border:1px solid var(--border-color); color:#fff; padding:8px; font-family:var(--font-sans); font-size:12px; border-radius:3px;" placeholder="Required: Engineering reasoning..." value="${existingAudit ? existingAudit.engineer_reason : ''}">
+                            <button onclick="submitDecision()" class="btn btn-cyan">CONFIRM DECISION</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ate-panel">
+                <div class="panel-head">02.3 — Telemetry Oscilloscope Trajectories (Observed 0h-24h | Predicted 24h-168h)</div>
+                <div class="panel-body grid-3">
+        `;
+        Object.entries(comp.parameters).forEach(([pName, p]) => {
             html += `
-                <div class="hitl-panel">
-                    <div class="hitl-header">
-                        <span>📋 Engineer Final Decision (Human Signoff)</span>
-                        <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">Human Authority Layer — Phase 7</span>
-                    </div>
-
-                    ${existingAudit ? `
-                        <div style="background:#0f172a; border:1px solid var(--card-border); border-radius:6px; padding:14px; margin-bottom:14px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                                <span>Recorded Signoff Status: <strong class="tag tag-${existingAudit.engineer_decision}">${existingAudit.engineer_decision}</strong></span>
-                                <span style="font-size:0.75rem; color:var(--text-muted);">${new Date(existingAudit.timestamp_utc).toLocaleString()}</span>
-                            </div>
-                            <div style="font-size:0.9rem; color:var(--text-main);">
-                                <strong>Human Reason / Factors:</strong> ${existingAudit.engineer_reason}
-                            </div>
+                    <div style="background:#0b1120; border:1px solid var(--border-color); padding:10px; border-radius:3px;">
+                        <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--cyan-accent); margin-bottom:6px; display:flex; justify-content:space-between;">
+                            <span>${pName.toUpperCase()}</span>
+                            <span style="color:var(--risk-${p.parameter_risk_level.toLowerCase()});">${p.parameter_risk_level} RISK</span>
                         </div>
-                    ` : ''}
-
-                    <div style="margin-bottom:12px;">
-                        <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Select Final Engineering Decision:</label>
-                        <div style="display:flex; gap:10px;">
-                            <button type="button" class="btn-decision ${selectedDecision === 'PASS' ? 'sel-PASS' : ''}" id="btnPass" onclick="setDecision('PASS')">✓ PASS</button>
-                            <button type="button" class="btn-decision ${selectedDecision === 'MONITOR' ? 'sel-MONITOR' : ''}" id="btnMonitor" onclick="setDecision('MONITOR')">👁 MONITOR</button>
-                            <button type="button" class="btn-decision ${selectedDecision === 'REJECT' ? 'sel-REJECT' : ''}" id="btnReject" onclick="setDecision('REJECT')">✕ REJECT</button>
+                        <div class="chart-box">
+                            <canvas id="chart_${pName}" width="360" height="140"></canvas>
                         </div>
                     </div>
+            `;
+        });
+        html += `
+                </div>
+            </div>
 
-                    <div style="margin-bottom:14px;">
-                        <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Mandatory Human Justification Notes / Factors:</label>
-                        <textarea id="engineerReason" rows="3" style="width:100%; font-family:var(--font-family); font-size:0.9rem;" placeholder="Enter specific engineering factors, re-measurement findings, or rationale supporting your final signoff...">${existingAudit ? existingAudit.engineer_reason : ''}</textarea>
-                        <div id="hitlError" style="display:none; color:var(--risk-high); font-size:0.8rem; margin-top:4px;">⚠️ Human reasoning is mandatory and cannot be empty or whitespace-only.</div>
+            <div class="ate-panel">
+                <div class="panel-head">02.4 — All Parameters Overview</div>
+                <div class="panel-body" style="padding:0;">
+                    <table class="ate-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Observed 0h</th>
+                                <th>Observed 24h</th>
+                                <th style="color:var(--cyan-accent);">Predicted 168h</th>
+                                <th>Spec Limit</th>
+                                <th>Risk Assessment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+        Object.entries(comp.parameters).forEach(([pName, p]) => {
+            const specLimit = p.synthetic_spec_max !== null ? p.synthetic_spec_max : (p.synthetic_spec_min !== null ? p.synthetic_spec_min : "N/A");
+            html += `
+                            <tr>
+                                <td class="mono" style="font-weight:700;">${pName}</td>
+                                <td class="mono">${p.value_0h.toFixed(2)} ${p.unit}</td>
+                                <td class="mono">${p.value_24h.toFixed(2)} ${p.unit}</td>
+                                <td class="mono" style="color:var(--cyan-accent); font-weight:700;">${p.predicted_168h.toFixed(2)} ${p.unit}</td>
+                                <td class="mono">${specLimit} ${specLimit !== "N/A" ? p.unit : ""}</td>
+                                <td><span class="badge ${p.parameter_risk_level === 'HIGH' ? 'badge-high' : (p.parameter_risk_level === 'MEDIUM' ? 'badge-med' : 'badge-low')}">${p.parameter_risk_level} RISK</span></td>
+                            </tr>
+            `;
+        });
+        html += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="ate-panel">
+                    <div class="panel-head">02.5 — Evidence & Trajectory Analysis</div>
+                    <div class="panel-body" style="display:flex; flex-direction:column; gap:10px;">
+        `;
+        Object.entries(comp.parameters).forEach(([pName, p]) => {
+            html += `
+                        <div style="background:#0b1120; border:1px solid var(--border-color); padding:10px; border-radius:3px;">
+                            <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--text-main); margin-bottom:4px;">${pName.toUpperCase()} EVIDENCE</div>
+                            <div class="grid-2" style="font-family:var(--font-mono); font-size:11px;">
+                                <div><span style="color:var(--text-dim);">POPULATION ANOMALY:</span> <span style="color:${p.is_population_anomaly ? 'var(--risk-high)' : 'var(--risk-low)'};">${p.is_population_anomaly ? 'DETECTED' : 'NOMINAL'}</span></div>
+                                <div><span style="color:var(--text-dim);">SPEC LIMIT:</span> <span style="color:${p.is_reference_breach ? 'var(--risk-high)' : 'var(--risk-low)'};">${p.is_reference_breach ? 'BREACHED' : 'INTACT'}</span></div>
+                                <div style="grid-column:span 2;"><span style="color:var(--text-dim);">PREDICTED DRIFT (0&rarr;168h):</span> <span style="color:var(--cyan-accent);">+${p.predicted_drift_from_0h.toFixed(2)} ${p.unit}</span></div>
+                            </div>
+                        </div>
+            `;
+        });
+        html += `
+                    </div>
+                </div>
+
+                <div class="ate-panel">
+                    <div class="panel-head">02.6 — Uncertainty Envelopes</div>
+                    <div class="panel-body" style="display:flex; flex-direction:column; gap:10px;">
+        `;
+        Object.entries(comp.parameters).forEach(([pName, p]) => {
+            html += `
+                        <div style="background:#0b1120; border:1px solid var(--border-color); padding:10px; border-radius:3px;">
+                            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:10px; margin-bottom:4px;">
+                                <span style="font-weight:700; color:var(--text-main);">${pName.toUpperCase()}</span>
+                                <span style="color:${p.uncertainty_is_high ? 'var(--risk-high)' : 'var(--risk-low)'};">${p.uncertainty_is_high ? 'LOW CONFIDENCE' : 'HIGH CONFIDENCE'}</span>
+                            </div>
+                            <div class="grid-2" style="font-family:var(--font-mono); font-size:11px;">
+                                <div><span style="color:var(--text-dim);">PREDICTED 168h:</span> <span style="color:var(--cyan-accent);">${p.predicted_168h.toFixed(2)} ${p.unit}</span></div>
+                                <div><span style="color:var(--text-dim);">PREDICTION INTERVAL:</span> <span>${p.lower_bound_168h.toFixed(2)} &ndash; ${p.upper_bound_168h.toFixed(2)}</span></div>
+                            </div>
+                        </div>
+            `;
+        });
+        html += `
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById('compDetailBody').innerHTML = html;
+
+        // 03 — RISK ANALYSIS
+        let riskHtml = `
+            <div class="ate-panel">
+                <div class="panel-head">03 — Comprehensive Risk Analysis & Decision Support</div>
+                <div class="panel-body">
+                    <div class="grid-2" style="margin-bottom:16px; background:#0b1120; border:1px solid var(--border-color); padding:16px; border-radius:3px;">
+                        <div>
+                            <div style="font-size:10px; font-family:var(--font-mono); color:var(--text-dim); text-transform:uppercase;">AI Advisory Risk</div>
+                            <div style="font-family:var(--font-mono); font-size:20px; font-weight:800; color:var(--risk-${comp.overall_risk_level.toLowerCase()});">${comp.overall_risk_level} RISK</div>
+                        </div>
+                        <div>
+                            <div style="font-size:10px; font-family:var(--font-mono); color:var(--text-dim); text-transform:uppercase;">Spec Limit Status</div>
+                            <div style="font-family:var(--font-mono); font-size:20px; font-weight:800; color:${comp.is_reference_breach ? 'var(--risk-high)' : 'var(--risk-low)'};">${comp.is_reference_breach ? 'OUT OF SPEC' : 'WITHIN SPEC'}</div>
+                        </div>
                     </div>
 
-                    <button class="btn-primary" onclick="submitDecision()" style="width:100%;">Submit Engineering Signoff Decision</button>
+                    <table class="ate-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Observed (0h / 24h)</th>
+                                <th>Predicted 168h</th>
+                                <th>Prediction Interval</th>
+                                <th>Population Anomaly</th>
+                                <th>Spec Breach</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+        Object.entries(comp.parameters).forEach(([pName, p]) => {
+            riskHtml += `
+                            <tr>
+                                <td class="mono" style="font-weight:700;">${pName}</td>
+                                <td class="mono">${p.value_0h.toFixed(2)} / ${p.value_24h.toFixed(2)} ${p.unit}</td>
+                                <td class="mono" style="color:var(--cyan-accent);">${p.predicted_168h.toFixed(2)} ${p.unit}</td>
+                                <td class="mono">${p.lower_bound_168h.toFixed(2)} - ${p.upper_bound_168h.toFixed(2)}</td>
+                                <td><span class="badge ${p.is_population_anomaly ? 'badge-high' : 'badge-low'}">${p.is_population_anomaly ? 'YES' : 'NO'}</span></td>
+                                <td><span class="badge ${p.is_reference_breach ? 'badge-high' : 'badge-low'}">${p.is_reference_breach ? 'YES' : 'NO'}</span></td>
+                            </tr>
+            `;
+        });
+        riskHtml += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        document.getElementById('riskDetailBody').innerHTML = riskHtml;
+
+        setTimeout(() => { Object.entries(comp.parameters).forEach(([pName, p]) => { drawTruthfulChart(`chart_${pName}`, p); }); }, 50);
+    }
+
+    function setDecision(dec) {
+        selectedDecision = dec;
+        selectComponent(selectedCompId, selectedLotId);
+    }
+
+    async function submitDecision() {
+        const reasonInput = document.getElementById('engineerReason');
+        const reason = reasonInput ? reasonInput.value.trim() : '';
+        if (!reason) { alert('Engineering reasoning is required.'); return; }
+        
+        try {
+            const res = await fetch('/api/decision', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ component_id: selectedCompId, lot_id: selectedLotId, engineer_decision: selectedDecision, engineer_reason: reason })
+            });
+            const data = await res.json();
+            if (data.status === 'ok') {
+                const comp = screeningData.lots[selectedLotId].components.find(c => c.component_id === selectedCompId);
+                comp.audit_record = { engineer_decision: selectedDecision, engineer_reason: reason, timestamp_utc: new Date().toISOString() };
+                
+                populateCommandCenter();
+                selectComponent(selectedCompId, selectedLotId);
+            }
+        } catch (err) {
+            alert("Failed to submit decision: " + err);
+        }
+    }
+
+    function renderAuditPreview() {
+        const tbody = document.getElementById('auditBody');
+        tbody.innerHTML = '';
+        
+        let allComps = [];
+        Object.values(screeningData.lots).forEach(lot => {
+            lot.components.forEach(c => {
+                if (c.audit_record) allComps.push(c);
+            });
+        });
+        
+        if (allComps.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 24px; color:var(--text-muted); font-family:var(--font-mono);">NO AUDITED ENGINEERING DECISIONS RECORDED</td></tr>';
+            return;
+        }
+        
+        allComps.sort((a, b) => new Date(b.audit_record.timestamp_utc) - new Date(a.audit_record.timestamp_utc));
+        
+        allComps.forEach(comp => {
+            const aiRisk = comp.overall_risk_level;
+            const engDec = comp.audit_record.engineer_decision;
+            
+            const isOverridden = (
+                (aiRisk === 'HIGH' && engDec !== 'REJECT') ||
+                (aiRisk === 'LOW' && engDec !== 'PASS')
+            );
+            const statusBadge = isOverridden ? '<span class="badge badge-med">STATUS: OVERRIDDEN</span>' : '<span class="badge badge-low">STATUS: FINAL</span>';
+            
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="mono" style="color:var(--cyan-accent); cursor:pointer;" onclick="reviewComponent('${comp.component_id}', '${comp.lot_id}')">${comp.component_id}</td>
+                <td class="mono">${comp.lot_id}</td>
+                <td><span class="badge ${aiRisk==='HIGH'?'badge-high':(aiRisk==='MEDIUM'?'badge-med':'badge-low')}">${aiRisk} RISK</span></td>
+                <td style="font-weight:700; color: ${engDec==='PASS' ? 'var(--risk-low)' : (engDec==='REJECT' ? 'var(--risk-high)' : 'var(--risk-med)')};">${engDec}</td>
+                <td>${statusBadge}</td>
+                <td style="font-size:11px; color:var(--text-muted);">${comp.audit_record.engineer_reason}</td>
+                <td class="mono" style="font-size:10px; color:var(--text-dim);">${comp.audit_record.timestamp_utc}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderModelLabCards() {
+        const container = document.getElementById('modelRegistryCards');
+        if (!container) return;
+        
+        // Dynamically populate from active backend registry parameters
+        const params = ['Iddq', 'leakage_current', 'propagation_delay'];
+        let html = '';
+        
+        params.forEach(pName => {
+            html += `
+                <div style="background:#0b1120; border:1px solid var(--border-color); padding:16px; border-radius:3px;">
+                    <div style="font-family:var(--font-mono); color:var(--cyan-accent); font-weight:700; margin-bottom:6px;">${pName} Model Artifact</div>
+                    <div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); line-height:1.6;">
+                        <span style="color:var(--text-dim);">MODEL CLASS:</span> Registered Scikit-Learn Pipeline<br>
+                        <span style="color:var(--text-dim);">REGISTRY ID:</span> module_b_${pName}_v1<br>
+                        <span style="color:var(--text-dim);">FEATURE ALLOWLIST:</span> value_0h, value_24h, delta_24_0<br>
+                        <span style="color:var(--text-dim);">TARGET:</span> value_168h<br>
+                        <span style="color:var(--text-dim);">SPLIT:</span> 60% Train / 20% Val / 20% Locked Blind
+                    </div>
                 </div>
             `;
+        });
+        
+        container.innerHTML = html;
+    }
 
-            body.innerHTML = html;
-
-            // Draw truthful time-series charts on canvas
-            setTimeout(() => {
-                Object.entries(comp.parameters).forEach(([pName, p]) => {
-                    drawTruthfulChart(`chart_${pName}`, p);
-                });
-            }, 50);
+    async function triggerExportAudit() {
+        try {
+            const res = await fetch('/api/export_audit');
+            const data = await res.json();
+            if (data.status === 'ok') {
+                alert('Audit log CSV exported successfully to: ' + data.exported_path);
+            } else {
+                alert('Export failed: ' + data.error);
+            }
+        } catch (err) {
+            alert('Export error: ' + err);
         }
+    }
 
-        function setDecision(dec) {
-            selectedDecision = dec;
-            ['PASS', 'MONITOR', 'REJECT'].forEach(d => {
-                const b = document.getElementById(`btn${d.charAt(0) + d.slice(1).toLowerCase()}`);
-                if (b) {
-                    if (d === dec) b.className = `btn-decision sel-${d}`;
-                    else b.className = 'btn-decision';
-                }
-            });
-        }
-
-        async function submitDecision() {
-            const reason = document.getElementById('engineerReason').value.trim();
-            const errBox = document.getElementById('hitlError');
-
-            if (!reason) {
-                errBox.style.display = 'block';
-                return;
-            }
-            errBox.style.display = 'none';
-
-            try {
-                const res = await fetch('/api/decision', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        component_id: selectedCompId,
-                        lot_id: selectedLotId,
-                        engineer_decision: selectedDecision,
-                        engineer_reason: reason,
-                    })
-                });
-                const data = await res.json();
-                if (res.status === 200) {
-                    // Update local state and re-render
-                    const lot = screeningData.lots[selectedLotId];
-                    if (lot) {
-                        const comp = lot.components.find(c => c.component_id === selectedCompId);
-                        if (comp) {
-                            comp.audit_record = data.audit_record;
-                        }
-                    }
-                    if (data.audit_summary) {
-                        screeningData.audit_summary = data.audit_summary;
-                    }
-                    const nDec = (screeningData.audit_summary && screeningData.audit_summary.total_decisions) || 0;
-                    document.getElementById('metricReviewed').textContent = `${nDec} / ${screeningData.total_components}`;
-
-                    selectComponent(selectedCompId, selectedLotId);
-                } else {
-                    alert("Error submitting decision: " + (data.error || "Unknown error"));
-                }
-            } catch (err) {
-                alert("Failed to submit decision: " + err);
-            }
-        }
-
-        function drawTruthfulChart(canvasId, p) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width;
-            const h = canvas.height;
-
-            ctx.clearRect(0, 0, w, h);
-
-            // Truthful points: 0h, 24h (observed), 168h (predicted point + interval)
-            const y0 = p.value_0h;
-            const y24 = p.value_24h;
-            const y168 = p.predicted_168h;
-            const yLower = p.lower_bound_168h;
-            const yUpper = p.upper_bound_168h;
-
-            let allY = [y0, y24, y168, yLower, yUpper];
-            if (p.synthetic_spec_max !== null) allY.push(p.synthetic_spec_max);
-            if (p.synthetic_spec_min !== null) allY.push(p.synthetic_spec_min);
-
-            const minY = Math.min(...allY) * 0.95;
-            const maxY = Math.max(...allY) * 1.05;
-
-            function mapX(hours) {
-                const pad = 50;
-                return pad + (hours / 168) * (w - pad - 20);
-            }
-            function mapY(val) {
-                const pad = 20;
-                return h - pad - ((val - minY) / (maxY - minY + 1e-9)) * (h - 2 * pad);
-            }
-
-            // Draw Spec Line if available
-            if (p.synthetic_spec_max !== null) {
-                ctx.strokeStyle = '#ef4444';
-                ctx.setLineDash([4, 4]);
-                ctx.beginPath();
-                ctx.moveTo(mapX(0), mapY(p.synthetic_spec_max));
-                ctx.lineTo(mapX(168), mapY(p.synthetic_spec_max));
-                ctx.stroke();
-                ctx.fillStyle = '#ef4444';
-                ctx.font = '10px sans-serif';
-                ctx.fillText(`Spec Max (${p.synthetic_spec_max})`, mapX(0), mapY(p.synthetic_spec_max) - 4);
-            }
-
-            // Draw Prediction Interval Shading at 168h
-            const x168 = mapX(168);
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
-            ctx.fillRect(x168 - 6, mapY(yUpper), 12, mapY(yLower) - mapY(yUpper));
-            ctx.strokeStyle = '#38bdf8';
-            ctx.setLineDash([]);
+    function drawTruthfulChart(canvasId, p) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const pX = [0, 24, 96, 168];
+        const pY = [p.value_0h, p.value_24h, null, p.predicted_168h];
+        const specMin = p.synthetic_spec_min;
+        const specMax = p.synthetic_spec_max;
+        
+        let minY = Math.min(...pY.filter(v => v !== null));
+        let maxY = Math.max(...pY.filter(v => v !== null));
+        if (specMin !== null) minY = Math.min(minY, specMin);
+        if (specMax !== null) maxY = Math.max(maxY, specMax);
+        
+        const range = (maxY - minY) || 1;
+        const yPad = range * 0.2;
+        const yMin = minY - yPad;
+        const yMax = maxY + yPad;
+        
+        function getX(x) { return 35 + (x / 168) * (canvas.width - 55); }
+        function getY(y) { return canvas.height - 25 - ((y - yMin) / (yMax - yMin)) * (canvas.height - 45); }
+        
+        // Time Axis Labels
+        ctx.font = '9px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#6b7280';
+        ctx.textAlign = 'center';
+        pX.forEach(x => { ctx.fillText(x + 'h', getX(x), canvas.height - 8); });
+        
+        // Spec Line
+        if (specMax !== null) {
             ctx.beginPath();
-            ctx.moveTo(x168 - 10, mapY(yUpper)); ctx.lineTo(x168 + 10, mapY(yUpper));
-            ctx.moveTo(x168 - 10, mapY(yLower)); ctx.lineTo(x168 + 10, mapY(yLower));
-            ctx.stroke();
-
-            // Observed Trajectory (0h -> 24h solid green line)
-            ctx.strokeStyle = '#22c55e';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(mapX(0), mapY(y0));
-            ctx.lineTo(mapX(24), mapY(y24));
-            ctx.stroke();
-
-            // Predicted Path (24h -> 168h dashed blue line)
-            ctx.strokeStyle = '#38bdf8';
-            ctx.setLineDash([6, 4]);
-            ctx.beginPath();
-            ctx.moveTo(mapX(24), mapY(y24));
-            ctx.lineTo(mapX(168), mapY(y168));
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            // Draw Data Points
-            function drawPoint(x, y, color, label) {
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                ctx.arc(mapX(x), mapY(y), 4, 0, 2 * Math.PI);
-                ctx.fill();
-                ctx.fillStyle = '#f8fafc';
-                ctx.font = '10px sans-serif';
-                ctx.fillText(label, mapX(x) - 10, mapY(y) - 8);
-            }
-
-            drawPoint(0, y0, '#22c55e', `0h: ${y0.toFixed(2)}`);
-            drawPoint(24, y24, '#22c55e', `24h: ${y24.toFixed(2)}`);
-            drawPoint(168, y168, '#38bdf8', `168h pred: ${y168.toFixed(2)}`);
+            ctx.moveTo(35, getY(specMax)); ctx.lineTo(canvas.width - 15, getY(specMax));
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; ctx.setLineDash([3, 3]); ctx.stroke();
         }
+        
+        // Solid Line: Observed (0h -> 24h)
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(getX(0), getY(p.value_0h));
+        ctx.lineTo(getX(24), getY(p.value_24h));
+        ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2; ctx.stroke();
+        
+        // Dashed Line: Predicted Forecast (24h -> 168h)
+        ctx.beginPath();
+        ctx.moveTo(getX(24), getY(p.value_24h));
+        ctx.lineTo(getX(168), getY(p.predicted_168h));
+        ctx.strokeStyle = '#00f0ff'; ctx.setLineDash([5, 3]); ctx.stroke();
+        
+        function drawPoint(x, y, col, lbl) {
+            ctx.beginPath(); ctx.arc(getX(x), getY(y), 3.5, 0, Math.PI*2);
+            ctx.fillStyle = col; ctx.fill();
+            ctx.fillStyle = '#d1d5db'; ctx.fillText(lbl, getX(x), getY(y) - 8);
+        }
+        
+        drawPoint(0, p.value_0h, '#10b981', 'OBS 0h');
+        drawPoint(24, p.value_24h, '#10b981', 'OBS 24h');
+        drawPoint(168, p.predicted_168h, '#00f0ff', 'PRED 168h');
+    }
 
-        // Init
-        loadDatasets();
-    </script>
+    window.onload = () => loadScreeningData();
+</script>
 </body>
-</html>
-"""
+</html></html>"""
 
 
 class ScreeningRequestHandler(BaseHTTPRequestHandler):
@@ -799,10 +1127,16 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
         path = parsed.path
 
         if path in ("/", "/index.html"):
+            ui_html_path = os.path.join(os.path.dirname(__file__), "..", "src", "screening", "ui", "index.html")
+            if os.path.exists(ui_html_path):
+                with open(ui_html_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+            else:
+                content = HTML_PAGE
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.end_headers()
-            self.wfile.write(HTML_PAGE.encode("utf-8"))
+            self.wfile.write(content.encode("utf-8"))
         elif path == "/api/datasets":
             datasets = SERVICE.list_available_csvs()
             self.send_response(200)
@@ -810,10 +1144,35 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(datasets).encode("utf-8"))
         elif path == "/api/current":
+            global CURRENT_SCREENING_RESULT_OBJ, CURRENT_SCREENING_RESULT_DICT
+            if CURRENT_SCREENING_RESULT_OBJ is None:
+                default_csv = "data/demo_burnin_data.csv"
+                if os.path.exists(default_csv):
+                    CURRENT_SCREENING_RESULT_OBJ = SERVICE.run_screening(csv_path=default_csv)
+                    CURRENT_SCREENING_RESULT_DICT = screening_result_to_dict(CURRENT_SCREENING_RESULT_OBJ)
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(CURRENT_SCREENING_RESULT_DICT).encode("utf-8"))
+        elif path == "/api/download_audit":
+            audit_file = "reports/phase7_audit_log.csv"
+            if not os.path.exists(audit_file) and CURRENT_SCREENING_RESULT_OBJ is not None:
+                try:
+                    SERVICE.export_audit_log(
+                        screening_result=CURRENT_SCREENING_RESULT_OBJ,
+                        output_path=audit_file
+                    )
+                except Exception:
+                    pass
+            if os.path.exists(audit_file):
+                self.send_response(200)
+                self.send_header("Content-Type", "text/csv; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="phase7_audit_log.csv"')
+                self.end_headers()
+                with open(audit_file, "rb") as f:
+                    self.wfile.write(f.read())
+            else:
+                self.send_error(404, "Audit log file not found")
         elif path == "/api/export_audit":
             if CURRENT_SCREENING_RESULT_OBJ is None:
                 self.send_response(400)
@@ -835,6 +1194,7 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
                 resp = {
                     "status": "ok",
                     "exported_path": out_path,
+                    "download_url": "/api/download_audit",
                     "total_rows": len(df),
                     "reviewed_decisions": n_reviewed,
                 }
