@@ -1,0 +1,106 @@
+{
+  "anomalous_count": 6,
+  "risk_distribution": {
+    "LOW": 66,
+    "MEDIUM": 31,
+    "HIGH": 3
+  },
+  "sample_components": [
+    {
+      "type": "LOW",
+      "component_id": "LOT_001_CMP_0001",
+      "is_anomalous": false,
+      "risk_level": "LOW",
+      "module_b_predictions": {
+        "Iddq": {
+          "pred_168h": 12.970193545454288,
+          "lower": 9.517570241099323,
+          "upper": 23.001073392953984
+        },
+        "leakage_current": {
+          "pred_168h": 5.540090211129151,
+          "lower": 1.993728483899098,
+          "upper": 9.086451938359204
+        },
+        "propagation_delay": {
+          "pred_168h": 119.61102346409675,
+          "lower": 116.19533170946809,
+          "upper": 123.0267152187254
+        }
+      },
+      "reasons": "LOW RISK \u2014 all evidence signals nominal. No immediate engineering concern."
+    },
+    {
+      "type": "MEDIUM",
+      "component_id": "LOT_001_CMP_0006",
+      "is_anomalous": false,
+      "risk_level": "MEDIUM",
+      "module_b_predictions": {
+        "Iddq": {
+          "pred_168h": 17.400286435835795,
+          "lower": 10.821889293417193,
+          "upper": 29.332806273565453
+        },
+        "leakage_current": {
+          "pred_168h": 6.784807321700262,
+          "lower": 3.238445594470209,
+          "upper": 10.331169048930315
+        },
+        "propagation_delay": {
+          "pred_168h": 121.12030065485013,
+          "lower": 117.70460890022147,
+          "upper": 124.53599240947878
+        }
+      },
+      "reasons": "MEDIUM RISK \u2014 high prediction uncertainty present. Engineering review recommended."
+    },
+    {
+      "type": "HIGH",
+      "component_id": "LOT_001_CMP_0002",
+      "is_anomalous": true,
+      "risk_level": "HIGH",
+      "module_b_predictions": {
+        "Iddq": {
+          "pred_168h": 10.820718548897737,
+          "lower": 8.328068649077464,
+          "upper": 23.001073392953984
+        },
+        "leakage_current": {
+          "pred_168h": 5.722309910065283,
+          "lower": 2.17594818283523,
+          "upper": 9.268671637295336
+        },
+        "propagation_delay": {
+          "pred_168h": 194.22888481941447,
+          "lower": 190.81319306478582,
+          "upper": 197.64457657404313
+        }
+      },
+      "reasons": "HIGH RISK \u2014 observed measurement currently breaches reference limits. Immediate engineering review required."
+    },
+    {
+      "type": "ANOMALOUS",
+      "component_id": "LOT_001_CMP_0002",
+      "is_anomalous": true,
+      "risk_level": "HIGH",
+      "module_b_predictions": {
+        "Iddq": {
+          "pred_168h": 10.820718548897737,
+          "lower": 8.328068649077464,
+          "upper": 23.001073392953984
+        },
+        "leakage_current": {
+          "pred_168h": 5.722309910065283,
+          "lower": 2.17594818283523,
+          "upper": 9.268671637295336
+        },
+        "propagation_delay": {
+          "pred_168h": 194.22888481941447,
+          "lower": 190.81319306478582,
+          "upper": 197.64457657404313
+        }
+      },
+      "reasons": "HIGH RISK \u2014 observed measurement currently breaches reference limits. Immediate engineering review required."
+    }
+  ]
+}

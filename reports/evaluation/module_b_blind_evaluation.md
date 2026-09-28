@@ -1,9 +1,9 @@
 # Module B Blind Test Evaluation Report
 
 ## Metadata
-- **Dataset ID**: dev_burnin_data_seed42_v1
+- **Dataset ID**: dev_burnin_data_seed42_v2
 - **Split Seed**: 42
-- **Blind Lots**: LOT_002, LOT_018, LOT_014, LOT_009 (4 total)
+- **Blind Lots**: LOT_009, LOT_002, LOT_018, LOT_014 (4 total)
 
 ## Parameter: Iddq
 - Model ID: module_b_Iddq_v1
@@ -11,106 +11,106 @@
 - Sample Count: 400
 
 ### Aggregate Metrics
-- MAE: 27.7466
-- RMSE: 47.5746
-- mean_error: 3.0001
-- median_absolute_error: 10.4001
-- max_absolute_error: 152.7444
+- MAE: 11.9774
+- RMSE: 27.5211
+- mean_error: 1.2115
+- median_absolute_error: 4.9939
+- max_absolute_error: 187.7313
 
 ### Error Distribution
-- Residual Mean: 3.0001
-- Residual Median: 8.8450
-- Residual Std: 47.4800
+- Residual Mean: 1.2115
+- Residual Median: 4.3431
+- Residual Std: 27.4944
 - Residual Quantiles:
-  - q05: -138.3792
-  - q25: 6.3551
-  - q75: 15.7464
-  - q95: 53.0158
+  - q05: -41.3562
+  - q25: 2.5441
+  - q75: 5.9497
+  - q95: 15.8171
 - Absolute Error Quantiles:
-  - q50: 10.4001
-  - q75: 25.5079
-  - q90: 82.9013
-  - q95: 139.9648
-  - q99: 150.3308
+  - q50: 4.9939
+  - q75: 7.3380
+  - q90: 20.4340
+  - q95: 53.7823
+  - q99: 123.6204
 
 ### Uncertainty Metrics
 *(Method: quantile_interval_envelope)*
 > **Note**: These are uncertainty proxies based on the method described, not necessarily formally calibrated prediction intervals.
-- empirical_coverage: 81.25%
-- average_interval_width: 54.1624
-- median_interval_width: 14.1114
+- empirical_coverage: 77.25%
+- average_interval_width: 16.3874
+- median_interval_width: 12.8525
 
 ### Behavioral Groups
 #### nominal (n=355)
-- MAE: 17.3351
-- RMSE: 27.4089
-- Mean Error: 17.1834
-- Median Absolute Error: 9.4026
+- MAE: 7.0651
+- RMSE: 15.8241
+- Mean Error: 7.0596
+- Median Absolute Error: 4.6161
 
 #### latent_degradation (n=45)
-- MAE: 109.8817
-- RMSE: 119.1306
-- Mean Error: -108.8908
-- Median Absolute Error: 132.1734
+- MAE: 50.7304
+- RMSE: 68.9721
+- Mean Error: -44.9240
+- Median Absolute Error: 39.0121
 
 ### Latent Degrader Evaluation
 - Count: 45
-- MAE on Latent Degraders: 109.8817
-- RMSE on Latent Degraders: 119.1306
+- MAE on Latent Degraders: 50.7304
+- RMSE on Latent Degraders: 68.9721
 > **Limitation**: Module B provides point predictions and uncertainty. The actual decision logic (flagging a component) resides in the Phase 5 Risk Engine. Therefore, false-negative/false-positive screening rates cannot be calculated strictly from Module B outputs without duplicating the Phase 5 drift logic.
 
 ## Parameter: leakage_current
 - Model ID: module_b_leakage_current_v1
-- Model Class: RandomForestRegressor
+- Model Class: Ridge
 - Sample Count: 400
 
 ### Aggregate Metrics
-- MAE: 4.1261
-- RMSE: 6.6472
-- mean_error: 0.0262
-- median_absolute_error: 2.0887
-- max_absolute_error: 20.5580
+- MAE: 1.5749
+- RMSE: 3.1974
+- mean_error: 0.0789
+- median_absolute_error: 0.9749
+- max_absolute_error: 23.2045
 
 ### Error Distribution
-- Residual Mean: 0.0262
-- Residual Median: 1.9616
-- Residual Std: 6.6472
+- Residual Mean: 0.0789
+- Residual Median: 0.8475
+- Residual Std: 3.1964
 - Residual Quantiles:
-  - q05: -19.1748
-  - q25: 1.6836
-  - q75: 2.4729
-  - q95: 3.9807
+  - q05: -5.9461
+  - q25: 0.4933
+  - q75: 1.1712
+  - q95: 1.6679
 - Absolute Error Quantiles:
-  - q50: 2.0887
-  - q75: 3.0971
-  - q90: 17.3263
-  - q95: 19.1748
-  - q99: 19.8711
+  - q50: 0.9749
+  - q75: 1.3381
+  - q90: 1.8681
+  - q95: 5.9461
+  - q99: 15.3248
 
 ### Uncertainty Metrics
-*(Method: rf_tree_std)*
+*(Method: residual_std)*
 > **Note**: These are uncertainty proxies based on the method described, not necessarily formally calibrated prediction intervals.
-- empirical_coverage: 8.25%
-- average_interval_width: 3.1241
-- median_interval_width: 2.2190
+- empirical_coverage: 94.00%
+- average_interval_width: 7.0927
+- median_interval_width: 7.0927
 
 ### Behavioral Groups
 #### nominal (n=355)
-- MAE: 2.3403
-- RMSE: 2.5311
-- Mean Error: 2.3383
-- Median Absolute Error: 2.0157
+- MAE: 0.9326
+- RMSE: 1.0324
+- Mean Error: 0.9294
+- Median Absolute Error: 0.9237
 
 #### latent_degradation (n=45)
-- MAE: 18.2138
-- RMSE: 18.4992
-- Mean Error: -18.2138
-- Median Absolute Error: 19.1050
+- MAE: 6.6422
+- RMSE: 9.0809
+- Mean Error: -6.6306
+- Median Absolute Error: 4.7120
 
 ### Latent Degrader Evaluation
 - Count: 45
-- MAE on Latent Degraders: 18.2138
-- RMSE on Latent Degraders: 18.4992
+- MAE on Latent Degraders: 6.6422
+- RMSE on Latent Degraders: 9.0809
 > **Limitation**: Module B provides point predictions and uncertainty. The actual decision logic (flagging a component) resides in the Phase 5 Risk Engine. Therefore, false-negative/false-positive screening rates cannot be calculated strictly from Module B outputs without duplicating the Phase 5 drift logic.
 
 ## Parameter: propagation_delay
@@ -119,51 +119,51 @@
 - Sample Count: 400
 
 ### Aggregate Metrics
-- MAE: 0.7839
-- RMSE: 0.9806
-- mean_error: -0.0704
-- median_absolute_error: 0.6573
-- max_absolute_error: 2.7561
+- MAE: 1.6817
+- RMSE: 3.2624
+- mean_error: 0.0423
+- median_absolute_error: 1.0881
+- max_absolute_error: 22.3831
 
 ### Error Distribution
-- Residual Mean: -0.0704
-- Residual Median: -0.0678
-- Residual Std: 0.9781
+- Residual Mean: 0.0423
+- Residual Median: 0.7049
+- Residual Std: 3.2621
 - Residual Quantiles:
-  - q05: -1.7957
-  - q25: -0.7176
-  - q75: 0.5967
-  - q95: 1.4935
+  - q05: -5.1270
+  - q25: -0.0090
+  - q75: 1.4140
+  - q95: 2.4543
 - Absolute Error Quantiles:
-  - q50: 0.6573
-  - q75: 1.1045
-  - q90: 1.6416
-  - q95: 1.9480
-  - q99: 2.4855
+  - q50: 1.0881
+  - q75: 1.7067
+  - q90: 2.6418
+  - q95: 5.1270
+  - q99: 19.1357
 
 ### Uncertainty Metrics
 *(Method: residual_std)*
 > **Note**: These are uncertainty proxies based on the method described, not necessarily formally calibrated prediction intervals.
-- empirical_coverage: 71.50%
-- average_interval_width: 2.0771
-- median_interval_width: 2.0771
+- empirical_coverage: 93.75%
+- average_interval_width: 6.8314
+- median_interval_width: 6.8314
 
 ### Behavioral Groups
 #### nominal (n=355)
-- MAE: 0.7785
-- RMSE: 0.9733
-- Mean Error: -0.0595
-- Median Absolute Error: 0.6505
+- MAE: 1.0720
+- RMSE: 1.3023
+- Mean Error: 0.8668
+- Median Absolute Error: 0.9883
 
 #### latent_degradation (n=45)
-- MAE: 0.8263
-- RMSE: 1.0367
-- Mean Error: -0.1565
-- Median Absolute Error: 0.7109
+- MAE: 6.4914
+- RMSE: 9.0127
+- Mean Error: -6.4623
+- Median Absolute Error: 3.6688
 
 ### Latent Degrader Evaluation
 - Count: 45
-- MAE on Latent Degraders: 0.8263
-- RMSE on Latent Degraders: 1.0367
+- MAE on Latent Degraders: 6.4914
+- RMSE on Latent Degraders: 9.0127
 > **Limitation**: Module B provides point predictions and uncertainty. The actual decision logic (flagging a component) resides in the Phase 5 Risk Engine. Therefore, false-negative/false-positive screening rates cannot be calculated strictly from Module B outputs without duplicating the Phase 5 drift logic.
 

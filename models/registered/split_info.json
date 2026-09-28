@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "split_seed": 42,
-  "dataset_id": "dev_burnin_data_seed42_v1",
+  "dataset_id": "dev_burnin_data_seed42_v2",
   "dataset_sha256": "",
   "train_lots": [
     "LOT_016",

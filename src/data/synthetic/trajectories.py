@@ -168,35 +168,10 @@ def evaluate_trajectory(
     early_detectability: Optional[str] = None,
     step_k: Optional[float] = None,
     jump_time_h: float = 0.0,
+    comp_id: str = "",
 ) -> float:
     """
     Dispatch function: evaluate the named trajectory family at time t.
-
-    Parameters
-    ----------
-    family : str
-        One of "stable_mild", "accelerating", "step_jump".
-    t : float
-        Time in hours.
-    param_cfg : dict
-        Per-parameter configuration block from synthetic_config.yaml.
-    early_detectability : str or None
-        One of "hidden", "subtle", "moderate", "strong".
-        Only used for "accelerating" family.
-    step_k : float or None
-        Step amplitude. Only used for "step_jump" family.
-    jump_time_h : float
-        Jump onset. Only used for "step_jump" family.
-
-    Returns
-    -------
-    float
-        Drift offset at time t.
-
-    Raises
-    ------
-    ValueError
-        If an unknown trajectory family name is given.
     """
     if family == "stable_mild":
         return stable_mild(
@@ -207,7 +182,6 @@ def evaluate_trajectory(
 
     elif family == "accelerating":
         scale = EARLY_DETECTABILITY_SCALE.get(early_detectability or "hidden", 0.0)
-        # early_scale is expressed in parameter units: scale * latent_drift_k
         early = scale * param_cfg["latent_drift_k"]
         return accelerating(
             t=t,
@@ -217,6 +191,34 @@ def evaluate_trajectory(
             early_scale=early,
         )
 
+    elif family == "accelerating_v2":
+        import hashlib
+        # Deterministic but continuous latent strength per component
+        seed_str = f"{comp_id}_{param_cfg['unit']}_{early_detectability}"
+        seed_int = int(hashlib.md5(seed_str.encode('utf-8')).hexdigest(), 16) % (2**32)
+        rng = np.random.RandomState(seed_int)
+        
+        # Overlapping distributions for latent_strength
+        # hidden ~ N(0.1, 0.05), subtle ~ N(0.3, 0.1), mod ~ N(0.6, 0.15), strong ~ N(1.0, 0.2)
+        means = {"hidden": 0.1, "subtle": 0.3, "moderate": 0.6, "strong": 1.0}
+        stds = {"hidden": 0.05, "subtle": 0.1, "moderate": 0.15, "strong": 0.2}
+        
+        ed = early_detectability or "hidden"
+        mu = means.get(ed, 0.1)
+        sigma = stds.get(ed, 0.05)
+        
+        latent_strength = max(0.0, rng.normal(mu, sigma))
+        
+        return accelerating_v2(
+            t=t,
+            k=param_cfg["latent_drift_k"],
+            exponent=param_cfg["accelerating_exponent"],
+            onset_h=24.0,
+            latent_strength=latent_strength,
+            stable_k=param_cfg["stable_mild_k"],
+            stable_t0=param_cfg["stable_mild_t0"],
+        )
+
     elif family == "step_jump":
         if step_k is None:
             raise ValueError("step_k must be provided for step_jump trajectory family.")
@@ -224,6 +226,40 @@ def evaluate_trajectory(
 
     else:
         raise ValueError(
-            f"Unknown trajectory family: '{family}'. "
-            f"Valid options: 'stable_mild', 'accelerating', 'step_jump'."
+            f"Unknown trajectory family: '{family}'."
         )
+
+# ---------------------------------------------------------------------------
+# Trajectory family: accelerating_v2
+# ---------------------------------------------------------------------------
+
+def accelerating_v2(
+    t: float,
+    k: float,
+    exponent: float,
+    onset_h: float = 24.0,
+    latent_strength: float = 0.0,
+    stable_k: float = 0.0,
+    stable_t0: float = 24.0,
+) -> float:
+    """
+    V2 Accelerating drift trajectory.
+    
+    Fixes the V1 observability issue:
+    1. Early drift is base_nominal_drift + (latent_strength * k * 0.1) * (t/onset)
+    2. Late drift continues accelerating scaled by latent_strength.
+    
+    This ensures latent degraders always drift AT LEAST as much as nominals,
+    and their future acceleration is causally linked to their early extra drift.
+    """
+    base_drift = stable_k * np.log1p(t / stable_t0)
+    
+    extra = 0.0
+    if t <= onset_h:
+        extra = latent_strength * k * 0.15 * (t / onset_h)
+    else:
+        post = t - onset_h
+        early_accum = latent_strength * k * 0.15
+        extra = early_accum + latent_strength * k * ((post / 24.0) ** exponent)
+        
+    return base_drift + extra

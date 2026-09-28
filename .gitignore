@@ -6,3 +6,4 @@ venv/
 env/
 .env
 .pytest_cache/
+*.zip

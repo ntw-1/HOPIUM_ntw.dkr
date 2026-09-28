@@ -54,3 +54,32 @@
 - **Context:** Previous ambiguity existed regarding whether predicting `Value_168h` strictly using only `Value_0h` and `Value_24h` was an internal architectural choice or an external requirement. 
 - **Decision:** Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, the requirement that Module B must forecast `Value_168h` using *only* `Value_0h` and `Value_24h` is an external rule. `Value_96h` is explicitly forbidden as a Module B prediction input. However, Module A may use `Value_96h` for anomaly detection, and deterministic derived features (e.g. `delta_24_0`) remain permitted.
 - **Consequences:** This documents that the 0h/24h prediction bottleneck in Module B is a strict SIH requirement, and cannot be bypassed simply by feeding 96h telemetry to the regression model.
+
+## ADR-007: Safety Slope Formulation vs Current Risk Logic
+
+- **Status:** Evaluated (No Production Change)
+- **Context:** The SIH problem statement dictates flagging if the "predicted 168h drift rate exceeds a calculated safety slope." The current Phase 5 risk engine uses a normalized drift fraction (`drift_frac_spec = abs(predicted - 0h) / (max - min)`), which lacks temporal division and isn't mathematically a "slope". We performed a controlled offline experiment (`analyze_safety_slope_candidates.py`) to evaluate strict slope candidates (e.g., P95-P99.5 of nominal predicted slope, available headroom slope, and lot-relative dynamic slope) against the current logic.
+- **Decision:** Do NOT modify the production Module B risk logic at this time. The mathematical safety slope candidates correctly adhere to the SIH wording, but they cannot compensate for the underlying regression failure. Because the regression models fail to predict high `168h` values for `hidden` and `subtle` degraders, their predicted slopes are indistinguishable from nominal components. Any strict slope threshold that catches them results in an unacceptable nominal false-positive rate. Furthermore, `propagation_delay` exhibits effectively zero predictive signal for latent degraders.
+- **Consequences:** The system will continue using `drift_frac_spec` in the short term. The core problem remains the regression objective (global MAE), which fundamentally misaligns with detecting minority anomalies. We cannot solve this by tuning the safety threshold.
+
+## ADR-008: Module B Root Cause Audit
+
+- **Status:** Approved (Diagnostic)
+- **Context:** Module B regression consistently failed to predict 168h drift for "hidden" and "subtle" latent degraders using only 0h/24h features. After safety-slope thresholding failed to compensate for this, a root-cause audit was conducted on information availability and the synthetic data generator (`src/data/synthetic/`).
+- **Findings:**
+    1. **Generator Construction Flaw (`propagation_delay`):** `configs/synthetic_config.yaml` assigns the exact same trajectory math (`stable_mild`) to both nominal and latent components for `propagation_delay`. They are mathematically identical.
+    2. **Unnatural Ambiguity (`Iddq` & `leakage_current`):** The generator simulates "hidden" cases by assigning an early drift scale of exactly 0.0. Therefore, a hidden degrader physically drifts *less* than a nominal component initially, perfectly overlapping with nominal components that have slight negative noise.
+    3. **Mathematical Regression Trap:** Because the generator forces "hidden" degraders (Delta ~0) to perfectly overlap with noisy nominal components (Delta ~0), the regression model cannot predict a 168h spike for Delta=0 without destroying its global MAE performance on the nominal majority. A "Label-Oracle" counterfactual test proved that if the regression knows the true regime, its MAE drops to near-zero, proving the signal exists but is artificially obscured at 0h/24h.
+- **Decision:** The bottleneck is primarily a **generator construction issue** and **data ambiguity/distribution imbalance**, not a flawed ML architecture. The synthetic generator is failing to faithfully represent the physical reality of the SIH requirement.
+- **Consequences:** The synthetic generator mechanics (early scale formulas and `propagation_delay` trajectories) must be redesigned to produce physically plausible monotonic degradation signatures before any further Module B model architecture changes are considered.
+
+## ADR-009: Controlled Synthetic Generator V2
+
+- **Status:** Recommended (Under Review)
+- **Context:** An audit of the V1 synthetic generator revealed fatal data construction flaws: `propagation_delay` latent cases were mathematically identical to nominal cases, and `hidden` degraders for Iddq/leakage were assigned exactly zero early drift, causing an unnatural 0h/24h overlap with negative nominal noise that could only be separated by an oracle. This led to a mathematically impossible regression benchmark.
+- **Decision:** A principled V2 generator (`v2.0.0-phase1`) was implemented. It preserves the V1 files, parameters, and timepoints, but introduces the `accelerating_v2` trajectory family. In V2, latent degradation is governed by a continuous stochastic `latent_strength`. This mechanism ensures that a component's ultimate 168h drift acceleration is causally linked to a proportional (and strictly non-zero) early drift at 24h. 
+- **Consequences:** 
+  1. `propagation_delay` is now a valid regression task with genuine degradation trajectories.
+  2. Hidden and subtle cases are now partially observable at 24h, producing realistic overlaps (e.g., Cohen's d of 0.2 to 0.3 for hidden cases) rather than mathematically forced invisibility. 
+  3. The regression task is now solvable but remains non-trivial (due to nominal noise bounds).
+- **Recommendation:** Adopt V2 for future Module B evaluation. It corrects arbitrary unnatural simulation assumptions while faithfully adhering to the SIH prediction bottleneck, resulting in a significantly more defensible benchmark.

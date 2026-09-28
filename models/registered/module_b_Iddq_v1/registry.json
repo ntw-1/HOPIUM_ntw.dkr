@@ -14,40 +14,40 @@
   ],
   "selected_model_class": "GradientBoostingRegressor",
   "selection_metric": "MAE_val",
-  "winner_MAE_val": 25.524624,
+  "winner_MAE_val": 9.939228,
   "all_candidates_val_MAE": {
-    "DummyRegressor": 33.676759,
-    "Ridge": 33.002522,
-    "RandomForestRegressor": 25.691555,
-    "GradientBoostingRegressor": 25.524624
+    "DummyRegressor": 12.597477,
+    "Ridge": 11.388916,
+    "RandomForestRegressor": 10.5124,
+    "GradientBoostingRegressor": 9.939228
   },
   "all_candidates_metrics": {
     "DummyRegressor": {
-      "MAE_train": 34.426168,
-      "MAE_val": 33.676759,
-      "RMSE_val": 50.935076,
-      "MAPE_val": 1.726388
+      "MAE_train": 12.980062,
+      "MAE_val": 12.597477,
+      "RMSE_val": 25.5831,
+      "MAPE_val": 0.702994
     },
     "Ridge": {
-      "MAE_train": 33.92859,
-      "MAE_val": 33.002522,
-      "RMSE_val": 50.287879,
-      "MAPE_val": 1.649151
+      "MAE_train": 12.143413,
+      "MAE_val": 11.388916,
+      "RMSE_val": 24.088581,
+      "MAPE_val": 0.600614
     },
     "RandomForestRegressor": {
-      "MAE_train": 26.343839,
-      "MAE_val": 25.691555,
-      "RMSE_val": 42.436683,
-      "MAPE_val": 1.325786
+      "MAE_train": 10.760058,
+      "MAE_val": 10.5124,
+      "RMSE_val": 22.420793,
+      "MAPE_val": 0.570949
     },
     "GradientBoostingRegressor": {
-      "MAE_train": 21.990176,
-      "MAE_val": 25.524624,
-      "RMSE_val": 43.843745,
-      "MAPE_val": 1.297647
+      "MAE_train": 8.334685,
+      "MAE_val": 9.939228,
+      "RMSE_val": 22.663469,
+      "MAPE_val": 0.520133
     }
   },
-  "dataset_id": "dev_burnin_data_seed42_v1",
+  "dataset_id": "dev_burnin_data_seed42_v2",
   "dataset_sha256": "",
   "split_seed": 42,
   "train_lots": [
@@ -78,7 +78,7 @@
   ],
   "blind_test_metrics": "DEFERRED — Phase 8 final evaluation only.",
   "uncertainty_method": "quantile_interval_envelope",
-  "registered_at_utc": "2026-09-26T22:20:39.181889+00:00",
+  "registered_at_utc": "2026-09-27T15:51:28.291886+00:00",
   "lab_version": "v1.0.0-phase3",
   "notes": "blind_lots_identity records which lots are locked for Phase 8. No predictions or metrics have been computed on blind lots in Phase 3."
 }

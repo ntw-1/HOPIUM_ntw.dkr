@@ -14,8 +14,8 @@ from src.evaluation.evaluator import evaluate_module_b
 from src.evaluation.reports import generate_reports
 
 def main():
-    csv_path = "data/dev_burnin_data.csv"
-    gt_path = "data/dev_burnin_groundtruth.json"
+    csv_path = "data/v2/dev_burnin_data.csv"
+    gt_path = "data/v2/dev_burnin_groundtruth.json"
     registry_dir = "models/registered"
     split_info_path = os.path.join(registry_dir, "split_info.json")
     output_dir = "reports/evaluation"

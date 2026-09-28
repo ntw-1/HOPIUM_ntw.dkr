@@ -275,7 +275,7 @@ def test_input_dataframe_not_mutated(clean_nominal_lot_df):
 
 def test_phase1_dev_dataset_compatibility():
     """10. Module A runs cleanly on data/dev_burnin_data.csv without error."""
-    dev_path = "data/dev_burnin_data.csv"
+    dev_path = "data/v2/dev_burnin_data.csv"
     if not os.path.exists(dev_path):
         pytest.skip(f"{dev_path} not found")
 
@@ -296,7 +296,7 @@ def test_phase1_dev_dataset_compatibility():
 
 def test_phase1_demo_dataset_compatibility():
     """11. Module A runs cleanly on data/demo_burnin_data.csv and detects synthetic case B/C/D anomalies."""
-    demo_path = "data/demo_burnin_data.csv"
+    demo_path = "data/v2/demo_burnin_data.csv"
     if not os.path.exists(demo_path):
         pytest.skip(f"{demo_path} not found")
 

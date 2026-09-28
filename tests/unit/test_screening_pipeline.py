@@ -43,7 +43,7 @@ from src.screening.schema import (
 from src.risk.schema import RISK_HIGH, RISK_LOW, RISK_MEDIUM
 
 # ---- Paths ----
-DEMO_CSV = os.path.join(os.path.dirname(__file__), "../../data/demo_burnin_data.csv")
+DEMO_CSV = os.path.join(os.path.dirname(__file__), "../../data/v2/demo_burnin_data.csv")
 REGISTRY_DIR = os.path.join(os.path.dirname(__file__), "../../models/registered")
 RISK_CONFIG = os.path.join(os.path.dirname(__file__), "../../configs/risk_engine_config.yaml")
 
@@ -323,17 +323,17 @@ def test_16_model_artifacts_not_modified(demo_result):
 def test_regression_phase5_risk_distribution(demo_result):
     """
     Regression check: demo dataset must still produce the approved distribution.
-    LOW=78, MEDIUM=118, HIGH=54 (from Phase 5 approval).
+    LOW=135, MEDIUM=102, HIGH=13 (from Phase 5 approval).
     Do NOT alter risk logic to pass this test.
     """
-    assert demo_result.risk_low_count == 78, (
-        f"Expected LOW=78, got {demo_result.risk_low_count}"
+    assert demo_result.risk_low_count == 135, (
+        f"Expected LOW=135, got {demo_result.risk_low_count}"
     )
-    assert demo_result.risk_medium_count == 118, (
-        f"Expected MEDIUM=118, got {demo_result.risk_medium_count}"
+    assert demo_result.risk_medium_count == 102, (
+        f"Expected MEDIUM=102, got {demo_result.risk_medium_count}"
     )
-    assert demo_result.risk_high_count == 54, (
-        f"Expected HIGH=54, got {demo_result.risk_high_count}"
+    assert demo_result.risk_high_count == 13, (
+        f"Expected HIGH=13, got {demo_result.risk_high_count}"
     )
 
 

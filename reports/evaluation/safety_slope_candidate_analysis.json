@@ -1,0 +1,374 @@
+{
+  "Iddq": {
+    "validation_candidates": {
+      "A_P95": {
+        "nominal_fpr": 0.0903954802259887,
+        "latent_tpr": 0.4782608695652174,
+        "nominal_flagged": 32,
+        "latent_flagged": 22,
+        "subgroup_tpr": {
+          "hidden": 0.55,
+          "subtle": 0.18181818181818182,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        },
+        "threshold_used": 0.19568221168902203
+      },
+      "A_P97.5": {
+        "nominal_fpr": 0.0480225988700565,
+        "latent_tpr": 0.391304347826087,
+        "nominal_flagged": 17,
+        "latent_flagged": 18,
+        "subgroup_tpr": {
+          "hidden": 0.35,
+          "subtle": 0.18181818181818182,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        },
+        "threshold_used": 0.24534768224961398
+      },
+      "A_P99": {
+        "nominal_fpr": 0.031073446327683617,
+        "latent_tpr": 0.32608695652173914,
+        "nominal_flagged": 11,
+        "latent_flagged": 15,
+        "subgroup_tpr": {
+          "hidden": 0.25,
+          "subtle": 0.09090909090909091,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        },
+        "threshold_used": 0.30134534839036414
+      },
+      "A_P99.5": {
+        "nominal_fpr": 0.02824858757062147,
+        "latent_tpr": 0.32608695652173914,
+        "nominal_flagged": 10,
+        "latent_flagged": 15,
+        "subgroup_tpr": {
+          "hidden": 0.25,
+          "subtle": 0.09090909090909091,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        },
+        "threshold_used": 0.32620397313991434
+      },
+      "B_Headroom": {
+        "nominal_fpr": 0.03954802259887006,
+        "latent_tpr": 0.3695652173913043,
+        "nominal_flagged": 14,
+        "latent_flagged": 17,
+        "subgroup_tpr": {
+          "hidden": 0.35,
+          "subtle": 0.09090909090909091,
+          "moderate": 0.3333333333333333,
+          "strong": 1.0
+        }
+      },
+      "C_LotRelative_Z3": {
+        "nominal_fpr": 0.002824858757062147,
+        "latent_tpr": 0.2391304347826087,
+        "nominal_flagged": 1,
+        "latent_flagged": 11,
+        "subgroup_tpr": {
+          "hidden": 0.1,
+          "subtle": 0.09090909090909091,
+          "moderate": 0.2222222222222222,
+          "strong": 1.0
+        }
+      },
+      "Current_DriftFrac_0.20": {
+        "nominal_fpr": 0.5875706214689266,
+        "latent_tpr": 0.8478260869565217,
+        "nominal_flagged": 208,
+        "latent_flagged": 39,
+        "subgroup_tpr": {
+          "hidden": 0.9,
+          "subtle": 0.6363636363636364,
+          "moderate": 0.8888888888888888,
+          "strong": 1.0
+        }
+      },
+      "Current_DriftFrac_0.60": {
+        "nominal_fpr": 0.12146892655367232,
+        "latent_tpr": 0.5217391304347826,
+        "nominal_flagged": 43,
+        "latent_flagged": 24,
+        "subgroup_tpr": {
+          "hidden": 0.55,
+          "subtle": 0.2727272727272727,
+          "moderate": 0.4444444444444444,
+          "strong": 1.0
+        }
+      }
+    },
+    "selected_formulation": "A_P97.5",
+    "blind_evaluation": {
+      "nominal_fpr": 0.08450704225352113,
+      "latent_tpr": 0.37777777777777777,
+      "nominal_flagged": 30,
+      "latent_flagged": 17,
+      "subgroup_tpr": {
+        "hidden": 0.5,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.4444444444444444,
+        "strong": 0.75
+      },
+      "threshold_used": 0.24534768224961398
+    },
+    "predicted_slope_stats": {
+      "train_mean": 0.12283447861441175,
+      "train_std": 0.15651789455679566,
+      "val_mean": 0.12214718371157803,
+      "val_std": 0.14901248497014996
+    }
+  },
+  "leakage_current": {
+    "validation_candidates": {
+      "A_P95": {
+        "nominal_fpr": 0.05649717514124294,
+        "latent_tpr": 0.30434782608695654,
+        "nominal_flagged": 20,
+        "latent_flagged": 14,
+        "subgroup_tpr": {
+          "hidden": 0.2,
+          "subtle": 0.2727272727272727,
+          "moderate": 0.1111111111111111,
+          "strong": 1.0
+        },
+        "threshold_used": 0.02360976506115641
+      },
+      "A_P97.5": {
+        "nominal_fpr": 0.01694915254237288,
+        "latent_tpr": 0.17391304347826086,
+        "nominal_flagged": 6,
+        "latent_flagged": 8,
+        "subgroup_tpr": {
+          "hidden": 0.1,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 1.0
+        },
+        "threshold_used": 0.026709596967679855
+      },
+      "A_P99": {
+        "nominal_fpr": 0.014124293785310734,
+        "latent_tpr": 0.15217391304347827,
+        "nominal_flagged": 5,
+        "latent_flagged": 7,
+        "subgroup_tpr": {
+          "hidden": 0.1,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.8333333333333334
+        },
+        "threshold_used": 0.02958633717909934
+      },
+      "A_P99.5": {
+        "nominal_fpr": 0.00847457627118644,
+        "latent_tpr": 0.10869565217391304,
+        "nominal_flagged": 3,
+        "latent_flagged": 5,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.8333333333333334
+        },
+        "threshold_used": 0.03441003863154823
+      },
+      "B_Headroom": {
+        "nominal_fpr": 0.011299435028248588,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 4,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      },
+      "C_LotRelative_Z3": {
+        "nominal_fpr": 0.002824858757062147,
+        "latent_tpr": 0.08695652173913043,
+        "nominal_flagged": 1,
+        "latent_flagged": 4,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.6666666666666666
+        }
+      },
+      "Current_DriftFrac_0.20": {
+        "nominal_fpr": 0.00847457627118644,
+        "latent_tpr": 0.10869565217391304,
+        "nominal_flagged": 3,
+        "latent_flagged": 5,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.8333333333333334
+        }
+      },
+      "Current_DriftFrac_0.60": {
+        "nominal_fpr": 0.0,
+        "latent_tpr": 0.08695652173913043,
+        "nominal_flagged": 0,
+        "latent_flagged": 4,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.6666666666666666
+        }
+      }
+    },
+    "selected_formulation": "A_P97.5",
+    "blind_evaluation": {
+      "nominal_fpr": 0.05352112676056338,
+      "latent_tpr": 0.08888888888888889,
+      "nominal_flagged": 19,
+      "latent_flagged": 4,
+      "subgroup_tpr": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.07142857142857142,
+        "moderate": 0.0,
+        "strong": 0.5
+      },
+      "threshold_used": 0.026709596967679855
+    },
+    "predicted_slope_stats": {
+      "train_mean": 0.017426724539193843,
+      "train_std": 0.014326299373042318,
+      "val_mean": 0.01687288384080078,
+      "val_std": 0.0123093166855035
+    }
+  },
+  "propagation_delay": {
+    "validation_candidates": {
+      "A_P95": {
+        "nominal_fpr": 0.03954802259887006,
+        "latent_tpr": 0.021739130434782608,
+        "nominal_flagged": 14,
+        "latent_flagged": 1,
+        "subgroup_tpr": {
+          "hidden": 0.05,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        },
+        "threshold_used": 0.01588523634800005
+      },
+      "A_P97.5": {
+        "nominal_fpr": 0.025423728813559324,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 9,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        },
+        "threshold_used": 0.016801977755360957
+      },
+      "A_P99": {
+        "nominal_fpr": 0.01694915254237288,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 6,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        },
+        "threshold_used": 0.01794352950590692
+      },
+      "A_P99.5": {
+        "nominal_fpr": 0.005649717514124294,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 2,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        },
+        "threshold_used": 0.01888290480665533
+      },
+      "B_Headroom": {
+        "nominal_fpr": 0.011299435028248588,
+        "latent_tpr": 0.021739130434782608,
+        "nominal_flagged": 4,
+        "latent_flagged": 1,
+        "subgroup_tpr": {
+          "hidden": 0.05,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      },
+      "C_LotRelative_Z3": {
+        "nominal_fpr": 0.002824858757062147,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 1,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      },
+      "Current_DriftFrac_0.20": {
+        "nominal_fpr": 0.0,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 0,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      },
+      "Current_DriftFrac_0.60": {
+        "nominal_fpr": 0.0,
+        "latent_tpr": 0.0,
+        "nominal_flagged": 0,
+        "latent_flagged": 0,
+        "subgroup_tpr": {
+          "hidden": 0.0,
+          "subtle": 0.0,
+          "moderate": 0.0,
+          "strong": 0.0
+        }
+      }
+    },
+    "selected_formulation": "A_P95",
+    "blind_evaluation": {
+      "nominal_fpr": 0.04788732394366197,
+      "latent_tpr": 0.022222222222222223,
+      "nominal_flagged": 17,
+      "latent_flagged": 1,
+      "subgroup_tpr": {
+        "hidden": 0.05555555555555555,
+        "subtle": 0.0,
+        "moderate": 0.0,
+        "strong": 0.0
+      },
+      "threshold_used": 0.01588523634800005
+    },
+    "predicted_slope_stats": {
+      "train_mean": 0.010717699131944371,
+      "train_std": 0.0031116303187765557,
+      "val_mean": 0.01069905754141775,
+      "val_std": 0.002974888050646907
+    }
+  }
+}

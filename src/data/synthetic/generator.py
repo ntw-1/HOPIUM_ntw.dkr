@@ -271,7 +271,7 @@ class SyntheticDataEngine:
                             family=traj_family,
                             t=t,
                             param_cfg=pcfg,
-                            early_detectability=early_detectability,
+                            early_detectability=early_detectability, comp_id=comp_id,
                         )
                         noise = rng.normal(0.0, pcfg["nominal_noise_std"])
                         tvals[t] = max(v0_nominal + drift + noise, 0.0)
@@ -445,7 +445,7 @@ class SyntheticDataEngine:
                             family=traj_family,
                             t=t,
                             param_cfg=pcfg,
-                            early_detectability=early_detectability,
+                            early_detectability=early_detectability, comp_id=comp_id,
                         )
                         noise = rng.normal(0.0, pcfg["nominal_noise_std"])
                         tvals[t] = max(v0_nominal + drift + noise, 0.0)
@@ -638,7 +638,7 @@ class SyntheticDataEngine:
                     family=traj_family,
                     t=t,
                     param_cfg=pcfg,
-                    early_detectability=early_detectability,
+                    early_detectability=early_detectability, comp_id=comp_id,
                 )
                 noise = rng.normal(0.0, pcfg["nominal_noise_std"])
                 tvals[t] = max(v0_nominal + drift + noise, 0.0)

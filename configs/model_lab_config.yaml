@@ -13,8 +13,8 @@ model_lab_config:
   # Dataset inputs
   # ---------------------------------------------------------------------------
   dataset:
-    csv_path: "data/dev_burnin_data.csv"
-    meta_path: "data/dev_burnin_data.meta.json"
+    csv_path: "data/v2/dev_burnin_data.csv"
+    meta_path: "data/v2/dev_burnin_data.meta.json"
 
   # ---------------------------------------------------------------------------
   # Parameters to train models for
