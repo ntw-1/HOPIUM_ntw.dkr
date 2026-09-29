@@ -1,48 +1,40 @@
-# Test Plan & Quality Gates
+# Tests and Verification
 
-**Project:** `HOPIUM_sih26170`  
-**Document:** `docs/TEST_PLAN.md`
+## Run the suite
 
----
+From the repository root:
 
-## 1. Quality Gates per Phase
-
-Each phase must satisfy specific quality gates before proceeding to subsequent production implementations:
-
-| Phase | Core Objective | Quality Gate Requirements |
-| :--- | :--- | :--- |
-| **Phase 0** | Contracts & Setup | All specification documents verified for internal consistency. |
-| **Phase 1** | Synthetic Data Engine | Generator produces valid `0h, 24h, 96h, 168h` trajectories; explicit `is_synthetic: true` metadata present; 100% reproducible with random seed. |
-| **Phase 2** | Data Tester & Validator | Validator correctly flags invalid schemas, missing values, sequence breaks, and out-of-bounds readings. |
-| **Phase 3** | Module B Model Lab | Validation-driven selection succeeds; data leakage test confirms `value_96h` and `value_168h` are excluded from production features. |
-| **Phase 4** | Module A Anomaly Engine | Correctly identifies known synthetic multivariate outliers across lot populations. |
-| **Phase 5** | Dynamic Risk Engine | Dynamic risk calculation produces consistent advisory risk scores across trajectory profiles. |
-| **Phase 6** | Screening Platform | End-to-end lot processing succeeds using registered model artifact without retraining per lot. |
-| **Phase 7** | Audit & Export System | Immutable log records human signoff; JSON/CSV export matches specification schema. |
-| **Phase 8** | Integration & Demo | Unsealed Blind Test evaluation executes cleanly; end-to-end integration tests pass. |
-
----
-
-## 2. Automated Test Suite Layout
-
-```text
-tests/
-├── unit/
-│   ├── test_synthetic_generator.py   # Phase 1: Test seed reproducibility & metadata
-│   ├── test_data_tester.py          # Phase 2: Test schema validation & boundary rules
-│   ├── test_module_b_features.py     # Phase 3: Data leakage checks (strictly 0h & 24h)
-│   ├── test_module_a_anomaly.py      # Phase 4: Test population anomaly detection
-│   ├── test_dynamic_risk.py          # Phase 5: Test dynamic risk reasoning
-│   └── test_audit_logging.py         # Phase 7: Test audit trail immutability
-└── integration/
-    ├── test_screening_pipeline.py    # Phase 6 & 8: End-to-end screening execution
-    └── test_locked_blind_eval.py     # Phase 8: Sealed vs unsealed blind test evaluation
+```bash
+pytest -q
 ```
 
----
+Run focused areas with, for example:
 
-## 3. Data Leakage Prevention Check
+```bash
+pytest -q tests/unit/test_screening_pipeline.py tests/unit/test_audit_trail.py
+pytest -q tests/unit/test_secondary_use.py tests/unit/test_model_lab_lifecycle.py
+```
 
-A mandatory unit test (`test_module_b_features.py`) will automatically verify:
-1. Feature matrix $\mathbf{X}$ columns fed into candidate/registered models contain **only** `value_0h`, `value_24h`, and derived early deltas ($\Delta_{24-0}$).
-2. Assertion failure is triggered if `value_96h` or `value_168h` are detected in $\mathbf{X}$.
+All automated tests currently live in `tests/unit/`; there is no `tests/integration/` directory in this repository. A recent repository checkpoint ran `pytest -q`; the current verified count is recorded in the root `README.md` and `PROJECT_STATUS.md` only after execution.
+
+## Current test areas
+
+- Synthetic dataset generation, provenance, and V2 trajectories.
+- Schema/data validation and dataset integrity.
+- Module A anomaly detection and Module B input feature boundaries.
+- Model Lab lifecycle and model registration/switch behavior.
+- Risk engine reasoning, uncertainty, and safety-slope behavior.
+- Screening pipeline and session audit recording/export.
+- Secondary Use eligibility after engineer `REJECT`, evidence/profile assessment, `UNKNOWN` handling, recommendation outcomes, decision validation, and separate register persistence.
+
+## Important behavior to preserve
+
+- Module B feature matrix is limited to `value_0h`, `value_24h`, and derived `delta_24_0`. `value_96h` and `value_168h` remain excluded from prediction features.
+- Secondary Use pool membership requires the active session's explicit engineer `REJECT`; startup/demo loading must not create engineer decisions.
+- Missing compatibility evidence remains `UNKNOWN`; approval is accepted only for `CANDIDATE`.
+- Secondary-use approval creates a separate register entry and never rewrites the screening decision.
+- Screening audit memory is session-scoped; tests and docs must not call it a persistent immutable log.
+
+## Runtime smoke checks
+
+The pytest suite primarily checks library/service behavior. For a local API/UI smoke check, start the app with `python3 scripts/run_screening_ui.py --port 8501 --no-browser`, request `/`, `/api/current`, `/api/secondary-use/pool`, and verify a real engineer `REJECT` is required before an evidence request or assessment succeeds. Use a temporary Secondary Use storage path when exercising approval/rejection so local saved records are not changed. Stop the server after the check.

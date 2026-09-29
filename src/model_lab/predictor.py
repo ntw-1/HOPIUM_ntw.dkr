@@ -43,15 +43,25 @@ class ProductionPredictor:
         self.selected_model_class = registry_meta.get("selected_model_class", "unknown")
 
     @classmethod
-    def from_registry(cls, registry_dir: str, parameter: str) -> "ProductionPredictor":
+    def from_registry(
+        cls,
+        registry_dir: str,
+        parameter: str,
+        model_id: Optional[str] = None,
+    ) -> "ProductionPredictor":
         """
         Load a ProductionPredictor for the specified parameter from the registry directory.
+        If model_id is not specified, dynamically loads the currently active model from active_models.json.
 
         Args:
             registry_dir: Path to directory containing registered models (e.g. 'models/registered').
             parameter:    Parameter name ('Iddq', 'leakage_current', 'propagation_delay').
+            model_id:     Optional explicit model directory name.
         """
-        model_id = f"module_b_{parameter}_v1"
+        if model_id is None:
+            from .registry import get_active_model_id
+            model_id = get_active_model_id(registry_dir, parameter)
+
         model_dir = os.path.join(registry_dir, model_id)
         artifacts = load_model(model_dir)
         return cls(
@@ -60,6 +70,7 @@ class ProductionPredictor:
             uncertainty_artifacts=artifacts["uncertainty_artifacts"],
             registry_meta=artifacts["registry"],
         )
+
 
     def predict(self, X: pd.DataFrame) -> Dict[str, Union[np.ndarray, str]]:
         """

@@ -136,7 +136,21 @@ def screening_result_to_dict(result: ScreeningResult) -> dict:
             "monitor_count": audit_summary.monitor_count,
             "reject_count": audit_summary.reject_count,
         },
+        "deployed_models": {
+            param: getattr(pred, "model_id", "unknown")
+            for param, pred in getattr(SERVICE.pipeline.risk_engine, "_predictors", {}).items()
+        },
     }
+
+
+def ensure_screening_loaded():
+    """Ensure the baseline screening run is initialized without recording engineer decisions."""
+    global CURRENT_SCREENING_RESULT_OBJ, CURRENT_SCREENING_RESULT_DICT
+    if CURRENT_SCREENING_RESULT_OBJ is None:
+        default_csv = "data/demo_burnin_data.csv"
+        if os.path.exists(default_csv):
+            CURRENT_SCREENING_RESULT_OBJ = SERVICE.run_screening(csv_path=default_csv)
+            CURRENT_SCREENING_RESULT_DICT = screening_result_to_dict(CURRENT_SCREENING_RESULT_OBJ)
 
 
 # ---------------------------------------------------------------------------
@@ -1144,12 +1158,7 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(datasets).encode("utf-8"))
         elif path == "/api/current":
-            global CURRENT_SCREENING_RESULT_OBJ, CURRENT_SCREENING_RESULT_DICT
-            if CURRENT_SCREENING_RESULT_OBJ is None:
-                default_csv = "data/demo_burnin_data.csv"
-                if os.path.exists(default_csv):
-                    CURRENT_SCREENING_RESULT_OBJ = SERVICE.run_screening(csv_path=default_csv)
-                    CURRENT_SCREENING_RESULT_DICT = screening_result_to_dict(CURRENT_SCREENING_RESULT_OBJ)
+            ensure_screening_loaded()
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
@@ -1207,8 +1216,160 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+        elif path == "/api/model_lab/status":
+            try:
+                status = SERVICE.get_model_lab_status()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(status).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+        elif path == "/api/model_lab/audit_log":
+            try:
+                logs = SERVICE.audit_recorder.list_model_switches()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(logs).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+        elif path == "/api/secondary-use/pool":
+            try:
+                ensure_screening_loaded()
+                payload = SERVICE.list_secondary_use_pool()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(payload).encode("utf-8"))
+            except Exception as exc:
+                self.send_error(500, str(exc))
+        elif path == "/api/secondary-use/applications":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(SERVICE.secondary_use.list_applications()).encode("utf-8"))
+        elif path == "/api/secondary-use/register":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(SERVICE.secondary_use.list_register()).encode("utf-8"))
+        elif path == "/api/secondary-use/export_pool":
+            try:
+                records = SERVICE.list_secondary_use_pool()
+                import csv
+                import io
+                output = io.StringIO()
+                writer = csv.writer(output)
+                writer.writerow([
+                    "component_id", "lot_id", "original_application",
+                    "original_engineer_decision", "original_rejection_reason",
+                    "assessment_status", "latest_engineer_decision", "candidate_count"
+                ])
+                for record in records:
+                    writer.writerow([
+                        record.get("component_id", ""), record.get("lot_id", ""),
+                        record.get("original_application", ""),
+                        record.get("original_engineer_decision", ""),
+                        record.get("original_rejection_reason", ""),
+                        record.get("assessment_status", ""),
+                        record.get("latest_engineer_decision", ""),
+                        record.get("candidate_count", 0),
+                    ])
+                self.send_response(200)
+                self.send_header("Content-Type", "text/csv; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="secondary_use_pool.csv"')
+                self.end_headers()
+                self.wfile.write(output.getvalue().encode("utf-8"))
+            except Exception as exc:
+                self.send_error(500, str(exc))
+        elif path == "/api/secondary-use/export_register":
+            try:
+                records = SERVICE.secondary_use.list_register()
+                import csv
+                import io
+                output = io.StringIO()
+                writer = csv.writer(output)
+                writer.writerow([
+                    "secondary_use_audit_id", "component_id", "lot_id", "application_id",
+                    "approved_destination", "engineer_decision", "engineer_reason",
+                    "engineer_id", "timestamp_utc", "transfer_status", "additional_testing_required"
+                ])
+                for r in records:
+                    writer.writerow([
+                        r.get("secondary_use_audit_id", ""),
+                        r.get("component_id", ""),
+                        r.get("lot_id", ""),
+                        r.get("application_id", ""),
+                        r.get("approved_destination", ""),
+                        r.get("engineer_decision", ""),
+                        r.get("engineer_reason", ""),
+                        r.get("engineer_id", ""),
+                        r.get("timestamp_utc", ""),
+                        r.get("transfer_status", ""),
+                        r.get("additional_testing_required", ""),
+                    ])
+                csv_data = output.getvalue()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/csv; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="repurposed_component_register.csv"')
+                self.end_headers()
+                self.wfile.write(csv_data.encode("utf-8"))
+            except Exception as exc:
+                self.send_error(500, str(exc))
+        elif path.startswith("/api/secondary-use/evidence"):
+            try:
+                ensure_screening_loaded()
+                clean_path = path.split("?")[0]
+                parts = clean_path.strip("/").split("/")
+                lot_id = None
+                component_id = None
+                if len(parts) >= 5:
+                    lot_id = urllib.parse.unquote(parts[3])
+                    component_id = urllib.parse.unquote(parts[4])
+                elif len(parts) >= 4:
+                    component_id = urllib.parse.unquote(parts[3])
+                    params = urllib.parse.parse_qs(parsed.query)
+                    if "lot_id" in params:
+                        lot_id = params["lot_id"][0]
+                if not lot_id and CURRENT_SCREENING_RESULT_OBJ:
+                    for lot_key, lot in CURRENT_SCREENING_RESULT_OBJ.lot_results.items():
+                        if any(c.component_id == component_id for c in lot.components):
+                            lot_id = lot_key
+                            break
+                if component_id and lot_id:
+                    payload = SERVICE.get_secondary_use_evidence(component_id, lot_id)
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps(payload).encode("utf-8"))
+                else:
+                    self.send_error(400, "Component ID or Lot ID missing")
+            except ValueError as exc:
+                self.send_error(404, str(exc))
+            except Exception as exc:
+                self.send_error(500, str(exc))
+        elif path.startswith("/api/secondary-use/assessments/"):
+            try:
+                assessment_id = path.rsplit("/", 1)[-1]
+                payload = SERVICE.secondary_use.get_assessment(assessment_id)
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(payload).encode("utf-8"))
+            except ValueError as exc:
+                self.send_error(404, str(exc))
+            except Exception as exc:
+                self.send_error(500, str(exc))
         else:
             self.send_error(404, "Not Found")
+
 
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)
@@ -1268,6 +1429,10 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
                     engineer_reason=reason,
                 )
 
+                # Refresh the API snapshot so the canonical screening disposition is visible
+                # immediately to pool consumers and remains sourced from the audit recorder.
+                CURRENT_SCREENING_RESULT_DICT = screening_result_to_dict(CURRENT_SCREENING_RESULT_OBJ)
+
                 # Re-export audit summary
                 audit_summary = SERVICE.get_audit_summary()
 
@@ -1301,8 +1466,125 @@ class ScreeningRequestHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+
+        elif path == "/api/model_lab/reevaluate":
+            content_len = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_len).decode("utf-8")
+            try:
+                payload = json.loads(body) if body else {}
+                csv_path = payload.get("csv_path") or payload.get("dataset_path") or "data/v2/demo_burnin_data.csv"
+                parameter = payload.get("parameter", "Iddq")
+                res = SERVICE.reevaluate_deployed_model(csv_path=csv_path, parameter=parameter)
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(res).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+
+        elif path == "/api/model_lab/compare":
+            content_len = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_len).decode("utf-8")
+            try:
+                payload = json.loads(body) if body else {}
+                csv_path = payload.get("csv_path") or payload.get("dataset_path") or "data/v2/demo_burnin_data.csv"
+                parameter = payload.get("parameter", "Iddq")
+                res = SERVICE.compare_candidates(csv_path=csv_path, parameter=parameter)
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(res).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+
+        elif path == "/api/model_lab/switch":
+            content_len = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_len).decode("utf-8")
+            try:
+                payload = json.loads(body) if body else {}
+                parameter = payload.get("parameter")
+                candidate_name = payload.get("candidate_name")
+                csv_path = payload.get("csv_path") or payload.get("dataset_path") or "data/v2/demo_burnin_data.csv"
+                reason = payload.get("reason", "")
+                operator = payload.get("operator", "E. Mercer [L3-ENG]")
+                if not parameter or not candidate_name:
+                    self.send_response(400)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": "Missing parameter or candidate_name."}).encode("utf-8"))
+                    return
+
+                res = SERVICE.switch_deployed_model(
+                    parameter=parameter,
+                    candidate_name=candidate_name,
+                    csv_path=csv_path,
+                    reason=reason,
+                    operator=operator,
+                )
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "ok", "switch_record": res}).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+        elif path == "/api/secondary-use/assess":
+            try:
+                ensure_screening_loaded()
+                content_len = int(self.headers.get("Content-Length", 0))
+                payload = json.loads(self.rfile.read(content_len).decode("utf-8"))
+                result = SERVICE.assess_secondary_use(
+                    payload.get("component_id", ""), payload.get("lot_id", ""),
+                    payload.get("application_ids"),
+                )
+                self.send_response(201)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(result).encode("utf-8"))
+            except (ValueError, KeyError) as exc:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+        elif path == "/api/secondary-use/decision":
+            try:
+                content_len = int(self.headers.get("Content-Length", 0))
+                payload = json.loads(self.rfile.read(content_len).decode("utf-8"))
+                result = SERVICE.secondary_use.submit_decision(
+                    payload.get("assessment_id", ""), payload.get("application_id", ""),
+                    payload.get("decision", ""), payload.get("reason", ""),
+                    payload.get("engineer_id", ""),
+                )
+                self.send_response(201)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(result).encode("utf-8"))
+            except (ValueError, KeyError) as exc:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
+            except Exception as exc:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(exc)}).encode("utf-8"))
         else:
             self.send_error(404, "Not Found")
+
 
 
 def run_server(port: int = 8501, open_browser: bool = True):

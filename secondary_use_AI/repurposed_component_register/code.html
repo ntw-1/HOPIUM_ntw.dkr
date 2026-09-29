@@ -1,0 +1,581 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-error":"#690005","surface-container":"#1c2028","on-background":"#dfe2ee","primary-fixed":"#dbe1ff","on-tertiary-fixed-variant":"#6900b3","primary-container":"#2563eb","surface-variant":"#31353e","on-secondary-fixed-variant":"#004c69","on-surface-variant":"#c3c6d7","inverse-on-surface":"#2c3039","on-tertiary":"#490080","error-container":"#93000a","background":"#0f131c","on-secondary-container":"#00374d","outline":"#8d90a0","on-secondary":"#00354a","secondary-fixed":"#c4e7ff","surface-container-high":"#262a33","primary":"#b4c5ff","surface-container-lowest":"#0a0e16","surface-bright":"#353942","surface-dim":"#0f131c","outline-variant":"#434655","on-primary-container":"#eeefff","secondary-fixed-dim":"#7bd0ff","surface-tint":"#b4c5ff","error":"#ffb4ab","surface":"#0f131c","secondary":"#7bd0ff","tertiary-fixed":"#f0dbff","surface-container-low":"#181c24","on-tertiary-fixed":"#2c0051","on-error-container":"#ffdad6","surface-container-highest":"#31353e","inverse-primary":"#0053db","tertiary-fixed-dim":"#ddb7ff","on-tertiary-container":"#faecff","tertiary-container":"#943fe2","on-secondary-fixed":"#001e2c","primary-fixed-dim":"#b4c5ff","secondary-container":"#00a6e0","inverse-surface":"#dfe2ee","on-primary-fixed-variant":"#003ea8","tertiary":"#ddb7ff","on-primary":"#002a78","on-surface":"#dfe2ee","on-primary-fixed":"#00174b"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-lg":"1rem","space-sm":"0.5rem","margin":"1rem","space-xl":"1.5rem","gutter":"1rem","space-md":"0.75rem","space-xs":"0.25rem"},"fontFamily":{"headline-lg":["Inter"],"headline-metric-mobile":["JetBrains Mono"],"body-default":["Inter"],"title-section":["Inter"],"body-mono":["JetBrains Mono"],"table-header":["Inter"],"badge-label":["Inter"],"code-telemetry":["JetBrains Mono"],"headline-metric":["JetBrains Mono"]},"fontSize":{"headline-lg":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"700"}],"headline-metric-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-default":["13px",{"lineHeight":"18px","letterSpacing":"0","fontWeight":"400"}],"title-section":["15px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-mono":["12px",{"lineHeight":"16px","letterSpacing":"0","fontWeight":"500"}],"table-header":["10px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"badge-label":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"600"}],"code-telemetry":["11px",{"lineHeight":"15px","letterSpacing":"0","fontWeight":"400"}],"headline-metric":["24px",{"lineHeight":"30px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-default text-body-default text-on-surface select-none antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-56 bg-surface-container-lowest border-r border-outline-variant/30 z-50 flex flex-col justify-between"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-14 px-space-md border-b border-outline-variant/30 flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm overflow-hidden"><img alt="Brand logo. - Primary color: #2563eb
+- Font: inter
+- Mode: dark
+- Roundness: rounded-sm
+" class="h-6 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VMrIp4WJczAcfyBk3RQ0wOHUTMlTyodToarnfOGVsTYTrHaAnYQo5-UthUyxcv5CZ64RQKt2vEAgseqQrZaXtF2ixe-mxMki39eAE_7cmxbnt0Nw8s70MFkDGqPjHyRdwmBcJuCjCIfqg-QqsLLLVDRy60pH8gJRhYzNjQj26uc-No5aLSPobUeLSmlY-oBBMlW3hlMyVRQnH_ANzEshHmvhzTvGEy0M0TTdcTtFA1Blz0B5oYDy_0QhI"><div class="flex flex-col truncate"><span class="font-table-header text-table-header text-on-surface tracking-wider uppercase truncate">HOPIUM SIH26170</span><span class="font-code-telemetry text-code-telemetry text-secondary text-[10px] uppercase tracking-normal">ESS BURN-IN LAB</span></div></div><span class="flex h-2 w-2 relative flex-shrink-0"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span></div><div class="px-space-md py-space-sm"><div class="font-table-header text-table-header text-outline uppercase tracking-wider mb-space-xs">Operational Screening</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="command-center" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span><span class="">Command Center</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="components" href="#"><span class="material-symbols-outlined text-[16px]">memory</span><span class="">Components</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="risk-analysis" href="#"><span class="material-symbols-outlined text-[16px]">query_stats</span><span class="">Risk Analysis</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="audit-export" href="#"><span class="material-symbols-outlined text-[16px]">assignment_turned_in</span><span class="">Audit / Export</span></a></nav></div><div class="px-space-md py-space-sm bg-surface-container-low/40 border-y border-outline-variant/20">
+  <div class="flex items-center justify-between mb-space-xs cursor-pointer text-on-surface-variant hover:text-on-surface transition-colors">
+    <span class="font-table-header text-table-header uppercase tracking-wider text-outline">Secondary Use</span>
+    <span class="material-symbols-outlined text-[16px] text-outline">keyboard_arrow_down</span>
+  </div>
+  <nav class="space-y-0.5 pl-2" data-active-classes="bg-primary-container text-on-primary-container font-semibold">
+    <a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="reuse-pool" href="#">
+      <span class="material-symbols-outlined text-[16px]">recycling</span>
+      <span class="">Reuse Pool</span>
+    </a>
+    <a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="recommendations" href="#">
+      <span class="material-symbols-outlined text-[16px]">alt_route</span>
+      <span class="">Recommendations</span>
+    </a>
+    <a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm transition-colors bg-primary-container text-on-primary-container font-semibold" data-path="repurposed-register" href="#">
+      <span class="material-symbols-outlined text-[16px]">verified</span>
+      <span class="">Repurposed Register</span>
+    </a>
+  </nav>
+</div><div class="px-space-md py-space-sm"><div class="font-table-header text-table-header text-outline uppercase tracking-wider mb-space-xs">Engineering Labs</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center justify-between px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="model-lab" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[16px]">science</span><span class="">Model Lab</span></div><span class="font-code-telemetry text-[9px] px-1 py-0.2 rounded-sm bg-secondary-container/20 text-secondary border border-secondary/30">RES</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="data-validation" href="#"><span class="material-symbols-outlined text-[16px]">rule</span><span class="">Data Validation</span></a></nav></div></div><div class="p-space-md border-t border-outline-variant/30 bg-surface-container-lowest flex flex-col gap-space-sm"><div class="p-space-sm rounded-sm bg-surface-container-low border border-outline-variant/20 flex flex-col gap-0.5"><div class="flex items-center justify-between"><span class="font-table-header text-table-header text-outline uppercase">BRN-RUN</span><span class="font-code-telemetry text-[10px] text-secondary font-bold">20 LOTS</span></div><span class="font-code-telemetry text-code-telemetry text-on-surface truncate">dev_burnin_data</span><div class="w-full bg-surface-container-high h-1 rounded-sm mt-1 overflow-hidden"><div class="bg-secondary h-full w-[14.28%]"></div></div><div class="flex justify-between items-center text-[10px] font-code-telemetry text-on-surface-variant mt-0.5"><span class="">CP: 24h</span><span class="">TARGET: 168h</span></div></div><div class="flex flex-col gap-0.5 font-code-telemetry text-[10px] text-on-surface-variant border-t border-outline-variant/20 pt-space-xs"><div class="flex justify-between items-center"><span class="text-outline">STN:</span><span class="text-on-surface">STN-Aero4 // BAY-03</span></div><div class="flex justify-between items-center"><span class="text-outline">OPR:</span><span class="text-on-surface">E. Mercer [L3]</span></div><div class="flex justify-between items-center"><span class="text-outline">CLK:</span><span class="text-secondary">14:28:42 UTC</span></div></div></div></aside><div class="pl-56 flex flex-col min-h-screen"><header class="fixed top-0 left-56 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant/30 z-40 px-space-md flex items-center justify-between"><div class="flex items-center gap-space-md overflow-hidden"><div class="flex items-center gap-space-xs font-title-section text-title-section text-on-surface"><span class="material-symbols-outlined text-secondary text-[18px]">biotech</span><span class="tracking-wide text-xs uppercase text-on-surface font-semibold truncate">Secondary Use // Repurposing Workspace</span></div><span class="text-outline-variant">|</span><div class="flex items-center gap-1.5 px-2 py-0.5 rounded-sm bg-surface-container-low border border-outline-variant/20 font-code-telemetry text-code-telemetry text-on-surface-variant"><span class="material-symbols-outlined text-[13px] text-outline">description</span><span class="truncate">demo_burnin_data.csv</span></div><div class="hidden xl:flex items-center gap-1.5"><span class="px-2 py-0.5 rounded-sm bg-surface-container-low border border-outline-variant/20 font-code-telemetry text-code-telemetry text-secondary">INSPECTION: ACTIVE</span><span class="px-2 py-0.5 rounded-sm bg-surface-container-low border border-outline-variant/20 font-code-telemetry text-code-telemetry text-tertiary">HEURISTIC: ON</span></div></div><div class="flex items-center gap-space-md flex-shrink-0"><div class="flex items-center gap-1"><button class="h-8 w-8 flex items-center justify-center rounded-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">terminal</span></button><button class="h-8 w-8 relative flex items-center justify-center rounded-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-error"></span></button><button class="h-8 w-8 flex items-center justify-center rounded-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">refresh</span></button></div><div class="flex items-center gap-space-sm pl-space-sm border-l border-outline-variant/30"><div class="flex flex-col text-right"><span class="font-table-header text-table-header text-on-surface">E. MERCER</span><span class="font-code-telemetry text-[9px] text-outline">ENG-OPS / L3</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-surface flex-1 min-h-[calc(100vh-3.5rem)]"><div class="flex flex-col w-full p-space-md gap-space-md">
+<!-- TOP SUMMARY & CONTEXT BANNER -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md bg-surface-container-low p-space-md rounded-lg shadow-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-table-header text-table-header text-tertiary uppercase tracking-wider">CUSTODY LEDGER</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-code-telemetry text-code-telemetry text-outline">SEC-STD-4217 COMPLIANT</span>
+</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">REPURPOSED COMPONENT REGISTER</div>
+<div class="font-body-default text-body-default text-on-surface-variant">Authorized registry of electronic components cleared by engineering for secondary applications.</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-surface-container-high text-on-surface font-code-telemetry text-code-telemetry">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="">MERKLE ANCHOR: <strong class="text-secondary font-bold">BLOCK #88492</strong></span>
+</div>
+<button class="h-8 px-space-md rounded-sm bg-primary-container hover:bg-primary-container/80 text-on-primary-container font-badge-label text-badge-label flex items-center gap-1.5 transition-all active:translate-y-px shadow-sm" onclick="triggerExportNotice()">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span class="">[ EXPORT AUDIT CSV ]</span>
+</button>
+</div>
+</div>
+<!-- KPI METRICS STRIP -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Repurposed Units -->
+<div class="flex flex-col justify-between p-space-md rounded-lg bg-surface-container shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-table-header text-table-header text-outline uppercase tracking-wider">Repurposed Units</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-metric text-headline-metric text-on-surface">10</span>
+<span class="font-badge-label text-badge-label text-secondary font-semibold">Approved</span>
+</div>
+<div class="mt-space-xs flex items-center justify-between font-code-telemetry text-code-telemetry text-on-surface-variant">
+<span class="">Cleared by HITL</span>
+<span class="text-secondary font-bold">100% Verified</span>
+</div>
+</div>
+<!-- Transferred to Deployment -->
+<div class="flex flex-col justify-between p-space-md rounded-lg bg-surface-container shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-table-header text-table-header text-outline uppercase tracking-wider">Transferred Deployment</span>
+<span class="material-symbols-outlined text-primary text-[18px]">rocket_launch</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-metric text-headline-metric text-on-surface">6</span>
+<span class="font-badge-label text-badge-label text-primary font-semibold">Active</span>
+</div>
+<div class="mt-space-xs flex items-center justify-between font-code-telemetry text-code-telemetry text-on-surface-variant">
+<span class="">In DAQ &amp; Lab Rigs</span>
+<span class="text-primary font-bold">60.0% Handled</span>
+</div>
+</div>
+<!-- Pending Secondary Qualification -->
+<div class="flex flex-col justify-between p-space-md rounded-lg bg-surface-container shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-table-header text-table-header text-outline uppercase tracking-wider">Pending Secondary Qual</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">hourglass_top</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-metric text-headline-metric text-on-surface">4</span>
+<span class="font-badge-label text-badge-label text-tertiary font-semibold">In Testing</span>
+</div>
+<div class="mt-space-xs flex items-center justify-between font-code-telemetry text-code-telemetry text-on-surface-variant">
+<span class="">Station BAY-03 / BAY-07</span>
+<span class="text-tertiary font-bold">Derated Stress</span>
+</div>
+</div>
+<!-- Rejection Rate in Secondary -->
+<div class="flex flex-col justify-between p-space-md rounded-lg bg-surface-container shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-table-header text-table-header text-outline uppercase tracking-wider">Secondary Rejection</span>
+<span class="material-symbols-outlined text-error text-[18px]">do_not_disturb_on</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-metric text-headline-metric text-error">14</span>
+<span class="font-badge-label text-badge-label text-error font-semibold">Rejected Candidates</span>
+</div>
+<div class="mt-space-xs flex items-center justify-between font-code-telemetry text-code-telemetry text-on-surface-variant">
+<span class="">Scrap / Material Reclaim</span>
+<span class="text-error font-bold">Non-Viable</span>
+</div>
+</div>
+</div>
+<!-- VISUAL BENTO CARDS: LAB CONTEXT & RECLAIM IMPACT -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Photo 1: Burn-In Environmental Chamber -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container-low h-44 shadow-sm group">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" data-alt="High-tech cleanroom burn-in screening chamber with glowing rackmounted electronic hardware, subtle blue and amber indicator LEDs, stainless steel test bench, precision dark industrial aerospace lab aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnreLrIFN3elU5Rshqszntupl6rY5rZ-WPjgu0vMrcyc-tLNLzAGtttjrx68Y9w7M2GW8jakjJRuCmilwnbeT6M81v7siuacxq0iFDvYpKgDEFPMwfKzKQepsFfVV5OfkiUeW1u2qFDOpNtpr4qCpiFhXdYwQPcZIengTULxo71Gat3_fcvg4K-TV2RsN_Kc31i_gbl0SKXmBf0RM15YaeEbk7rlZsfwMoAVMxRNUh4RPT_oX96vqm">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent p-space-md flex flex-col justify-end">
+<span class="font-table-header text-table-header text-secondary uppercase tracking-wider">PRIMARY SCREENING BENCH</span>
+<span class="font-title-section text-title-section text-on-surface">168-Hour Thermal Vacuum Facility</span>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant">STN-Aero4 · Continuous Arrhenius &amp; Iddq logging</span>
+</div>
+</div>
+<!-- Photo 2: Secondary Qualification Rig -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container-low h-44 shadow-sm group">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" data-alt="Engineering workstation with open test board, high-density FPGA probes, high-frequency digital oscilloscope trace screens, precision multimeter leads, dark avionics research atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUi3fmlvi5ibZJL-y_uOnmbW5DzX5pmjDXMELVTHX_8LBLFo7vuTkkubaH6xOpVkfsvqwxQx55o6BTtSZIkM0n75dHNNGqsdiAPGKLm0sUtSnPzfAhpdvT1E7OLSwxZZNBt97-g9xtaUkRrc4WHcfezuNhcdZUzA9DebH5tiXIpQXuf1M8GrsI_F5af0tX2jImRtHjmsjlxYufS7e38o2yA-3CBs8QV8rVdNRtjhnqc2MQQRfHPMrb">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent p-space-md flex flex-col justify-end">
+<span class="font-table-header text-table-header text-tertiary uppercase tracking-wider">GROUND REPURPOSE VALIDATION</span>
+<span class="font-title-section text-title-section text-on-surface">Derated Stress &amp; Margining Rack</span>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Ambient &lt;45°C · Secondary DAQ Harness</span>
+</div>
+</div>
+<!-- Telemetry Gauge Card: Diverted Capital & Silicon Life -->
+<div class="p-space-md rounded-lg bg-surface-container flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-table-header text-table-header text-outline uppercase tracking-wider">ECOSYSTEM HARVEST RATIO</span>
+<span class="font-title-section text-title-section text-on-surface">Silicon Salvage Efficiency</span>
+</div>
+<span class="px-2 py-0.5 rounded-sm bg-surface-container-high font-code-telemetry text-code-telemetry text-secondary">41.6% RECLAIM</span>
+</div>
+<!-- Mini Sparkline / Gauge representation -->
+<div class="my-space-xs flex items-end gap-2">
+<div class="flex-1 bg-surface-container-lowest p-2 rounded-sm flex flex-col">
+<span class="font-table-header text-table-header text-outline uppercase">SAVED CAPITAL</span>
+<span class="font-headline-metric text-headline-metric text-secondary font-bold">$184.2K</span>
+<span class="font-code-telemetry text-[10px] text-on-surface-variant mt-0.5">Avionics-grade silicon spared</span>
+</div>
+<div class="w-24 h-16 flex items-end">
+<svg class="w-full h-full" fill="none" preserveAspectRatio="none" viewBox="0 0 100 40">
+<path class="text-secondary" d="M0,35 Q20,32 40,25 T70,12 T100,6" stroke="currentColor" stroke-width="2.5"></path>
+<path class="text-secondary/10" d="M0,35 Q20,32 40,25 T70,12 T100,6 L100,40 L0,40 Z" fill="currentColor"></path>
+<circle class="text-secondary" cx="100" cy="6" fill="currentColor" r="3"></circle>
+</svg>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-code-telemetry text-code-telemetry pt-1 bg-surface-container-low px-2 py-1 rounded-sm">
+<span class="">Target: 35.0% min salvage</span>
+<span class="text-secondary font-semibold">+6.6% OVER GOAL</span>
+</div>
+</div>
+</div>
+<!-- MAIN SPLIT WORKSPACE: SECTION A (REGISTER TABLE) & SECTION B (AUDIT LIFECYCLE) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md">
+<!-- SECTION A: REPURPOSED COMPONENT REGISTER (7 Cols on XL) -->
+<div class="xl:col-span-7 flex flex-col rounded-lg bg-surface-container shadow-sm overflow-hidden">
+<!-- Section A Header & Filters -->
+<div class="p-space-md bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">inventory_2</span>
+<span class="font-title-section text-title-section text-on-surface uppercase tracking-wide">SEC. A: REPURPOSED COMPONENT REGISTER</span>
+</div>
+<div class="font-code-telemetry text-code-telemetry text-outline">SHOWING 4 OF 10 AUDITED ENTRIES</div>
+</div>
+<!-- Filter and Search Toolbar -->
+<div class="grid grid-cols-1 sm:grid-cols-12 gap-space-sm items-center">
+<div class="sm:col-span-6 relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-outline text-[16px]">search</span>
+<input class="w-full h-8 pl-8 pr-3 rounded-sm bg-surface-container-lowest text-on-surface font-body-mono text-body-mono placeholder-outline focus:outline-none focus:ring-1 focus:ring-secondary" id="component-search" oninput="filterRegisterTable()" placeholder="Search Component ID, Lot, Audit ID..." type="text">
+</div>
+<div class="sm:col-span-6 flex items-center gap-space-xs">
+<label class="font-table-header text-table-header text-outline uppercase whitespace-nowrap">DEST:</label>
+<select class="h-8 w-full rounded-sm bg-surface-container-lowest text-on-surface font-body-mono text-body-mono px-2 focus:outline-none focus:ring-1 focus:ring-secondary cursor-pointer" id="destination-filter" onchange="filterRegisterTable()">
+<option value="ALL">All Destinations</option>
+<option value="Ground Instrumentation">Ground Instrumentation</option>
+<option value="Development Equipment">Development Equipment</option>
+<option value="Industrial Monitoring">Industrial Monitoring</option>
+<option value="Educational Avionics Lab">Educational Avionics Lab</option>
+</select>
+</div>
+</div>
+</div>
+<!-- High-Density Data Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse" id="register-table">
+<thead>
+<tr class="bg-surface-container-lowest text-outline font-table-header text-table-header uppercase tracking-wider sticky top-0 z-10">
+<th class="py-2.5 px-3">Component ID</th>
+<th class="py-2.5 px-3">Orig Lot / App</th>
+<th class="py-2.5 px-3">Orig Rejection</th>
+<th class="py-2.5 px-3">Approved Dest</th>
+<th class="py-2.5 px-3">Decision</th>
+<th class="py-2.5 px-3">Engineer</th>
+<th class="py-2.5 px-3">Timestamp</th>
+<th class="py-2.5 px-3">Transfer Status</th>
+<th class="py-2.5 px-3 text-right">Audit ID</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40 font-body-default text-body-default text-on-surface-variant">
+<!-- ROW 1 (SELECTED / ACTIVE) -->
+<tr class="bg-surface-container-high/60 cursor-pointer hover:bg-surface-container-high transition-colors" id="row-SU-AUD-00042" onclick="selectAuditRecord('SU-AUD-00042', this)">
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface font-semibold flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="">LOT_001_CMP_042</span>
+</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<div class="font-body-mono text-[11px] text-on-surface">LOT_001</div>
+<div class="font-code-telemetry text-[10px] text-outline">High-Reliability Electronics</div>
+</td>
+<td class="py-2.5 px-3 text-error font-code-telemetry text-code-telemetry whitespace-nowrap">Projected leakage drift</td>
+<td class="py-2.5 px-3 font-semibold text-secondary whitespace-nowrap">Ground Instrumentation</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-secondary-container/20 text-secondary font-badge-label text-badge-label">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> APPROVED
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface whitespace-nowrap">ENG-042 <span class="text-outline text-[10px]">(E. Mercer)</span></td>
+<td class="py-2.5 px-3 font-code-telemetry text-code-telemetry text-outline whitespace-nowrap">29 Sep 2026 01:42</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-tertiary-container/20 text-tertiary font-code-telemetry text-[10px] font-semibold">
+<span class="material-symbols-outlined text-[12px]">schedule</span> Pending Transfer
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-secondary text-right whitespace-nowrap font-bold">SU-AUD-00042</td>
+</tr>
+<!-- ROW 2 -->
+<tr class="cursor-pointer hover:bg-surface-container-high transition-colors" id="row-SU-AUD-00038" onclick="selectAuditRecord('SU-AUD-00038', this)">
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface font-semibold flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="">LOT_004_CMP_017</span>
+</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<div class="font-body-mono text-[11px] text-on-surface">LOT_004</div>
+<div class="font-code-telemetry text-[10px] text-outline">High-Reliability Electronics</div>
+</td>
+<td class="py-2.5 px-3 text-error font-code-telemetry text-code-telemetry whitespace-nowrap">Propagation delay drift</td>
+<td class="py-2.5 px-3 font-semibold text-on-surface whitespace-nowrap">Development Equipment</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-secondary-container/20 text-secondary font-badge-label text-badge-label">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> APPROVED
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface whitespace-nowrap">ENG-019 <span class="text-outline text-[10px]">(K. Vance)</span></td>
+<td class="py-2.5 px-3 font-code-telemetry text-code-telemetry text-outline whitespace-nowrap">28 Sep 2026 19:15</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-surface-container-highest text-on-surface font-code-telemetry text-[10px]">
+<span class="material-symbols-outlined text-[12px]">local_shipping</span> Transferred / In Lab
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface-variant text-right whitespace-nowrap">SU-AUD-00038</td>
+</tr>
+<!-- ROW 3 -->
+<tr class="cursor-pointer hover:bg-surface-container-high transition-colors" id="row-SU-AUD-00031" onclick="selectAuditRecord('SU-AUD-00031', this)">
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface font-semibold flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="">LOT_002_CMP_011</span>
+</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<div class="font-body-mono text-[11px] text-on-surface">LOT_002</div>
+<div class="font-code-telemetry text-[10px] text-outline">Class S Flight Memory</div>
+</td>
+<td class="py-2.5 px-3 text-error font-code-telemetry text-code-telemetry whitespace-nowrap">Margin threshold warning</td>
+<td class="py-2.5 px-3 font-semibold text-on-surface whitespace-nowrap">Industrial Monitoring</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-secondary-container/20 text-secondary font-badge-label text-badge-label">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> APPROVED
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface whitespace-nowrap">ENG-042 <span class="text-outline text-[10px]">(E. Mercer)</span></td>
+<td class="py-2.5 px-3 font-code-telemetry text-code-telemetry text-outline whitespace-nowrap">28 Sep 2026 14:02</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-surface-container-highest text-on-surface font-code-telemetry text-[10px]">
+<span class="material-symbols-outlined text-[12px]">local_shipping</span> Transferred / In Lab
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface-variant text-right whitespace-nowrap">SU-AUD-00031</td>
+</tr>
+<!-- ROW 4 -->
+<tr class="cursor-pointer hover:bg-surface-container-high transition-colors" id="row-SU-AUD-00027" onclick="selectAuditRecord('SU-AUD-00027', this)">
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface font-semibold flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="">LOT_003_CMP_029</span>
+</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<div class="font-body-mono text-[11px] text-on-surface">LOT_003</div>
+<div class="font-code-telemetry text-[10px] text-outline">Flight Sensor Bus</div>
+</td>
+<td class="py-2.5 px-3 text-error font-code-telemetry text-code-telemetry whitespace-nowrap">Dielectric precursor noise</td>
+<td class="py-2.5 px-3 font-semibold text-on-surface whitespace-nowrap">Educational Avionics Lab</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-secondary-container/20 text-secondary font-badge-label text-badge-label">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> APPROVED
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface whitespace-nowrap">ENG-088 <span class="text-outline text-[10px]">(M. Chen)</span></td>
+<td class="py-2.5 px-3 font-code-telemetry text-code-telemetry text-outline whitespace-nowrap">27 Sep 2026 11:30</td>
+<td class="py-2.5 px-3 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-tertiary-container/20 text-tertiary font-code-telemetry text-[10px] font-semibold">
+<span class="material-symbols-outlined text-[12px]">biotech</span> In Qualification
+                </span>
+</td>
+<td class="py-2.5 px-3 font-body-mono text-body-mono text-on-surface-variant text-right whitespace-nowrap">SU-AUD-00027</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Status -->
+<div class="p-space-sm bg-surface-container-low flex flex-col sm:flex-row items-center justify-between text-outline font-code-telemetry text-code-telemetry gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span class="">DISPOSITION CHAIN: 4 RECORDS VISIBLE · FILTER APPLIED: NONE</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="">PAGE 1 OF 3</span>
+<div class="flex gap-1">
+<button class="px-2 py-0.5 rounded-sm bg-surface-container text-on-surface opacity-50 cursor-not-allowed">PREV</button>
+<button class="px-2 py-0.5 rounded-sm bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">NEXT</button>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION B: SECONDARY-USE AUDIT LIFECYCLE (5 Cols on XL) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Lifecycle Container -->
+<div class="flex flex-col rounded-lg bg-surface-container shadow-sm p-space-md">
+<!-- Header for Section B -->
+<div class="flex items-start justify-between pb-space-sm bg-surface-container-low p-space-sm rounded-sm mb-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[18px]">timeline</span>
+<span class="font-title-section text-title-section text-on-surface uppercase tracking-wide">SEC. B: AUDIT LIFECYCLE</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Traceability Panel for <strong class="text-secondary" id="active-audit-id">SU-AUD-00042</strong></span>
+</div>
+<span class="px-2 py-0.5 rounded-sm bg-surface-container-high font-body-mono text-[11px] text-secondary font-bold" id="active-comp-tag">LOT_001_CMP_042</span>
+</div>
+<div class="font-table-header text-table-header text-outline uppercase tracking-wider mb-space-sm">Chronological Audit Vector: "Why Recommended? Why Approved?"</div>
+<!-- TIMELINE VERTICAL STREAM -->
+<div class="relative pl-6 space-y-space-md before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high">
+<!-- 1. Original Screening Run -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+</span>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-sm hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-outline font-semibold">24 Sep 2026 08:00 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-surface-container-highest text-on-surface">STEP 01</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">ORIGINAL SCREENING RUN</div>
+<div class="font-code-telemetry text-[11px] text-on-surface-variant mt-1">
+                Run ID: <span class="text-secondary">RUN-2024-SIH-0428</span> (168h Burn-in under MIL-STD-883K Class S)
+              </div>
+</div>
+</div>
+<!-- 2. Engineer Reject -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+</span>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-sm hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-error font-semibold">25 Sep 2026 10:42 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-error-container/30 text-error">STEP 02 // REJECT</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">ENGINEER REJECT (ORIGINAL DISPOSITION)</div>
+<div class="font-body-default text-body-default text-on-surface-variant mt-1">
+                Decision: <strong class="text-error">REJECT</strong> by Dr. E. Mercer. Reason: Projected Iddq 28.88µA breaches 25.0µA ceiling at t=94h. Record locked in immutable mission ledger.
+              </div>
+</div>
+</div>
+<!-- 3. Secondary-Use Eligibility Triggered -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+</span>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-sm hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-outline font-semibold">25 Sep 2026 10:43 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-surface-container-highest text-tertiary">STEP 03</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">SECONDARY-USE ELIGIBILITY TRIGGERED</div>
+<div class="font-body-default text-body-default text-on-surface-variant mt-1">
+                System: <span class="text-on-surface font-semibold">Hopium Secondary-Use Gateway</span>. Automated rule matched derated threshold envelope; component transferred to candidate pool.
+              </div>
+</div>
+</div>
+<!-- 4. Evidence Profile Compiled -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+</span>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-sm hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-outline font-semibold">26 Sep 2026 14:10 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-surface-container-highest text-on-surface">STEP 04</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">EVIDENCE PROFILE COMPILED</div>
+<div class="font-code-telemetry text-[11px] text-on-surface-variant mt-1">
+                System: Module A (Z=+3.41), Module B (168h Autoregressive extrapolation). Time-series vectors ingested.
+              </div>
+</div>
+</div>
+<!-- 5. Application Assessment & Matching -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</span>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-sm hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-outline font-semibold">28 Sep 2026 09:20 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-surface-container-highest text-secondary">STEP 05</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">APPLICATION ASSESSMENT &amp; MATCHING</div>
+<div class="font-body-default text-body-default text-on-surface-variant mt-1">
+                System: Evaluated against 12 secondary application profiles. <span class="text-secondary font-semibold">Ground Instrumentation</span> flagged as CANDIDATE.
+              </div>
+</div>
+</div>
+<!-- 6. Human-in-the-Loop Engineering Review -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+</span>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-sm hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-tertiary font-semibold">29 Sep 2026 01:35 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-tertiary-container/30 text-tertiary">STEP 06 // HITL</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">HUMAN-IN-THE-LOOP ENGINEERING REVIEW</div>
+<div class="font-body-default text-body-default text-on-surface-variant mt-1">
+                Actor: <strong class="text-on-surface">E. Mercer [L3-ENG]</strong>. Review of derated Arrhenius margin (50µA tolerance at ground ambient &lt;45°C vs 25µA flight limit).
+              </div>
+</div>
+</div>
+<!-- 7. Approved & Custody Transferred -->
+<div class="relative group">
+<span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</span>
+<div class="flex flex-col bg-surface-container-high p-space-sm rounded-sm">
+<div class="flex items-center justify-between">
+<span class="font-code-telemetry text-[11px] text-secondary font-semibold">29 Sep 2026 01:42 UTC</span>
+<span class="font-table-header text-table-header px-1.5 py-0.2 rounded-sm bg-secondary-container/30 text-secondary">STEP 07 // FINAL</span>
+</div>
+<div class="font-title-section text-[13px] text-on-surface mt-0.5">APPROVED &amp; CUSTODY TRANSFERRED</div>
+<div class="font-body-default text-body-default text-on-surface-variant mt-1">
+                Decision: <strong class="text-secondary">APPROVED FOR GROUND INSTRUMENTATION</strong>.<br>
+                Audit hash: <code class="font-body-mono text-secondary">9f8a...3b21</code>. Transfer Ticket: <span class="font-body-mono text-on-surface">TKT-DAQ-042</span>.
+              </div>
+</div>
+</div>
+</div>
+</div>
+<!-- CRYPTOGRAPHIC ATTESTATION BOX -->
+<div class="flex flex-col p-space-md rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between pb-2 bg-surface-container px-3 py-1.5 rounded-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">lock</span>
+<span class="font-table-header text-table-header text-on-surface uppercase tracking-wider">CRYPTOGRAPHIC ATTESTATION</span>
+</div>
+<span class="font-code-telemetry text-[10px] text-secondary font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> VERIFIED
+          </span>
+</div>
+<div class="mt-space-sm flex flex-col gap-space-xs font-code-telemetry text-code-telemetry text-on-surface-variant">
+<div class="flex justify-between items-center bg-surface-container-lowest p-2 rounded-sm">
+<span class="text-outline">SHA-256 Merkle Root:</span>
+<span class="text-secondary select-all font-bold">9f8a3c42e1b8...d720</span>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-outline">Hardware Security Module:</span>
+<span class="text-on-surface">Local HSM Active (Slot 0)</span>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-outline">Tamper-Evident Ledger:</span>
+<span class="text-secondary">Station STN-Aero4 [Bay 03]</span>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-outline">Signature Timestamp:</span>
+<span class="text-on-surface">2026-09-29T01:42:19.412Z</span>
+</div>
+</div>
+<!-- Action tools for verification -->
+<div class="mt-space-sm pt-space-xs flex items-center justify-between">
+<button class="h-7 px-3 rounded-sm bg-surface-container-high hover:bg-surface-bright text-on-surface font-badge-label text-badge-label flex items-center gap-1 transition-colors" onclick="verifyMerkleProof()">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+<span class="">Verify HSM Proof</span>
+</button>
+<span class="font-code-telemetry text-[10px] text-outline">ED25519-SIGNATURE VALID</span>
+</div>
+</div>
+</div>
+</div>
+<!-- NOTIFICATION TOAST CONTAINER -->
+<div class="fixed bottom-6 right-6 hidden z-50 p-space-md rounded-lg bg-surface-container-highest shadow-xl flex items-center gap-space-sm max-w-md" id="toast-notification">
+<span class="material-symbols-outlined text-secondary text-[24px]">task_alt</span>
+<div class="flex flex-col">
+<span class="font-title-section text-title-section text-on-surface" id="toast-title">Audit Export Generated</span>
+<span class="font-body-default text-body-default text-on-surface-variant" id="toast-msg">CSV records downloaded with cryptographic attestation SHA-256 header.</span>
+</div>
+</div>
+</div>
+<script>
+  function selectAuditRecord(auditId, rowElement) {
+    // Reset highlights
+    const rows = document.querySelectorAll('#register-table tbody tr');
+    rows.forEach(r => {
+      r.classList.remove('bg-surface-container-high/60');
+      const dot = r.querySelector('td span.rounded-full');
+      if (dot) {
+        dot.classList.remove('bg-secondary');
+        dot.classList.add('bg-outline');
+      }
+    });
+
+    // Apply active state
+    rowElement.classList.add('bg-surface-container-high/60');
+    const dot = rowElement.querySelector('td span.rounded-full');
+    if (dot) {
+      dot.classList.remove('bg-outline');
+      dot.classList.add('bg-secondary');
+    }
+
+    // Update Header labels
+    const activeAuditElem = document.getElementById('active-audit-id');
+    const activeCompElem = document.getElementById('active-comp-tag');
+    if (activeAuditElem) activeAuditElem.textContent = auditId;
+
+    const compId = rowElement.querySelector('td:first-child span:last-child').textContent.trim();
+    if (activeCompElem) activeCompElem.textContent = compId;
+  }
+
+  function filterRegisterTable() {
+    const searchVal = document.getElementById('component-search').value.toLowerCase();
+    const destVal = document.getElementById('destination-filter').value;
+    const rows = document.querySelectorAll('#register-table tbody tr');
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      const destCell = row.querySelectorAll('td')[3].innerText.trim();
+      const matchesSearch = text.includes(searchVal);
+      const matchesDest = (destVal === 'ALL') || (destCell.includes(destVal));
+
+      if (matchesSearch && matchesDest) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function triggerExportNotice() {
+    showToast("Audit Export Ingested", "Generating compliant CSV package for 10 approved secondary silicon devices.");
+  }
+
+  function verifyMerkleProof() {
+    showToast("Merkle Proof Verified", "Cryptographic signature chain matches STN-Aero4 secure enclave hardware.");
+  }
+
+  function showToast(title, msg) {
+    const toast = document.getElementById('toast-notification');
+    document.getElementById('toast-title').textContent = title;
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.remove('hidden');
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 3800);
+  }
+</script></main></div>
+
+</body></html>

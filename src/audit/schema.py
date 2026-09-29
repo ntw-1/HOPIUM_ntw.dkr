@@ -24,8 +24,8 @@ ALLOWED_DECISIONS = (DECISION_PASS, DECISION_MONITOR, DECISION_REJECT)
 @dataclass
 class AuditRecord:
     """
-    Immutable audit trail record for a single engineering decision.
-    Pairs the AI screening evidence with the human engineer's final decision and mandatory reasoning.
+    Snapshot record for one engineering decision.
+    Pairs AI screening evidence with the human engineer's decision and mandatory reasoning.
     """
     component_id: str
     lot_id: str

@@ -25,7 +25,7 @@ from .schema import (
 class AuditRecorder:
     """
     Session-level audit trail manager.
-    Enforces mandatory human reasoning and stores immutable decision records.
+    Enforces mandatory human reasoning and stores decision snapshots in memory for the session.
     """
 
     def __init__(self, session_id: str = "default_session"):
@@ -150,6 +150,58 @@ class AuditRecorder:
             decisions_by_lot=by_lot,
         )
 
+    def record_model_switch(
+        self,
+        previous_model: str,
+        new_model: str,
+        parameter: str,
+        evaluation_dataset: str,
+        old_mae: Optional[float],
+        new_mae: float,
+        reason: str,
+        operator: str = "E. Mercer [L3-ENG]",
+        selection_basis: str = "Lowest validation MAE",
+        timestamp_utc: Optional[str] = None,
+        extra_info: Optional[dict] = None,
+    ) -> Dict[str, Any]:
+        """
+        Record a model deployment switch event in the in-memory session history.
+        """
+        if not reason or not str(reason).strip():
+            raise ValueError("Model switch justification note is mandatory.")
+
+        if not hasattr(self, "_model_switches"):
+            self._model_switches = []
+
+        from datetime import datetime, timezone
+        ts = timestamp_utc or datetime.now(timezone.utc).isoformat()
+
+        record = {
+            "event_type": "MODEL_DEPLOYMENT_CHANGE",
+            "previous_model": previous_model,
+            "new_model": new_model,
+            "parameter": parameter,
+            "evaluation_dataset": evaluation_dataset,
+            "old_mae": old_mae,
+            "new_mae": new_mae,
+            "selection_basis": selection_basis,
+            "reason": str(reason).strip(),
+            "operator": operator,
+            "timestamp_utc": ts,
+            "session_id": self.session_id,
+            **(extra_info or {}),
+        }
+        self._model_switches.append(record)
+        return record
+
+    def list_model_switches(self) -> List[Dict[str, Any]]:
+        """List all recorded model deployment switch audit events."""
+        if not hasattr(self, "_model_switches"):
+            self._model_switches = []
+        return list(self._model_switches)
+
     def clear(self):
         """Clear all session audit records."""
         self._records.clear()
+        if hasattr(self, "_model_switches"):
+            self._model_switches.clear()

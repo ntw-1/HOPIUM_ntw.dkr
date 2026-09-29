@@ -130,8 +130,12 @@ class DynamicRiskEngine:
 
         # Load one predictor per supported parameter
         self._predictors: Dict[str, ProductionPredictor] = {}
+        self.reload_predictors()
+
+    def reload_predictors(self) -> None:
+        """Reload production predictors from registry to reflect active model updates."""
         for param in self.SUPPORTED_PARAMETERS:
-            self._predictors[param] = ProductionPredictor.from_registry(registry_dir, param)
+            self._predictors[param] = ProductionPredictor.from_registry(self.registry_dir, param)
 
     def assess_component(
         self,

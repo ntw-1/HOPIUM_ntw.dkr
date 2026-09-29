@@ -19,7 +19,7 @@ $$y = \text{value\_168h}$$
 - `value_96h` (Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, `value_96h` is explicitly forbidden as a Module B prediction input).
 - `value_168h` (This is the target).
 
-*Data leakage check tests in `tests/` will automatically fail any pipeline where `value_96h` or `value_168h` are present in feature matrix $\mathbf{X}$.*
+`src/model_lab/features.py` constructs `X` using an explicit allowlist and checks its columns at runtime. The unit tests in `tests/unit/test_module_b_features.py` exercise this boundary.
 
 ---
 
@@ -46,17 +46,18 @@ $$\text{MAE}_{\text{val}} = \frac{1}{N} \sum_{i=1}^{N} |\hat{y}_i - y_i|$$
 - Mean Absolute Percentage Error ($\text{MAPE}_{\text{val}}$)
 
 ### Candidate Baselines
-The Model Lab will evaluate multiple candidate models under identical lot-level splits:
-- Linear / Ridge Regression baselines
-- Decision Trees / Random Forests
-- Gradient Boosting variants
+The current Model Lab evaluates these configured candidates on the same lot-level split:
+- `DummyRegressor`
+- `Ridge`
+- `RandomForestRegressor`
+- `GradientBoostingRegressor`
 
-*Model selection is strictly automated based on lowest $\text{MAE}_{\text{val}}$. The winning model is registered into the Model Registry artifact store.*
+`src/model_lab/selector.py` selects the lowest validation MAE, with candidate-list ordering as deterministic tie-break. The chosen artifact is registered. This is an offline Model Lab operation; screening runs load registered artifacts and do not select or train models per lot.
 
 ---
 
 ## 4. Module A Contract (Population Anomaly Detection)
 
-- **Input:** Multivariate matrix of component parameters for all components in a given lot. Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, Module A may use later telemetry including `value_96h`.
-- **Output:** Population Anomaly Score $S_{\text{pop}} \in [0, 1]$ indicating component deviation relative to its lot population distribution.
-- **Algorithms under evaluation:** Robust Mahalanobis distance, Isolation Forest, PCA reconstruction error.
+- **Input:** Per-lot, per-parameter `value_0h`, `value_24h`, and derived `delta_24_0`.
+- **Output:** Modified Z-score evidence and a component anomaly score relative to its lot population. This score is not normalized to $[0, 1]$.
+- **Current algorithm:** Robust Modified Z-score using median and median absolute deviation, with a default flag threshold of 3.5.

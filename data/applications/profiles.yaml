@@ -1,0 +1,57 @@
+# Prototype application classes. All numeric bounds below are illustrative
+# engineering profiles, not official standards or product qualification limits.
+- id: commercial_electronics
+  name: Commercial Electronics
+  criticality: low
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: leakage_current_max, parameter: leakage_current, evidence_field: value_168h, maximum: 20.0, unit: nA, source: prototype illustrative profile, confidence: low, status: prototype}
+    - {id: propagation_delay_max, parameter: propagation_delay, evidence_field: value_168h, maximum: 170.0, unit: ps, source: prototype illustrative profile, confidence: low, status: prototype}
+- id: industrial_instrumentation
+  name: Industrial Instrumentation
+  criticality: medium
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: leakage_current_max, parameter: leakage_current, evidence_field: value_168h, maximum: 12.0, unit: nA, source: prototype illustrative profile, confidence: low, status: prototype}
+    - {id: propagation_delay_max, parameter: propagation_delay, evidence_field: value_168h, maximum: 150.0, unit: ps, source: prototype illustrative profile, confidence: low, status: prototype}
+- id: ground_test_equipment
+  name: Ground-Test Equipment
+  criticality: medium
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: iddq_max, parameter: Iddq, evidence_field: value_168h, maximum: 40.0, unit: uA, source: prototype illustrative profile, confidence: low, status: prototype}
+    - {id: propagation_delay_max, parameter: propagation_delay, evidence_field: value_168h, maximum: 160.0, unit: ps, source: prototype illustrative profile, confidence: low, status: prototype}
+- id: noncritical_monitoring
+  name: Non-Critical Monitoring
+  criticality: low
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: leakage_current_max, parameter: leakage_current, evidence_field: value_168h, maximum: 25.0, unit: nA, source: prototype illustrative profile, confidence: low, status: prototype}
+    - {id: iddq_max, parameter: Iddq, evidence_field: value_168h, maximum: 48.0, unit: uA, source: prototype illustrative profile, confidence: low, status: prototype}
+- id: educational_development_hardware
+  name: Educational / Development Hardware
+  criticality: low
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: propagation_delay_max, parameter: propagation_delay, evidence_field: value_168h, maximum: 180.0, unit: ps, source: prototype illustrative profile, confidence: low, status: prototype}
+    - {id: leakage_current_max, parameter: leakage_current, evidence_field: value_168h, maximum: 30.0, unit: nA, source: prototype illustrative profile, confidence: low, status: prototype}
+- id: legacy_equipment_maintenance
+  name: Legacy Equipment Maintenance
+  criticality: medium
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: iddq_max, parameter: Iddq, evidence_field: value_168h, maximum: 45.0, unit: uA, source: prototype illustrative profile, confidence: low, status: prototype}
+    - {id: propagation_delay_max, parameter: propagation_delay, evidence_field: value_168h, maximum: 175.0, unit: ps, source: prototype illustrative profile, confidence: low, status: prototype}
+- id: high_criticality_electronics
+  name: High-Criticality Electronics
+  criticality: high
+  provenance: prototype-illustrative
+  additional_testing_required: true
+  requirements:
+    - {id: lifetime_evidence_required, parameter: null, evidence_field: null, minimum: 1000, unit: hours, source: prototype evidence requirement, confidence: low, status: prototype; lifetime evidence unavailable}

@@ -1,221 +1,188 @@
-# HOPIUM_sih26170: AI-Driven Anomaly Detection in Component Burn-In & Screening
+# HOPIUM_sih26170
 
-[![Test Suite](https://img.shields.io/badge/pytest-158%20passed-10b981.svg)](tests/)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![SIH Problem](https://img.shields.io/badge/SIH-SIH26170-cyan.svg)](docs/PRODUCT_SPEC.md)
-[![License](https://img.shields.io/badge/license-MIT-gray.svg)](LICENSE)
+HOPIUM is a prototype for AI-assisted anomaly detection and decision support during semiconductor component burn-in and screening, developed for Smart India Hackathon problem SIH26170. It includes a CSV-based screening pipeline, a local browser UI, engineer disposition recording, and a separate secondary-use assessment workflow for components an engineer rejects.
 
-An industrial-grade, AI-driven screening and anomaly detection system for semiconductor burn-in testing, built for **Smart India Hackathon 2026 (Problem Statement SIH26170)**.
+HOPIUM is not a production screening system, certification system, or authorization to use a component. Its risk results and secondary-use recommendations support engineering review; engineers remain responsible for decisions.
 
-HOPIUM combines early-stage multivariate population outlier detection at 0h/24h with strict non-leaking trajectory prediction to forecast 168h parameter drift and quantify reliability risk, empowering quality engineers with actionable decision support and an immutable compliance audit trail.
+The datasets in this repository are synthetic. They are not real ISRO or industry data. Dataset reference limits are illustrative scenarios, not official component specifications. See [data/README.md](data/README.md).
 
----
-
-## Key System Highlights
-
-- **Strict Production Feature Boundary:** Module B regression consumes **strictly** `Value_0h` and `Value_24h` (and derived features like $\Delta_{24-0}$). `Value_96h` and `Value_168h` are strictly forbidden as input features during production inference.
-- **Lot-Level Splitting & Locked Blind Test:** Prevents intra-lot leakage by partitioning datasets strictly at the `lot_id` boundary (60% Train / 20% Val / 20% Locked Blind Test). Model selection is driven exclusively by Validation MAE.
-- **Separation of Advisory AI Risk & Human Decision:** AI produces advisory risk assessments (`LOW`, `MEDIUM`, `HIGH`) with grounded reasoning. Human quality engineers retain ultimate signoff authority (`PASS`, `MONITOR`, `REJECT`), with full override tracking in an immutable audit log.
-- **Aerospace / ATE Dark-Themed Workstation UI:** Integrated single-page web workstation designed with Google Stitch ergonomics, featuring a 272px Command Rail, live oscilloscope trajectory visualizations, and zero heavy frontend dependencies.
-- **Lean, Auditable Architecture:** Built on standard, auditable dependencies (`pandas`, `numpy`, `scikit-learn`, `pytest`) without unneeded database servers or heavy deep learning frameworks.
-
----
-
-## End-to-End Operational Pipeline
+## Current screening workflow
 
 ```mermaid
 flowchart LR
-    A["Raw Burn-In Data<br/>(CSV / ATE Stream)"] --> B["Data Tester<br/>(29 Schema/Range Checks)"]
-    B --> C["Module A<br/>(Population Anomaly<br/>Modified Z-Score)"]
-    B --> D["Module B<br/>(168h Drift Predictor<br/>0h + 24h &rarr; 168h)"]
-    C --> E["Dynamic Risk Engine<br/>(Spec Drift + Anomaly + Uncertainty)"]
-    D --> E
-    E --> F["Screening Workstation UI<br/>(Command Center & Review)"]
-    F --> G["Engineer Final Decision<br/>(PASS / MONITOR / REJECT)"]
-    G --> H["Immutable Audit Trail<br/>(CSV / JSON Export)"]
+    A[ATE / Burn-In / ESS measurements] --> B[CSV dataset]
+    B --> C[Data validation]
+    C --> D[Module A population anomaly evidence]
+    C --> E[Module B 168h prediction]
+    D --> F[AI risk assessment]
+    E --> F
+    F --> G[Engineer decision: PASS / MONITOR / REJECT]
 ```
 
----
+The repository accepts measurement data through CSV files. It does not include a direct ATE driver, live ATE stream, ESS control, or hardware integration. Input data uses lot and component identifiers and measurements for `Iddq`, `leakage_current`, and `propagation_delay` at `0h`, `24h`, `96h`, and `168h`.
 
-## Development Phases & Quality Gates
+- **Data validation** checks schema, provenance and data-quality rules. CSV-based screening validates before screening; a hard validation failure aborts that run.
+- **Module A** identifies population-relative anomaly evidence from lot measurements. It does not itself decide whether a component is accepted or rejected.
+- **Module B** predicts the `168h` target from `value_0h`, `value_24h`, and features derived from those early measurements. `value_96h` and `value_168h` are not production prediction inputs. The latter is the observed target used for evaluation and can be included in Secondary Use evidence.
+- **AI risk** combines anomaly evidence, reference-limit breaches, predicted drift, predicted boundary crossings, and uncertainty. Risk levels (`LOW`, `MEDIUM`, `HIGH`) are advisory; they are not official engineering acceptance limits and do not set the engineer's disposition.
+- **Engineer disposition** is recorded as `PASS`, `MONITOR`, or `REJECT`, with a required reason. This is separate from AI risk.
 
-The project follows a strict phase-gated progression. All phases have successfully satisfied their defined quality gates and verification criteria:
+Model training and evaluation tools are also present. The Model Lab contains lot-level splitting and a production feature allowlist; its evaluation workflows are separate from running screening. The screening platform loads registered model artifacts and does not train or reselect models for each incoming lot.
 
-| Phase | Module / Milestone | Description & Deliverables | Quality Gate Status |
-| :--- | :--- | :--- | :--- |
-| **Phase 0** | **Contracts & Architecture** | Permanent specifications, ML feature boundaries, data contracts, and test plans established. | **PASSED** (100% doc consistency) |
-| **Phase 1** | **Synthetic Data Engine** | Physics-informed trajectory generator across `0h, 24h, 96h, 168h` for `Iddq`, `leakage_current`, and `propagation_delay`. V1 baseline + V2 stochastic latent strength models. | **PASSED** (Seed-reproducible, provenance tagged) |
-| **Phase 2** | **Data Tester & Validator** | Comprehensive engine running 29 structural, schema, range, monotonic, and statistical checks on incoming lots. | **PASSED** (Zero false negatives on corrupt data) |
-| **Phase 3** | **Module B Model Lab** | Scikit-learn regression pipelines with residual-based uncertainty intervals. Strict lot-level splits with locked blind-test evaluation. | **PASSED** (Zero leakage of 96h/168h features) |
-| **Phase 4** | **Module A Anomaly Engine** | Dynamic multivariate population anomaly detection using Modified Z-score (Iglewicz & Hoaglin) across lot distributions. | **PASSED** (Clean separation from static spec limits) |
-| **Phase 5** | **Dynamic Risk Engine** | Evidence-based multi-factor risk assessment combining population anomaly, spec breach status, spec-normalized drift, and uncertainty. | **PASSED** (Deterministic advisory risk scoring) |
-| **Phase 6** | **Core Screening Platform** | Unified `ScreeningPipeline` orchestrating data ingestion, validation, Module A, Module B, and Dynamic Risk Engine per lot. | **PASSED** (End-to-end execution without retraining) |
-| **Phase 7** | **Human Audit & Export** | Human-in-the-Loop review system, override logging, and immutable audit trail with export to CSV/JSON. | **PASSED** (Full audit immutability & schema verified) |
-| **Phase 8** | **Workstation UI & Integration** | Google Stitch-integrated Aerospace/ATE Dark-Themed screening workstation UI with REST API endpoints and full test suite verification. | **PASSED** (158/158 automated tests passing) |
+## Secondary Use / Second-Life workflow
 
----
+Secondary Use is a separate workflow that begins **only** when the existing engineer's final screening decision is `REJECT`:
 
-## Core System Architecture & Modules
-
-### 1. Module A: Dynamic Population Anomaly Detection
-- Evaluates components relative to their manufacturing lot population at `0h` and `24h`.
-- Employs **Modified Z-Score** ($M_i = \frac{0.6745 \cdot |x_i - \tilde{x}|}{\text{MAD}}$) to robustly detect population outliers without being skewed by extreme readings.
-- Distinguishes between *within-spec population anomalies* and *hard specification breaches*.
-
-### 2. Module B: Trajectory Prediction & Uncertainty Quantification
-- Predicts `Value_168h` using strictly `Value_0h`, `Value_24h`, and $\Delta_{24-0}$.
-- Features are strictly validated by data leakage tests (`tests/unit/test_module_b_features.py`).
-- Produces $90\%$ prediction intervals ($[\hat{y} - 1.645 \cdot \sigma, \hat{y} + 1.645 \cdot \sigma]$) based on validation split residual distributions.
-
-### 3. Dynamic Risk Engine
-- Evaluates multi-factor risk without replacing human engineering judgment:
-  - **Population Anomaly:** Detected via Module A Modified Z-Score.
-  - **Specification Breach:** Current value exceeds component engineering limits.
-  - **Dynamic Drift Assessment:** Predicted drift normalized against specification range ($\frac{|\Delta_{\text{pred}}|}{\text{Spec}_{\max} - \text{Spec}_{\min}}$).
-  - **Uncertainty Envelope:** Width of prediction intervals relative to allowable drift margin.
-- Assigns advisory risk levels: `LOW`, `MEDIUM`, or `HIGH`.
-
-### 4. Human-in-the-Loop Review & Audit Trail
-- Quality engineers evaluate flagged components and assign final dispositions: `PASS`, `MONITOR`, or `REJECT`.
-- If an engineer's decision diverges from the AI advisory risk (e.g. `HIGH` risk overridden to `PASS`), the system mandates a documented engineering justification and flags the record with `STATUS: OVERRIDDEN`.
-- All decisions, timestamps, session IDs, and feature values are recorded in an immutable audit log (`reports/phase7_audit_log.csv`).
-
----
-
-## Screening Workstation UI
-
-The user interface is hosted via Python's built-in HTTP server (`scripts/run_screening_ui.py`) and incorporates Google Stitch design guidelines:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ HOPIUM SIH26170  ■ Aero-Reliability Screening                               │
-├──────────────┬──────────────────────────────────────────────────────────────┤
-│ 00 IMPORT    │ 01 COMMAND CENTER                                            │
-│ 01 COMMAND   │ ┌──────────────┬──────────────┬──────────────┬─────────────┐  │
-│ 02 ANALYSIS  │ │ TOTAL: 240   │ LOW RISK: 198│ MED RISK: 24 │ HIGH: 18    │  │
-│ 03 RISK      │ └──────────────┴──────────────┴──────────────┴─────────────┘  │
-│ 04 AUDIT     │ 01.1 — LOT POPULATION TELEMETRY                               │
-│ 05 MODEL LAB │ 01.2 — COMPONENT ATTENTION QUEUE                              │
-│              ├──────────────────────────────────────────────────────────────┤
-│              │ 02 COMPONENT ANALYSIS & OSCILLOSCOPE TRAJECTORIES            │
-│              │ [Observed 0h->24h (Solid)]  ───> [Predicted 24h->168h (Dash)] │
-│              │ ┌──────────────────────────────────────────────────────────┐ │
-│              │ │ DECISION: [ PASS ] [ MONITOR ] [ REJECT ]                │ │
-│              │ │ REASON: [ Required engineering justification... ]       │ │
-│              │ │ [ CONFIRM DECISION ]                                     │ │
-│              │ └──────────────────────────────────────────────────────────┘ │
-└──────────────┴──────────────────────────────────────────────────────────────┘
+```text
+Engineer REJECT
+  → Secondary-Use Pool
+  → Component Evidence Profile
+  → Application Profiles
+  → Deterministic Compatibility Assessment
+  → Rule-Based Recommendation
+  → Engineer Review for a specific application
+  → APPROVE or REJECT
+  → Repurposed Component Register (APPROVE only)
+  → Secondary-use audit / provenance
 ```
 
-- **00 IMPORT DATASET:** Repository dataset ingestion and live data quality validation report.
-- **01 COMMAND CENTER:** Fleetwide telemetry KPI cards, lot-by-lot health matrix, and filtered component attention queue.
-- **02 COMPONENT ANALYSIS:** Telemetry oscilloscope trajectory charts (0h-24h observed vs. 24h-168h predicted), spec limit references, evidence breakdown, and decision signoff controls.
-- **03 RISK ANALYSIS:** Multi-parameter risk matrix, anomaly classifications, and uncertainty bounds.
-- **04 AUDIT / EXPORT:** Live audit log review, override status tracking, and one-click CSV audit export.
-- **05 MODEL LAB:** Offline model registry explorer displaying active artifacts, feature allowlists, and split configurations.
+High AI risk, an anomaly, predicted drift, or a predicted boundary crossing does **not** put a component in the pool. The pool reads the engineer disposition from the existing screening `AuditRecorder`.
 
----
+The evidence profile combines available source CSV measurements (including observed 0h, 24h, 96h, and 168h values), derived early delta and observed drift, Module A results, Module B predictions and intervals, risk context, and the original engineer disposition. Burn-in/ESS conditions, test environment, original application, and other unavailable facts are represented as unavailable or `null`; the workflow does not fill them with synthetic replacement values.
 
-## Quick Start & Usage
+Application profiles are a small editable YAML catalogue in [data/applications/profiles.yaml](data/applications/profiles.yaml). It currently contains seven application classes. Bounds are marked `prototype-illustrative`, include provenance metadata, and are not claimed to come from NASA, IEC, an industry standard, or a component datasheet. The high-criticality profile requires lifetime evidence, which is unavailable in current source data and therefore evaluates as `UNKNOWN`.
 
-### Prerequisites
-- Python 3.10+
-- Core packages: `pip install pandas numpy scikit-learn pytest pyyaml`
+Compatibility is requirement-by-requirement and deterministic:
 
-### 1. Launch the Screening Workstation UI
-Start the local screening workstation web interface:
+| Result | Meaning |
+| --- | --- |
+| `PASS` | Available evidence satisfies that requirement. |
+| `FAIL` | Available evidence conflicts with that requirement. |
+| `UNKNOWN` | Required evidence is unavailable or cannot establish compatibility. It is not treated as a pass. |
+| `CANDIDATE` | All assessed requirements pass; the profile may proceed to engineering review. It is not an authorization. |
+| `INCOMPATIBLE` | At least one assessed requirement fails. |
+| `INSUFFICIENT_EVIDENCE` | There is no decisive failure, but one or more required checks are unknown, or the profile has no requirements. |
+
+The rule-based recommender returns application assessments with rationale, evidence references, provider/version, and timestamp. It does not override compatibility results or approve components. Engineer decisions apply to a specific component, assessment, and destination application. Only an engineer `APPROVE` for a `CANDIDATE` is added to the separate repurposed-component register. An engineer `REJECT` of an application assessment is audited but does not create a register entry.
+
+Secondary-use records are separate from the original screening record. The register carries traceability to the assessment and original rejection reason; it does not rewrite the screening disposition. Additional testing is indicated by profiles, but recording test results or changing transfer status is not currently implemented.
+
+### Secondary-use API
+
+The local HTTP server exposes the following routes for a UI or integration:
+
+| Method | Route | Description |
+| --- | --- | --- |
+| `GET` | `/api/secondary-use/pool` | List components with an explicit `REJECT` recorded in the active screening session. |
+| `GET` | `/api/secondary-use/evidence/{lot_id}/{component_id}` | Get an eligible component's evidence profile. |
+| `GET` | `/api/secondary-use/applications` | Get the YAML application catalogue. |
+| `POST` | `/api/secondary-use/assess` | Create and persist an assessment. JSON body: `component_id`, `lot_id`, optional `application_ids` array. Omit `application_ids` to assess all profiles. |
+| `GET` | `/api/secondary-use/assessments/{assessment_id}` | Retrieve a saved assessment, evidence snapshot, recommendations, and decisions. |
+| `POST` | `/api/secondary-use/decision` | Record a candidate decision. JSON body: `assessment_id`, `application_id`, `decision` (`APPROVE` or `REJECT`), `reason`, `engineer_id`. |
+| `GET` | `/api/secondary-use/register` | List approved secondary-use records. |
+| `GET` | `/api/secondary-use/export_pool` | Download the current eligible pool as CSV. |
+| `GET` | `/api/secondary-use/export_register` | Download approved register records as CSV. |
+
+Assessment and register state is stored locally in `data/secondary_use/records.json`; secondary-use decision events are appended to the adjacent `.audit.jsonl` file. These are local file stores, not a database service.
+
+The integrated browser UI uses these routes for the Reuse Pool, recommendations, evidence review, engineer decisions, and Repurposed Register. It shows unavailable source fields as unavailable. An approval creates a separate register record with `transfer_status: PENDING`; custody transfer and testing-result workflows are not implemented.
+
+## Audit and persistence
+
+The canonical screening `AuditRecorder` holds screening engineer decisions in memory for the running server session. The existing export operation can write a screening/audit CSV report, but the recorder itself does not restore its decisions after restart. Consequently, Secondary Use pool eligibility depends on the active screening session even though secondary-use assessments, decision events, and approved register entries are stored separately on disk.
+
+Secondary-use audit events and screening audit exports are distinct. Secondary-use approval/rejection does not update the screening audit record. The current app has no authentication layer; an `engineer_id` submitted to the secondary-use API is caller-supplied and is not verified as an identity.
+
+## Run the application
+
+From the repository root, install the dependencies and start the existing local screening server:
+
 ```bash
+python3 -m pip install -r requirements.txt
 python3 scripts/run_screening_ui.py --port 8501
 ```
-Open `http://127.0.0.1:8501` in your browser (or use `--no-browser` for headless environments).
 
-### 2. Run the Full Automated Test Suite
-Execute the comprehensive test suite (158 automated unit, feature leakage, risk engine, and pipeline tests):
+Open <http://127.0.0.1:8501>. The server opens a browser by default; use `--no-browser` in a headless environment. The UI includes screening, Model Lab and audit/export views, and Secondary Use Reuse Pool, Recommendations, Evidence Review, and Repurposed Register views.
+
+The server defaults to the repository's demo CSV when `/api/current` is requested and no screening run has been loaded. The UI also allows selecting available repository CSV datasets.
+
+## Tests and validation tools
+
+Run the test suite from the repository root:
+
 ```bash
 pytest -v
 ```
 
-### 3. Run Data Validation Quality Checks
-Validate an incoming dataset against the 29 Phase 2 validation checks:
+Checkpoint verification on 2026-09-29: `pytest -q` completed with **175 passed**.
+
+Validate a dataset using the existing Data Tester CLI (the `.meta.json` and ground-truth paths default from the CSV name when omitted):
+
 ```bash
 python3 scripts/run_data_tester.py \
   --csv data/v2/demo_burnin_data.csv \
   --meta data/v2/demo_burnin_data.meta.json \
+  --groundtruth data/v2/demo_burnin_groundtruth.json \
   --output-dir reports/
 ```
 
-### 4. Run Module B Model Lab Evaluation
-Evaluate registered models against locked blind-test splits:
+The validator aggregates findings from 13 validation categories; the number of individual findings can vary by dataset. Other available workflows include:
+
 ```bash
 python3 scripts/run_module_b_evaluation.py
-```
-
-### 5. Generate Synthetic Burn-In Datasets
-Generate reproducible V2 synthetic burn-in datasets with stochastic latent degradation:
-```bash
+python3 scripts/run_model_lab.py
 python3 scripts/generate_v2.py
 ```
 
----
+The evaluation, training, and data generation scripts perform distinct operations. Review their arguments and configuration before using them on a dataset.
 
-## Repository Structure
+## Repository structure
 
 ```text
 HOPIUM_sih26170/
-├── configs/                      # Pipeline, Model Lab & Generator YAML configurations
-│   ├── model_lab_config.yaml
-│   ├── synthetic_config.yaml
-│   └── synthetic_config_v2.yaml
-├── data/                         # Benchmark and development datasets
-│   ├── demo_burnin_data.csv      # V1 canonical baseline dataset
-│   └── v2/                       # V2 physics-informed burn-in datasets
-├── docs/                         # Permanent specifications and ADRs
-│   ├── AGENTS.md                 # Agent guidelines and engineering rules
-│   ├── ARCHITECTURE.md           # System architecture & risk reasoning
-│   ├── DATA_CONTRACT.md          # Parameter definitions and schemas
-│   ├── DECISIONS.md              # Architectural Decision Records (ADRs 001-009)
-│   ├── ML_CONTRACT.md            # Feature boundaries & Model Lab rules
-│   ├── PRODUCT_SPEC.md           # Problem statement & operational workflow
-│   └── TEST_PLAN.md              # Quality gates & verification plan
-├── models/registered/            # Production model artifacts & registry metadata
-│   ├── module_b_Iddq_v1/
-│   ├── module_b_leakage_current_v1/
-│   └── module_b_propagation_delay_v1/
-├── reports/                      # Evaluation reports, validation logs & audit trails
-│   ├── evaluation/               # Model Lab evaluation reports
-│   └── phase7_audit_log.csv      # Immutable engineering audit log
-├── scripts/                      # CLI runners and evaluation utilities
-│   ├── generate_v2.py            # V2 synthetic dataset generator
-│   ├── run_data_tester.py        # Data validation CLI
-│   ├── run_model_lab.py          # Model Lab training & registration CLI
-│   ├── run_module_b_evaluation.py# Locked blind-test evaluation runner
-│   ├── run_risk_engine.py        # Standalone risk engine evaluator
-│   └── run_screening_ui.py       # Screening Workstation web application
-├── src/                          # Core source packages
-│   ├── anomaly/                  # Module A: Population anomaly detector
-│   ├── audit/                    # Phase 7: Audit recorder & CSV/JSON exporter
-│   ├── data/                     # Ingestion & Phase 2 Data Tester
-│   ├── evaluation/               # Evaluation metrics & report generators
-│   ├── model_lab/                # Module B: Features, models, registry
-│   ├── risk/                     # Phase 5: Dynamic Risk Engine
-│   └── screening/                # Phase 6: ScreeningPipeline & Service orchestration
-└── tests/unit/                   # Automated pytest suite (158 passing tests)
+├── AGENTS.md                     # Repository engineering and safety constraints
+├── PROJECT_STATUS.md             # Project status notes
+├── README.md
+├── configs/                      # Risk, Model Lab, and synthetic generator YAML
+├── data/
+│   ├── applications/             # Secondary-use application profiles
+│   ├── v2/                       # V2 synthetic datasets, metadata, ground truth
+│   ├── *burnin_data.csv          # Demo and development datasets
+│   └── README.md                 # Dataset provenance and usage notes
+├── docs/                         # Product, architecture, data, ML, decisions, test plan
+├── models/registered/            # Registered Module B model artifacts and metadata
+├── reports/                      # Validation, evaluation, and exported reports
+├── scripts/                      # UI server, validation, model, generation, analysis CLIs
+├── secondary_use_AI/             # Secondary-use design/prototype artifacts
+├── stitch_hopium_UI/             # Screening UI design artifacts
+├── src/
+│   ├── anomaly/                  # Module A anomaly detection and evidence
+│   ├── audit/                    # Screening audit records and exporter
+│   ├── data/                     # Synthetic data and validation
+│   ├── evaluation/               # Metrics and evaluation reports
+│   ├── model_lab/                # Features, training, evaluation, registry
+│   ├── risk/                     # Module B prediction and dynamic risk engine
+│   ├── screening/                # Pipeline, service, current HTML UI
+│   └── secondary_use/            # Evidence, compatibility, recommendations, lifecycle
+└── tests/unit/                   # Pytest unit and service-level workflow tests
 ```
 
----
+## Limitations and status
 
-## Permanent Specifications & Documentation Links
+- Data ingestion is CSV-based. Direct ATE, burn-in, or ESS equipment integration is not implemented.
+- Repository datasets are synthetic and scenario limits are illustrative, not official specifications.
+- Screening audit records are session-memory-only. The Secondary Use pool cannot reconstruct eligibility after a server restart without the canonical screening decision in the active session.
+- Some source context—especially original application and burn-in/ESS conditions—is unavailable and remains unknown.
+- Application profiles are illustrative. Compatibility is evidence screening for engineering review, not certification or proof of suitability for a real product.
+- Engineer identifiers are caller-supplied and are not authenticated or role-verified. Screening decisions are session-memory-only, while secondary-use assessments, decisions, and register records are stored locally.
+- The HTTP server and local JSON persistence are a prototype integration, not production deployment infrastructure. Authentication, multi-user concurrency handling, and controlled evidence/test-result management are not implemented.
 
-- [AGENTS.md](AGENTS.md): Strict engineering guidelines and feature boundary constraints.
-- [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md): Problem context, objectives, and human-in-the-loop workflow.
-- [docs/DATA_CONTRACT.md](docs/DATA_CONTRACT.md): Parameter definitions, timepoints, and synthetic data schemas.
-- [docs/ML_CONTRACT.md](docs/ML_CONTRACT.md): Feature boundaries, lot splitting rules, and Model Lab criteria.
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): System architecture, dynamic risk reasoning, and ATE abstraction.
-- [docs/TEST_PLAN.md](docs/TEST_PLAN.md): Testing strategy, quality gates, and blind-test lock checks.
-- [docs/DECISIONS.md](docs/DECISIONS.md): Architectural Decision Records (ADRs 001–009).
+## Project references
 
----
-
-## Phase-Gating Policy
-
-*No production implementation for Phase $N+1$ begins until Phase $N$ has passed its defined quality gates, ensuring reproducible, high-integrity AI engineering throughout.*
+- [AGENTS.md](AGENTS.md): engineering constraints, including Module B input boundaries and synthetic-data rules.
+- [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md): problem context and product workflow.
+- [docs/DATA_CONTRACT.md](docs/DATA_CONTRACT.md): dataset fields, timepoints, and schemas.
+- [docs/ML_CONTRACT.md](docs/ML_CONTRACT.md): feature boundaries and evaluation constraints.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): screening architecture and risk reasoning.
+- [docs/TEST_PLAN.md](docs/TEST_PLAN.md): test strategy.
+- [docs/DECISIONS.md](docs/DECISIONS.md): architectural decision records.

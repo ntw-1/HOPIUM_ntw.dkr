@@ -1,43 +1,56 @@
-# Product Specification
+# Product Scope and Current Workflow
 
 **Project:** `HOPIUM_sih26170`  
-**Problem Statement:** SIH26170 — *AI-Driven Anomaly Detection in Component Burn-In & Screening*
+**Problem statement:** SIH26170 — *AI-Driven Anomaly Detection in Component Burn-In & Screening*
 
----
+HOPIUM is a local prototype for analyzing component burn-in measurements and supporting engineer review. It processes CSV data; direct ATE, Burn-In, or ESS hardware control and live data streaming are not implemented. Repository datasets are synthetic and are not real ISRO or industry data.
 
-## 1. Background & Problem Statement
-In high-reliability electronics applications (such as space, aerospace, and defense systems), electronic components undergo 168-hour screening and burn-in testing to eliminate early-life failures (infant mortality) and identify parametric drift. 
+## Primary screening workflow
 
-Standard screening relies on measuring components at fixed timepoints (`0h`, `24h`, `96h`, `168h`). Waiting the full 168 hours for all lots increases testing overhead and cycle time. The objective of SIH26170 is to develop an AI-driven screening capability that detects anomalous component trajectories early (at 24h) and predicts parameter behavior at 168h using only 0h and 24h production inputs.
+```text
+ATE / Burn-In / ESS measurements supplied as CSV
+→ Module A population anomaly evidence
+→ Module B 168-hour prediction from 0h/24h inputs
+→ AI-assisted advisory risk assessment
+→ Engineer final decision: PASS / MONITOR / REJECT
+```
 
----
+Module A provides population-relative anomaly evidence. Module B predicts `value_168h` using `value_0h`, `value_24h`, and the derived `delta_24_0`; `value_96h` and `value_168h` are not prediction inputs. AI risk and model outputs are decision support. HOPIUM does not automatically accept or reject components, certify performance, or replace engineering judgment.
 
-## 2. Core Objectives
-1. **Early Anomaly Detection (Module A):** Identify component-level multivariate outliers within manufacturing lot populations. Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, Module A may use later burn-in measurements including `Value_96h`.
-2. **Parametric Drift Prediction (Module B):** Forecast component parameter values at 168h (`Value_168h`) using exclusively early production readings (`Value_0h`, `Value_24h`). Confirmed from the original SIH26170 problem statement, `Value_96h` is explicitly forbidden as a Module B prediction input. (Deterministic derived features like `delta_24_0` remain permitted).
-3. **Dynamic Risk Reasoning:** Provide dynamic safety score and risk boundaries based on population variance, predicted drift, and distance to datasheet specs, avoiding arbitrary static limits.
-4. **Human-in-the-Loop Screening:** Empower screening engineers with clear recommendations, diagnostic plots, and an immutable audit trail for final acceptance/rejection signoff.
+## Secondary Use workflow
 
----
+Secondary Use can be entered **only after an engineer records a final `REJECT` in the active screening session**. AI risk, an anomaly, predicted drift, or a projected boundary crossing does not independently create eligibility.
 
-## 3. Scope & Non-Goals
+```text
+Engineer REJECT
+→ Secondary-Use Pool
+→ Component Evidence Profile
+→ Application Profiles
+→ Deterministic Compatibility Assessment
+→ Rule-Based Recommendation
+→ Engineer review and APPROVE / REJECT
+→ Separate Repurposed Component Register (APPROVE only)
+→ Local audit/provenance records
+```
 
-### In-Scope
-- Synthetic burn-in data generation simulating realistic population variance and latent degradation modes.
-- CSV data ingestion via an abstract `IDataSource` interface.
-- Model benchmarking lab with validation-driven model selection and locked blind-test evaluation.
-- Engineering review audit log and decision export.
+The evidence profile draws from available CSV measurements and screening/audit results. Missing original application, operating conditions, environment, lifetime history, or other source fields remain unavailable. The current application catalogue is `data/applications/profiles.yaml`; the bounds and requirements are explicitly illustrative prototype values, not authoritative standards, datasheet limits, or qualification criteria.
 
-### Non-Goals (Initial Phases)
-- Direct hardware interfacing with Automated Test Equipment (ATE) protocols (MQTT, OPC-UA).
-- Real-time streaming database clusters.
-- Deep learning architectures (PINNs, TabPFN, PyTorch) unless justified by future empirical data.
+Requirement results use `PASS`, `FAIL`, and `UNKNOWN`. A missing measurement is `UNKNOWN` and cannot be treated as a pass. Overall outcomes are:
 
----
+- `CANDIDATE`: every configured requirement has evidence and passes; this permits engineer review only.
+- `INCOMPATIBLE`: at least one configured requirement fails.
+- `INSUFFICIENT_EVIDENCE`: no failure decides the outcome, but required evidence is unknown or no requirements are defined.
 
-## 4. Human-in-the-Loop (HITL) Workflow
-1. **Ingestion:** Engineer loads component burn-in dataset for a lot.
-2. **Automated Screening:** System evaluates lot through Module A (population anomalies) and Module B (168h prediction).
-3. **Dynamic Risk Assessment:** System calculates dynamic risk scores and dynamic margins to official datasheet limits.
-4. **Engineering Review:** System presents component flags and dynamic risk profiles to the engineer.
-5. **Engineering Signoff:** The engineer reviews advisory AI flags and logs a final decision (PASS / REJECT / EXTEND_TESTING) with required justification notes into an immutable audit trail.
+The current recommender is deterministic and rule-based. It ranks these compatibility outcomes and supplies a rationale. Engineer approval is required and accepted only for a `CANDIDATE`. Approval writes a separate repurposed record; it does not edit the original screening disposition. The register currently records transfer as `PENDING`; no custody transfer execution or test-result entry is implemented.
+
+## Audit and persistence
+
+Screening engineer decisions are held by an in-memory `AuditRecorder` for the active server process. Exporting a CSV does not make this recorder persistent or tamper-proof. Secondary-use assessments/register entries are stored in local JSON and decision events append to JSONL under `data/secondary_use/`. The two histories are separate. The application does not authenticate engineer IDs or provide a cryptographic immutable ledger.
+
+## Non-goals / limitations
+
+- Direct equipment drivers and real-time ATE/ESS data ingestion.
+- Standards certification, real-world qualification, or automatic authorization of reuse.
+- Authentication, role-based approval, multi-user concurrency, and controlled custody transfer.
+- Persistent restoration of screening decisions across server restarts.
+- Verified test conditions/lifetime context when those data are absent from the source.

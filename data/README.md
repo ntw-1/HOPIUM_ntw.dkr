@@ -1,7 +1,7 @@
 # Synthetic Datasets Directory (`data/`)
 
 **Project:** `HOPIUM_sih26170`  
-**Phase:** Phase 1 — Synthetic Data Engine
+**Scope:** Synthetic datasets and provenance information used by the current prototype
 
 ---
 
@@ -31,7 +31,7 @@
    - **Production Feature Boundary:** Only `value_0h` and `value_24h` are permitted as production inference inputs for Module B. `value_96h` and `value_168h` are stored for ground truth prediction evaluation and **must never** enter production feature matrices.
 
 2. **Provenance Metadata (`.meta.json`):**
-   - Stores immutable generation metadata including `is_synthetic: true`, `random_seed`, `generator_version`, configuration snapshot, and the canonical UTF-8 SHA-256 content hash of the CSV file.
+   - Records generation metadata including `is_synthetic: true`, `random_seed`, `generator_version`, configuration snapshot, and the canonical UTF-8 SHA-256 content hash of the CSV file.
 
 3. **Ground Truth (`groundtruth.json`):**
    - Stores component-level and parameter-level behavioral states, latent degradation labels, and true 168h drift values.
@@ -51,6 +51,6 @@ Deterministic regeneration is guaranteed when using the same random seed (`42`),
 
 ---
 
-## Next Steps
+## Current validation
 
-Phase 2 will provide the dedicated **Data Tester / Validation Pipeline** to automatically verify schema compliance, temporal ordering, and data quality gates.
+The repository includes validation modules under `src/data/validation/` and the CLI `scripts/run_data_tester.py`. Run `python3 scripts/run_data_tester.py --help` for the current options. Validation reports are generated under `reports/`; their counts describe the specific dataset/run and may change when data or rules change.

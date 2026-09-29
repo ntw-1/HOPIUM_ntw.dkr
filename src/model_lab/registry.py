@@ -152,3 +152,131 @@ def load_model(model_dir: str) -> dict:
         "uncertainty_artifacts": uncertainty_artifacts,
         "registry": registry,
     }
+
+
+ACTIVE_MODELS_FILENAME = "active_models.json"
+DEFAULT_ACTIVE_MODELS = {
+    "Iddq": "module_b_Iddq_v1",
+    "leakage_current": "module_b_leakage_current_v1",
+    "propagation_delay": "module_b_propagation_delay_v1",
+}
+
+
+def get_active_models(registry_dir: str) -> Dict[str, str]:
+    """
+    Get the mapping of active deployed models for each parameter.
+    If active_models.json is not present, initializes and returns defaults.
+    """
+    manifest_path = os.path.join(registry_dir, ACTIVE_MODELS_FILENAME)
+    if os.path.exists(manifest_path):
+        try:
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    # Fill any missing defaults
+                    res = DEFAULT_ACTIVE_MODELS.copy()
+                    res.update(data)
+                    return res
+        except Exception:
+            pass
+
+    # Initialize file if directory exists
+    if os.path.exists(registry_dir):
+        try:
+            with open(manifest_path, "w", encoding="utf-8") as f:
+                json.dump(DEFAULT_ACTIVE_MODELS, f, indent=2)
+                f.write("\n")
+        except Exception:
+            pass
+
+    return DEFAULT_ACTIVE_MODELS.copy()
+
+
+def get_active_model_id(registry_dir: str, parameter: str) -> str:
+    """Get the active model identifier for the given parameter."""
+    active = get_active_models(registry_dir)
+    return active.get(parameter, f"module_b_{parameter}_v1")
+
+
+def set_active_model_id(registry_dir: str, parameter: str, model_id: str) -> None:
+    """
+    Update the active deployed model identifier for a parameter.
+    Preserves other parameter mappings in active_models.json.
+    """
+    active = get_active_models(registry_dir)
+    active[parameter] = model_id
+    manifest_path = os.path.join(registry_dir, ACTIVE_MODELS_FILENAME)
+    os.makedirs(registry_dir, exist_ok=True)
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(active, f, indent=2)
+        f.write("\n")
+
+
+def list_model_versions(registry_dir: str, parameter: Optional[str] = None) -> List[Dict[str, Any]]:
+    """
+    List registered model versions and their metadata.
+    If parameter is specified, only returns versions for that parameter.
+    """
+    if not os.path.exists(registry_dir):
+        return []
+
+    active_map = get_active_models(registry_dir)
+    results = []
+
+    for item in sorted(os.listdir(registry_dir)):
+        item_path = os.path.join(registry_dir, item)
+        if not os.path.isdir(item_path):
+            continue
+        if not item.startswith("module_b_"):
+            continue
+
+        reg_path = os.path.join(item_path, "registry.json")
+        if not os.path.exists(reg_path):
+            continue
+
+        try:
+            with open(reg_path, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+
+            p = meta.get("parameter", "")
+            if parameter and p != parameter:
+                continue
+
+            model_id = meta.get("model_id", item)
+            is_active = (active_map.get(p) == model_id)
+
+            results.append({
+                "model_id": model_id,
+                "parameter": p,
+                "selected_model_class": meta.get("selected_model_class", "unknown"),
+                "winner_MAE_val": meta.get("winner_MAE_val"),
+                "selection_metric": meta.get("selection_metric", "MAE_val"),
+                "registered_at_utc": meta.get("registered_at_utc", ""),
+                "lab_version": meta.get("lab_version", ""),
+                "dataset_id": meta.get("dataset_id", ""),
+                "is_active": is_active,
+                "all_candidates_metrics": meta.get("all_candidates_metrics", {}),
+            })
+        except Exception:
+            continue
+
+    return results
+
+
+def get_next_version_id(registry_dir: str, parameter: str) -> str:
+    """
+    Determine the next sequential version string for a parameter (e.g. 'module_b_Iddq_v2').
+    """
+    versions = list_model_versions(registry_dir, parameter=parameter)
+    max_v = 1
+    prefix = f"module_b_{parameter}_v"
+    for v in versions:
+        m_id = v["model_id"]
+        if m_id.startswith(prefix):
+            try:
+                num = int(m_id[len(prefix):])
+                if num > max_v:
+                    max_v = num
+            except ValueError:
+                pass
+    return f"module_b_{parameter}_v{max_v + 1}"

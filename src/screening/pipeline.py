@@ -193,7 +193,17 @@ class ScreeningPipeline:
             )
         return self._risk_engine
 
+    @property
+    def risk_engine(self) -> DynamicRiskEngine:
+        """Accessor for the underlying DynamicRiskEngine."""
+        return self._get_risk_engine()
+
+    def reload_predictors(self) -> None:
+        """Reload predictors in underlying risk engine to reflect newly deployed models."""
+        self._get_risk_engine().reload_predictors()
+
     # ------------------------------------------------------------------
+
     # Public API
     # ------------------------------------------------------------------
 

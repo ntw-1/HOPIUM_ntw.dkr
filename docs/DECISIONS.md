@@ -28,7 +28,7 @@
 - **Status:** Approved
 - **Context:** Mixing official engineering spec limits with AI risk outputs creates confusion and regulatory risk.
 - **Decision:** Explicitly separate static Datasheet Specification Limits from Dynamic AI Risk Scores. Dynamic AI risk scores serve strictly as advisory evidence for engineering review.
-- **Consequences:** Preserves regulatory compliance while providing dynamic decision support.
+- **Consequences:** Keeps specification references separate from advisory model evidence. This does not establish standards compliance.
 
 ---
 
@@ -38,6 +38,8 @@
 - **Context:** Initial inputs are CSV files, but future production environments may require direct ATE integration.
 - **Decision:** Enforce an abstract `IDataSource` contract for data loading.
 - **Consequences:** Allows adding an `ATEDataSource` in future phases without altering downstream ML or risk modules.
+
+**Current implementation note (2026-09):** This ADR records the intended design; the current source uses file-based CSV loading and does not contain an `IDataSource` or `CSVDataSource` interface. See `docs/ARCHITECTURE.md` for the implemented architecture.
 
 ---
 
@@ -52,7 +54,7 @@
 
 - **Status:** Approved
 - **Context:** Previous ambiguity existed regarding whether predicting `Value_168h` strictly using only `Value_0h` and `Value_24h` was an internal architectural choice or an external requirement. 
-- **Decision:** Confirmed from the original SIH26170 problem statement supplied/reviewed by the team, the requirement that Module B must forecast `Value_168h` using *only* `Value_0h` and `Value_24h` is an external rule. `Value_96h` is explicitly forbidden as a Module B prediction input. However, Module A may use `Value_96h` for anomaly detection, and deterministic derived features (e.g. `delta_24_0`) remain permitted.
+- **Decision:** The Module B production feature constraint is `Value_0h`, `Value_24h`, and deterministic features derived only from those readings; `Value_96h` is forbidden as a prediction input. `delta_24_0` is permitted. The current Module A implementation also uses only `value_0h`, `value_24h`, and `delta_24_0`.
 - **Consequences:** This documents that the 0h/24h prediction bottleneck in Module B is a strict SIH requirement, and cannot be bypassed simply by feeding 96h telemetry to the regression model.
 
 ## ADR-007: Safety Slope Formulation vs Current Risk Logic
@@ -75,7 +77,7 @@
 
 ## ADR-009: Controlled Synthetic Generator V2
 
-- **Status:** Recommended (Under Review)
+- **Status:** Implemented for the V2 generator
 - **Context:** An audit of the V1 synthetic generator revealed fatal data construction flaws: `propagation_delay` latent cases were mathematically identical to nominal cases, and `hidden` degraders for Iddq/leakage were assigned exactly zero early drift, causing an unnatural 0h/24h overlap with negative nominal noise that could only be separated by an oracle. This led to a mathematically impossible regression benchmark.
 - **Decision:** A principled V2 generator (`v2.0.0-phase1`) was implemented. It preserves the V1 files, parameters, and timepoints, but introduces the `accelerating_v2` trajectory family. In V2, latent degradation is governed by a continuous stochastic `latent_strength`. This mechanism ensures that a component's ultimate 168h drift acceleration is causally linked to a proportional (and strictly non-zero) early drift at 24h. 
 - **Consequences:** 
@@ -83,3 +85,5 @@
   2. Hidden and subtle cases are now partially observable at 24h, producing realistic overlaps (e.g., Cohen's d of 0.2 to 0.3 for hidden cases) rather than mathematically forced invisibility. 
   3. The regression task is now solvable but remains non-trivial (due to nominal noise bounds).
 - **Recommendation:** Adopt V2 for future Module B evaluation. It corrects arbitrary unnatural simulation assumptions while faithfully adhering to the SIH prediction bottleneck, resulting in a significantly more defensible benchmark.
+
+**Current implementation note:** V2 generator and validation tooling are present. This is synthetic experimentation; it is not evidence of calibration to real operational telemetry.

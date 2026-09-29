@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-error":"#690005","surface-container":"#1c2028","on-background":"#dfe2ee","primary-fixed":"#dbe1ff","on-tertiary-fixed-variant":"#6900b3","primary-container":"#2563eb","surface-variant":"#31353e","on-secondary-fixed-variant":"#004c69","on-surface-variant":"#c3c6d7","inverse-on-surface":"#2c3039","on-tertiary":"#490080","error-container":"#93000a","background":"#0f131c","on-secondary-container":"#00374d","outline":"#8d90a0","on-secondary":"#00354a","secondary-fixed":"#c4e7ff","surface-container-high":"#262a33","primary":"#b4c5ff","surface-container-lowest":"#0a0e16","surface-bright":"#353942","surface-dim":"#0f131c","outline-variant":"#434655","on-primary-container":"#eeefff","secondary-fixed-dim":"#7bd0ff","surface-tint":"#b4c5ff","error":"#ffb4ab","surface":"#0f131c","secondary":"#7bd0ff","tertiary-fixed":"#f0dbff","surface-container-low":"#181c24","on-tertiary-fixed":"#2c0051","on-error-container":"#ffdad6","surface-container-highest":"#31353e","inverse-primary":"#0053db","tertiary-fixed-dim":"#ddb7ff","on-tertiary-container":"#faecff","tertiary-container":"#943fe2","on-secondary-fixed":"#001e2c","primary-fixed-dim":"#b4c5ff","secondary-container":"#00a6e0","inverse-surface":"#dfe2ee","on-primary-fixed-variant":"#003ea8","tertiary":"#ddb7ff","on-primary":"#002a78","on-surface":"#dfe2ee","on-primary-fixed":"#00174b"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-lg":"1rem","space-sm":"0.5rem","margin":"1rem","space-xl":"1.5rem","gutter":"1rem","space-md":"0.75rem","space-xs":"0.25rem"},"fontFamily":{"headline-lg":["Inter"],"headline-metric-mobile":["JetBrains Mono"],"body-default":["Inter"],"title-section":["Inter"],"body-mono":["JetBrains Mono"],"table-header":["Inter"],"badge-label":["Inter"],"code-telemetry":["JetBrains Mono"],"headline-metric":["JetBrains Mono"]},"fontSize":{"headline-lg":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"700"}],"headline-metric-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-default":["13px",{"lineHeight":"18px","letterSpacing":"0","fontWeight":"400"}],"title-section":["15px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-mono":["12px",{"lineHeight":"16px","letterSpacing":"0","fontWeight":"500"}],"table-header":["10px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"badge-label":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"600"}],"code-telemetry":["11px",{"lineHeight":"15px","letterSpacing":"0","fontWeight":"400"}],"headline-metric":["24px",{"lineHeight":"30px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-default text-body-default text-on-surface select-none antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-56 bg-surface-container-lowest border-r border-outline-variant/30 z-50 flex flex-col justify-between"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-14 px-space-md border-b border-outline-variant/30 flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm overflow-hidden"><img alt="Brand logo. - Primary color: #2563eb
+- Font: inter
+- Mode: dark
+- Roundness: rounded-sm
+" class="h-6 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VMrIp4WJczAcfyBk3RQ0wOHUTMlTyodToarnfOGVsTYTrHaAnYQo5-UthUyxcv5CZ64RQKt2vEAgseqQrZaXtF2ixe-mxMki39eAE_7cmxbnt0Nw8s70MFkDGqPjHyRdwmBcJuCjCIfqg-QqsLLLVDRy60pH8gJRhYzNjQj26uc-No5aLSPobUeLSmlY-oBBMlW3hlMyVRQnH_ANzEshHmvhzTvGEy0M0TTdcTtFA1Blz0B5oYDy_0QhI"/><div class="flex flex-col truncate"><span class="font-table-header text-table-header text-on-surface tracking-wider uppercase truncate">HOPIUM SIH26170</span><span class="font-code-telemetry text-code-telemetry text-secondary text-[10px] uppercase tracking-normal">ESS BURN-IN LAB</span></div></div><span class="flex h-2 w-2 relative flex-shrink-0"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span></div><div class="px-space-md py-space-sm"><div class="font-table-header text-table-header text-outline uppercase tracking-wider mb-space-xs">Operational Screening</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="command-center" href="#"><span class="material-symbols-outlined text-[16px]">terminal</span><span>Command Center</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="components" href="#"><span class="material-symbols-outlined text-[16px]">memory</span><span>Components</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="risk-analysis" href="#"><span class="material-symbols-outlined text-[16px]">query_stats</span><span>Risk Analysis</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="audit-export" href="#"><span class="material-symbols-outlined text-[16px]">assignment_turned_in</span><span>Audit / Export</span></a></nav></div><div class="px-space-md py-space-sm bg-surface-container-low/40 border-y border-outline-variant/20"><div class="flex items-center justify-between mb-space-xs"><span class="font-table-header text-table-header text-tertiary uppercase tracking-wider">Secondary Use</span><span class="font-code-telemetry text-[9px] px-1 py-0.2 rounded-sm bg-tertiary-container/30 text-tertiary border border-tertiary/30">MODULE</span></div><nav class="space-y-0.5" data-active-classes="bg-tertiary-container text-on-tertiary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="reuse-pool" href="#"><span class="material-symbols-outlined text-[16px]">recycling</span><span>Reuse Pool</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm transition-colors bg-tertiary-container text-on-tertiary-container font-semibold" data-path="recommendations" href="#"><span class="material-symbols-outlined text-[16px]">alt_route</span><span>Recommendations</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="repurposed-register" href="#"><span class="material-symbols-outlined text-[16px]">verified</span><span>Repurposed Register</span></a></nav></div><div class="px-space-md py-space-sm"><div class="font-table-header text-table-header text-outline uppercase tracking-wider mb-space-xs">Engineering Labs</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center justify-between px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="model-lab" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[16px]">science</span><span>Model Lab</span></div><span class="font-code-telemetry text-[9px] px-1 py-0.2 rounded-sm bg-secondary-container/20 text-secondary border border-secondary/30">RES</span></a><a class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-default text-body-default" data-path="data-validation" href="#"><span class="material-symbols-outlined text-[16px]">rule</span><span>Data Validation</span></a></nav></div></div><div class="p-space-md border-t border-outline-variant/30 bg-surface-container-lowest flex flex-col gap-space-sm"><div class="p-space-sm rounded-sm bg-surface-container-low border border-outline-variant/20 flex flex-col gap-0.5"><div class="flex items-center justify-between"><span class="font-table-header text-table-header text-outline uppercase">BRN-RUN</span><span class="font-code-telemetry text-[10px] text-secondary font-bold">20 LOTS</span></div><span class="font-code-telemetry text-code-telemetry text-on-surface truncate">dev_burnin_data</span><div class="w-full bg-surface-container-high h-1 rounded-sm mt-1 overflow-hidden"><div class="bg-secondary h-full w-[14.28%]"></div></div><div class="flex justify-between items-center text-[10px] font-code-telemetry text-on-surface-variant mt-0.5"><span>CP: 24h</span><span>TARGET: 168h</span></div></div><div class="flex flex-col gap-0.5 font-code-telemetry text-[10px] text-on-surface-variant border-t border-outline-variant/20 pt-space-xs"><div class="flex justify-between items-center"><span class="text-outline">STN:</span><span class="text-on-surface">STN-Aero4 // BAY-03</span></div><div class="flex justify-between items-center"><span class="text-outline">OPR:</span><span class="text-on-surface">E. Mercer [L3]</span></div><div class="flex justify-between items-center"><span class="text-outline">CLK:</span><span class="text-secondary">14:28:42 UTC</span></div></div></div></aside><div class="pl-56 flex flex-col min-h-screen"><header class="fixed top-0 left-56 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant/30 z-40 px-space-md flex items-center justify-between"><div class="flex items-center gap-space-md overflow-hidden"><div class="flex items-center gap-space-xs font-title-section text-title-section text-on-surface"><span class="material-symbols-outlined text-secondary text-[18px]">biotech</span><span class="tracking-wide text-xs uppercase text-on-surface font-semibold truncate">Secondary Use // Repurposing Workspace</span></div><span class="text-outline-variant">|</span><div class="flex items-center gap-1.5 px-2 py-0.5 rounded-sm bg-surface-container-low border border-outline-variant/20 font-code-telemetry text-code-telemetry text-on-surface-variant"><span class="material-symbols-outlined text-[13px] text-outline">description</span><span class="truncate">demo_burnin_data.csv</span></div><div class="hidden xl:flex items-center gap-1.5"><span class="px-2 py-0.5 rounded-sm bg-surface-container-low border border-outline-variant/20 font-code-telemetry text-code-telemetry text-secondary">INSPECTION: ACTIVE</span><span class="px-2 py-0.5 rounded-sm bg-surface-container-low border border-outline-variant/20 font-code-telemetry text-code-telemetry text-tertiary">HEURISTIC: ON</span></div></div><div class="flex items-center gap-space-md flex-shrink-0"><div class="flex items-center gap-1"><button class="h-8 w-8 flex items-center justify-center rounded-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">terminal</span></button><button class="h-8 w-8 relative flex items-center justify-center rounded-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-error"></span></button><button class="h-8 w-8 flex items-center justify-center rounded-sm bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">refresh</span></button></div><div class="flex items-center gap-space-sm pl-space-sm border-l border-outline-variant/30"><div class="flex flex-col text-right"><span class="font-table-header text-table-header text-on-surface">E. MERCER</span><span class="font-code-telemetry text-[9px] text-outline">ENG-OPS / L3</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-surface flex-1 min-h-[calc(100vh-3.5rem)]"><div class="flex flex-col w-full relative">
+<!-- Backdrop / Atmospheric Glow Accents -->
+<div class="absolute top-12 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-64 right-10 w-80 h-80 bg-secondary/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Main Viewport Workspace -->
+<div class="p-space-lg max-w-[1600px] w-full mx-auto flex flex-col gap-space-lg">
+<!-- Top Breadcrumb & Status Ribbon -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-xs font-code-telemetry text-code-telemetry text-outline">
+<span class="text-tertiary font-medium">SECONDARY USE</span>
+<span>/</span>
+<span class="text-on-surface">LOT_001_CMP_042</span>
+<span>/</span>
+<span class="text-outline">EVIDENCE REVIEW</span>
+<span>/</span>
+<span class="text-secondary font-semibold">GROUND INSTRUMENTATION</span>
+</div>
+<div class="flex items-center gap-space-md mt-0.5">
+<h1 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight">GROUND INSTRUMENTATION EVALUATION</h1>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-outline text-[11px] font-code-telemetry">
+<span class="material-symbols-outlined text-[13px] text-tertiary">biotech</span>
+<span>CCGA-624 MATRIX</span>
+</div>
+</div>
+<p class="font-body-default text-body-default text-on-surface-variant">Candidate Profile: High-Reliability Ground Support Equipment &amp; Station DAQ</p>
+</div>
+<!-- Status Flag + Action Tooling -->
+<div class="flex items-center gap-space-sm self-start lg:self-center">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-badge-label text-badge-label shadow-sm">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+<span class="tracking-wide uppercase text-secondary">CANDIDATE — ENGINEERING REVIEW REQUIRED</span>
+</div>
+<button class="h-8 px-3 rounded-lg bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-badge-label text-badge-label flex items-center gap-1.5 shadow-sm transition-all transform active:translate-y-px" id="triggerModalBtn">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>AUTHORIZE TRANSFER</span>
+</button>
+</div>
+</div>
+<!-- Mandatory Qualification Prototype Notice Box -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex items-start gap-space-md">
+<div class="h-8 w-8 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[18px]">info</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-table-header text-table-header uppercase text-secondary tracking-wider">PROTOTYPE APPLICATION PROTOCOL</span>
+<span class="font-code-telemetry text-[10px] text-outline">REF: GSE-QUAL-STD-2026.8</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface-variant leading-relaxed">
+          Requirements shown reflect illustrative ground support qualification parameters. Authorization transfers component custody from flight screening escrow to the Repurposed Register with continuous parameter logging.
+        </p>
+</div>
+</div>
+<!-- Central Two-Column Grid: Left (Evidence & Charts) + Right (Physical Telemetry Profile) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left Major Column: Evidence Matrix & Degradation Insights (8 Cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- Technical Verification Table -->
+<div class="rounded-xl bg-surface-container-lowest shadow-md overflow-hidden flex flex-col">
+<div class="h-10 px-space-md bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[16px]">rule_settings</span>
+<span class="font-table-header text-table-header text-on-surface uppercase tracking-wider">Requirement-vs-Evidence Technical Table</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-outline">6 VALIDATION CHANNELS</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/60 font-table-header text-table-header text-outline tracking-wider uppercase">
+<th class="py-2.5 px-space-md">Parameter / Requirement</th>
+<th class="py-2.5 px-space-md">Application Requirement</th>
+<th class="py-2.5 px-space-md text-right">Component Evidence</th>
+<th class="py-2.5 px-space-md text-center">Evaluation Status</th>
+<th class="py-2.5 px-space-md">Source Reference</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface font-body-default text-body-default">
+<!-- Row 1: Leakage Current -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Leakage Current (Iddq)</span>
+<span class="font-code-telemetry text-[11px] text-outline">Quiescent rail draw</span>
+</div>
+</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-on-surface-variant">≤ 15.0 µA</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-right text-secondary">
+                    8.2 µA <span class="text-outline text-[11px]">(proj. 28.88µA @ 168h)</span>
+</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary text-[11px] font-badge-label">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>PASS</span>
+</span>
+</td>
+<td class="py-3 px-space-md font-code-telemetry text-[11px] text-outline truncate max-w-[140px]">Prototype DAQ profile §4.1</td>
+</tr>
+<!-- Row 2: Propagation Delay -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Propagation Delay (t_pd)</span>
+<span class="font-code-telemetry text-[11px] text-outline">Critical path timing</span>
+</div>
+</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-on-surface-variant">≤ 200.0 ns</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-right text-secondary">
+                    125.0 ns <span class="text-outline text-[11px]">(nom 120.0ns)</span>
+</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary text-[11px] font-badge-label">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>PASS</span>
+</span>
+</td>
+<td class="py-3 px-space-md font-code-telemetry text-[11px] text-outline truncate max-w-[140px]">Prototype DAQ profile §4.3</td>
+</tr>
+<!-- Row 3: Operating Temperature -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Operating Temperature</span>
+<span class="font-code-telemetry text-[11px] text-outline">Junction baseline</span>
+</div>
+</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-on-surface-variant">-20°C to +70°C</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-right text-secondary">
+                    -20°C to +125°C <span class="text-outline text-[11px]">(Tested)</span>
+</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary text-[11px] font-badge-label">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>PASS</span>
+</span>
+</td>
+<td class="py-3 px-space-md font-code-telemetry text-[11px] text-outline truncate max-w-[140px]">ESS Run SIH26170</td>
+</tr>
+<!-- Row 4: Supply Voltage Tolerance -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Supply Voltage Tolerance</span>
+<span class="font-code-telemetry text-[11px] text-outline">Vdd dynamic rail</span>
+</div>
+</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-on-surface-variant">1.2V ± 10%</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-right text-secondary">
+                    1.08V – 1.32V <span class="text-outline text-[11px]">(under bias)</span>
+</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary text-[11px] font-badge-label">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>PASS</span>
+</span>
+</td>
+<td class="py-3 px-space-md font-code-telemetry text-[11px] text-outline truncate max-w-[140px]">ATE Initial Sweep</td>
+</tr>
+<!-- Row 5: Radiation Hardness -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Radiation Hardness (TID)</span>
+<span class="font-code-telemetry text-[11px] text-outline">Total ionizing dose</span>
+</div>
+</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-on-surface-variant">Non-critical (Ground ambient)</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-right text-outline">
+                    Waived <span class="text-[11px]">(Ground use)</span>
+</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-outline text-[11px] font-badge-label">
+<span class="material-symbols-outlined text-[12px]">shield</span>
+<span>WAIVED</span>
+</span>
+</td>
+<td class="py-3 px-space-md font-code-telemetry text-[11px] text-outline truncate max-w-[140px]">Environmental Scope</td>
+</tr>
+<!-- Row 6: Required Operational Lifetime (Unknown) -->
+<tr class="bg-surface-container-high/20 hover:bg-surface-container-high/50 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Required Operational Lifetime</span>
+<span class="font-code-telemetry text-[11px] text-outline">Continuous field MTBF</span>
+</div>
+</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-on-surface-variant">≥ 5,000 h</td>
+<td class="py-3 px-space-md font-body-mono text-body-mono text-right text-outline">
+                    UNAVAILABLE <span class="text-[11px]">(term @ 24h)</span>
+</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-highest text-secondary text-[11px] font-badge-label">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+<span>UNKNOWN</span>
+</span>
+</td>
+<td class="py-3 px-space-md font-code-telemetry text-[11px] text-outline truncate max-w-[140px]">No run log data</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Visual Signal & Arrhenius Thermal Extrapolation Chart -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- SVG Graph 1: Arrhenius Derating Curve -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[15px]">timeline</span>
+<span class="font-table-header text-table-header text-on-surface uppercase">Arrhenius Wearout Derating</span>
+</div>
+<span class="font-code-telemetry text-[10px] text-secondary">Ea = 0.7 eV</span>
+</div>
+<div class="h-44 w-full bg-surface-container-low rounded-lg p-2 relative flex flex-col justify-between overflow-hidden">
+<!-- Threshold Line Marker (Flight vs Ground) -->
+<div class="absolute top-8 left-0 right-0 h-px bg-error-container/40 flex items-center justify-end px-2">
+<span class="font-code-telemetry text-[9px] text-error">125°C FLIGHT LIMIT (168h RISK)</span>
+</div>
+<div class="absolute bottom-10 left-0 right-0 h-px bg-secondary-container/40 flex items-center justify-end px-2">
+<span class="font-code-telemetry text-[9px] text-secondary">45°C GROUND BENCH SAFE (&gt;18,000h)</span>
+</div>
+<!-- SVG Curve -->
+<svg class="w-full h-full text-secondary" preserveaspectratio="none" viewbox="0 0 320 120">
+<defs>
+<lineargradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="currentColor" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="currentColor" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="currentColor" stroke-dasharray="2,2" stroke-opacity="0.08" x1="20" x2="310" y1="20" y2="20"></line>
+<line stroke="currentColor" stroke-dasharray="2,2" stroke-opacity="0.08" x1="20" x2="310" y1="60" y2="60"></line>
+<line stroke="currentColor" stroke-dasharray="2,2" stroke-opacity="0.08" x1="20" x2="310" y1="100" y2="100"></line>
+<!-- Safe Area Polygon -->
+<polygon fill="url(#areaGrad)" points="20,105 50,92 90,82 140,75 190,70 240,48 290,25 290,110 20,110"></polygon>
+<!-- Derated Path Curve -->
+<path d="M 20,105 Q 120,80 190,70 T 290,25" fill="none" stroke="currentColor" stroke-width="2.5"></path>
+<!-- Actual Measured Point @ 24h -->
+<circle class="fill-surface" cx="50" cy="92" r="3.5" stroke="currentColor" stroke-width="2"></circle>
+<!-- Ground Derating Target Point -->
+<circle class="fill-secondary animate-pulse" cx="190" cy="70" r="4.5"></circle>
+</svg>
+<div class="flex justify-between font-code-telemetry text-[9px] text-outline pt-1">
+<span>0h (Baseline)</span>
+<span>24h (Term)</span>
+<span>72h (Mandatory Test)</span>
+<span>10,000h+ (Derived)</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-code-telemetry text-on-surface-variant">
+<span>Ground Rack Ambient: <strong class="text-on-surface">&lt;45°C</strong></span>
+<span class="text-secondary font-semibold">MTBF EST: 18,420h</span>
+</div>
+</div>
+<!-- SVG Graph 2: Parameter Drift Distribution -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[15px]">bar_chart</span>
+<span class="font-table-header text-table-header text-on-surface uppercase">Population Leakage vs Candidate</span>
+</div>
+<span class="font-code-telemetry text-[10px] text-outline">N = 2,400 UNITS</span>
+</div>
+<div class="h-44 w-full bg-surface-container-low rounded-lg p-2 relative flex flex-col justify-between">
+<svg class="w-full h-full text-tertiary" preserveaspectratio="none" viewbox="0 0 320 120">
+<!-- Bar Distribution -->
+<rect fill="currentColor" height="15" opacity="0.2" rx="1" width="16" x="25" y="95"></rect>
+<rect fill="currentColor" height="30" opacity="0.3" rx="1" width="16" x="47" y="80"></rect>
+<rect fill="currentColor" height="55" opacity="0.4" rx="1" width="16" x="69" y="55"></rect>
+<rect fill="currentColor" height="80" opacity="0.6" rx="1" width="16" x="91" y="30"></rect>
+<rect fill="currentColor" height="95" opacity="0.8" rx="1" width="16" x="113" y="15"></rect>
+<rect fill="currentColor" height="70" opacity="0.6" rx="1" width="16" x="135" y="40"></rect>
+<!-- Candidate Pinpoint Position (8.2uA in lower-mid tier) -->
+<rect class="fill-secondary" height="50" rx="1" width="16" x="157" y="60"></rect>
+<rect fill="currentColor" height="25" opacity="0.3" rx="1" width="16" x="179" y="85"></rect>
+<rect fill="currentColor" height="12" opacity="0.2" rx="1" width="16" x="201" y="98"></rect>
+<rect fill="currentColor" height="6" opacity="0.1" rx="1" width="16" x="223" y="104"></rect>
+<!-- Marker Flag for Unit 042 -->
+<line stroke="#7bd0ff" stroke-dasharray="2,2" stroke-width="1.5" x1="165" x2="165" y1="10" y2="58"></line>
+<circle cx="165" cy="10" fill="#7bd0ff" r="3"></circle>
+</svg>
+<div class="flex justify-between font-code-telemetry text-[9px] text-outline pt-1">
+<span>0 µA</span>
+<span class="text-secondary font-bold">CMP_042 (8.2 µA)</span>
+<span>DAQ Max (15.0 µA)</span>
+<span>Flight Rej (50 µA)</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-code-telemetry text-on-surface-variant">
+<span>Lot Percentile: <strong class="text-on-surface">62nd Percentile</strong></span>
+<span class="text-tertiary">DAQ Margin: 45.3%</span>
+</div>
+</div>
+</div>
+<!-- Recommendation Rationale & Qualification Callout Box -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">psychology</span>
+<span class="font-table-header text-table-header uppercase text-on-surface tracking-wider">Physics Rationale &amp; Qualification Protocol</span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-2">
+<div class="font-body-default text-body-default text-on-surface leading-relaxed">
+<strong class="text-secondary font-semibold">RATIONALE:</strong> Component electrical parameters demonstrate robust operating margin for ground station instrumentation. While rejected for flight due to projected 168h wearout trajectory under extreme 125°C flight bias, thermal dissipation in ground rack enclosures (&lt;45°C) yields an estimated MTBF exceeding 18,000h via Arrhenius derating.
+            </div>
+<div class="p-2.5 rounded-lg bg-surface-container-highest flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px] flex-shrink-0 mt-0.5">priority_high</span>
+<div class="font-code-telemetry text-code-telemetry text-on-surface-variant leading-snug">
+<strong class="text-on-surface uppercase font-bold">Mandatory Additional Qualification:</strong> Supplementary benchtop 72h burn-in at 50°C and power-on lifetime verification required prior to rack installation.
+              </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Component Physical Specs, Sensor Micro-feed & Target Bay (4 Cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- Component Card Visual with Realistic Laboratory Context -->
+<div class="rounded-xl bg-surface-container-lowest shadow-md overflow-hidden flex flex-col">
+<div class="relative h-44 w-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover opacity-75 mix-blend-luminosity hover:scale-105 transition-transform duration-500" data-alt="Microscopic electron microscope imagery of high reliability CCGA-624 ceramic column grid array integrated circuit component showing ceramic substrate and wire bond terminals under soft cyan laboratory lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmYqE2NLV_hNghSwE8Zg0wy0THkz4VqOnAN73OzqNX6JOi92vvJbOvIjztD1lGXL1Gi7MSL3FgAOvJyBuV-JpDFK8SfYyhgDSZE0iUQi4kIrz4bKnrnvAjE44RNX2DOjsJuw20DQqGT8cVc-oGjZH9Bz_0xYP2Lz9sw5gK7murGzAxdFICnS_bbhUpn6jRJCoAqhnzEjoiQNlctNMb3MdSE_Oino46jUAss03ssDqkwaXDNw0WImKb"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent"></div>
+<div class="absolute bottom-2.5 left-space-md right-space-md flex justify-between items-end">
+<div>
+<span class="font-code-telemetry text-[10px] text-secondary uppercase font-bold tracking-widest">QUALIFICATION SPECIMEN</span>
+<div class="font-headline-metric text-[18px] text-on-surface">LOT_001_CMP_042</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface text-[10px] font-code-telemetry">BAY-03 // CH-12</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="grid grid-cols-2 gap-2 font-code-telemetry text-code-telemetry">
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-[10px] text-outline">PACKAGE</span>
+<span class="text-on-surface font-semibold">CCGA-624</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-[10px] text-outline">SILICON REV</span>
+<span class="text-on-surface font-semibold">REV-C (GaAs)</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-[10px] text-outline">ORIGINAL RUN</span>
+<span class="text-on-surface font-semibold">SIH26170 (24h)</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-[10px] text-outline">PREVIOUS DISP</span>
+<span class="text-error font-semibold">FLIGHT REJECT</span>
+</div>
+</div>
+<!-- Target Ground Subsystem Card -->
+<div class="p-space-sm rounded-lg bg-surface-container-high flex flex-col gap-1.5 mt-1">
+<span class="font-table-header text-table-header text-secondary uppercase">ASSIGNED SECONDARY RECEPTOR</span>
+<div class="flex items-center justify-between">
+<span class="font-body-default text-body-default text-on-surface font-medium">Station DAQ Rack 02</span>
+<span class="font-code-telemetry text-[10px] text-outline">STN-DAQ-R02</span>
+</div>
+<p class="font-code-telemetry text-[11px] text-on-surface-variant">Ground Support Environmental Monitoring Cluster - Telemetry Ingestion Hub.</p>
+</div>
+</div>
+</div>
+<!-- Telemetry Audit Card -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-table-header text-table-header uppercase text-outline">Active Review Traceability</span>
+<span class="font-code-telemetry text-[10px] text-secondary">CHAIN-LOCK</span>
+</div>
+<div class="space-y-2 font-code-telemetry text-[11px]">
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low text-on-surface-variant">
+<span>Evaluating Officer:</span>
+<span class="text-on-surface font-semibold">Dr. E. Mercer (ENG-042)</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low text-on-surface-variant">
+<span>Station Bay:</span>
+<span class="text-on-surface font-semibold">STN-Aero4 // BAY-03</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low text-on-surface-variant">
+<span>Verification Token:</span>
+<span class="text-secondary font-mono">0x9F4A...B82E</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low text-on-surface-variant">
+<span>Flight Reject Retention:</span>
+<span class="text-outline font-semibold">IMMUTABLE (ARCHIVE)</span>
+</div>
+</div>
+<!-- Quick Modal Opener Button -->
+<button class="w-full mt-2 h-9 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-secondary font-badge-label text-badge-label flex items-center justify-center gap-2 transition-colors" id="openApprovalModalBottom">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+<span>REVIEW SIGN-OFF SPECIFICATIONS</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Engineer Approval Modal Dialog (Fixed Overlay) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm transition-opacity duration-200" id="approvalModal">
+<div class="relative w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+<!-- Modal Header -->
+<div class="px-space-md py-3 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="h-6 w-6 rounded bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+</div>
+<div class="flex flex-col">
+<span class="font-table-header text-table-header text-secondary uppercase tracking-widest">CUSTODY TRANSFER AUTHORIZATION</span>
+<h2 class="font-title-section text-title-section text-on-surface">APPROVE SECONDARY USE // CUSTODY TRANSFER</h2>
+</div>
+</div>
+<button class="h-7 w-7 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" id="closeModalCross">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable if compact screen) -->
+<div class="p-space-lg overflow-y-auto space-y-space-md flex-1">
+<!-- Spec Summary Ribbon -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-code-telemetry text-[11px]">
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-outline text-[10px]">COMPONENT</span>
+<span class="text-on-surface font-bold truncate">LOT_001_CMP_042</span>
+<span class="text-outline text-[9px]">CCGA-624</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-outline text-[10px]">DESTINATION</span>
+<span class="text-secondary font-bold truncate">Ground Support</span>
+<span class="text-outline text-[9px]">STN-DAQ-Rack-02</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-outline text-[10px]">ASSESSMENT</span>
+<span class="text-secondary font-bold">CANDIDATE</span>
+<span class="text-outline text-[9px]">4/5 Pass, 1 Derated</span>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex flex-col">
+<span class="text-outline text-[10px]">QUAL RISK</span>
+<span class="text-tertiary font-bold">CONTROLLED</span>
+<span class="text-outline text-[9px]">Requires 72h Bench</span>
+</div>
+</div>
+<!-- Evidence Checklist Mini-Matrix -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-[11px] font-table-header uppercase text-outline">
+<span>Known Measured Evidence Baseline</span>
+<span class="text-secondary">QUALIFIED</span>
+</div>
+<div class="grid grid-cols-3 gap-2 font-code-telemetry text-code-telemetry">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[14px]">check</span>
+<span>Iddq: 8.2 µA</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[14px]">check</span>
+<span>t_pd: 125.0 ns</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[14px]">check</span>
+<span>Temp: -20°..125°C</span>
+</div>
+</div>
+<div class="pt-1.5 flex items-start gap-1.5 text-[11px] font-code-telemetry text-tertiary">
+<span class="material-symbols-outlined text-[13px] flex-shrink-0 mt-0.5">info</span>
+<span>Mandate: Lifetime verification required before field deployment.</span>
+</div>
+</div>
+<!-- Reviewer Credentials Input -->
+<div class="flex flex-col gap-1">
+<label class="font-table-header text-table-header uppercase text-outline">Reviewer Engineer ID &amp; Credentials</label>
+<div class="relative">
+<input class="w-full h-8 px-3 rounded bg-surface-container-high text-on-surface font-code-telemetry text-code-telemetry outline-none cursor-default select-text" readonly="" type="text" value="ENG-042 (Dr. E. Mercer, L3 Senior Reliability Engineer)"/>
+<span class="absolute right-2.5 top-2 material-symbols-outlined text-secondary text-[14px]">lock</span>
+</div>
+</div>
+<!-- Decision Note Editable Area -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<label class="font-table-header text-table-header uppercase text-outline">Technical Sign-Off Justification Note</label>
+<span class="font-code-telemetry text-[10px] text-outline">SEC-LOG COMPLIANT</span>
+</div>
+<textarea class="w-full p-2.5 rounded bg-surface-container-high text-on-surface font-code-telemetry text-code-telemetry focus:ring-1 focus:ring-secondary outline-none resize-none leading-relaxed" rows="3">Approved for Ground Instrumentation DAQ rack under derated operating conditions (ambient &lt;45°C). Arrhenius derating compensates for elevated 125°C flight drift. Mandatory 72h bench qualification scheduled.</textarea>
+</div>
+<!-- Binding Flight Archive Legal Warning Notice -->
+<div class="p-space-sm rounded-lg bg-error-container/20 text-on-error-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-error text-[18px] flex-shrink-0 mt-0.5">gavel</span>
+<div class="font-code-telemetry text-[11px] leading-relaxed">
+<strong class="font-bold text-error uppercase">WARNING:</strong> Approval authorizes this component strictly for the designated secondary-use workflow. This action does <strong>NOT</strong> alter, overwrite, or delete the original screening <strong>REJECT</strong> record in the mission flight archive.
+          </div>
+</div>
+</div>
+<!-- Modal Action Bar Footer -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between gap-space-sm">
+<button class="h-8 px-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-badge-label text-badge-label transition-colors" id="cancelModalBtn">
+          CANCEL / RETURN
+        </button>
+<button class="h-8 px-4 rounded-lg bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-badge-label text-badge-label flex items-center gap-1.5 shadow-md transition-all transform active:translate-y-px" id="confirmTransferBtn">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>APPROVE SECONDARY USE &amp; TRANSFER</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const modal = document.getElementById('approvalModal');
+    const triggerModalBtn = document.getElementById('triggerModalBtn');
+    const openApprovalModalBottom = document.getElementById('openApprovalModalBottom');
+    const closeModalCross = document.getElementById('closeModalCross');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const confirmTransferBtn = document.getElementById('confirmTransferBtn');
+
+    function openModal() {
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    if (triggerModalBtn) triggerModalBtn.addEventListener('click', openModal);
+    if (openApprovalModalBottom) openApprovalModalBottom.addEventListener('click', openModal);
+    if (closeModalCross) closeModalCross.addEventListener('click', closeModal);
+    if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
+
+    if (confirmTransferBtn) {
+      confirmTransferBtn.addEventListener('click', function() {
+        confirmTransferBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>TRANSFERRING CUSTODY...</span>';
+        setTimeout(function() {
+          confirmTransferBtn.className = 'h-8 px-4 rounded-lg bg-surface-container-high text-secondary font-badge-label text-badge-label flex items-center gap-1.5';
+          confirmTransferBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">verified</span><span>TRANSFERRED TO REGISTER</span>';
+          setTimeout(closeModal, 700);
+        }, 800);
+      });
+    }
+
+    // Modal background click dismiss
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+    }
+  })();
+</script></main></div></body></html>
