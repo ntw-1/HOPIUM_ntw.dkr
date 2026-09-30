@@ -14,12 +14,12 @@
   ],
   "selected_model_class": "GradientBoostingRegressor",
   "selection_metric": "MAE_val",
-  "winner_MAE_val": 9.939228,
+  "winner_MAE_val": 10.065681,
   "all_candidates_val_MAE": {
     "DummyRegressor": 12.597477,
     "Ridge": 11.388916,
-    "RandomForestRegressor": 10.5124,
-    "GradientBoostingRegressor": 9.939228
+    "RandomForestRegressor": 10.508831,
+    "GradientBoostingRegressor": 10.065681
   },
   "all_candidates_metrics": {
     "DummyRegressor": {
@@ -35,20 +35,20 @@
       "MAPE_val": 0.600614
     },
     "RandomForestRegressor": {
-      "MAE_train": 10.760058,
-      "MAE_val": 10.5124,
-      "RMSE_val": 22.420793,
-      "MAPE_val": 0.570949
+      "MAE_train": 10.759417,
+      "MAE_val": 10.508831,
+      "RMSE_val": 22.418727,
+      "MAPE_val": 0.570701
     },
     "GradientBoostingRegressor": {
-      "MAE_train": 8.334685,
-      "MAE_val": 9.939228,
-      "RMSE_val": 22.663469,
-      "MAPE_val": 0.520133
+      "MAE_train": 8.423613,
+      "MAE_val": 10.065681,
+      "RMSE_val": 22.678674,
+      "MAPE_val": 0.525852
     }
   },
   "dataset_id": "dev_burnin_data_seed42_v2",
-  "dataset_sha256": "",
+  "dataset_sha256": "1544afc693605b9b5d50d0049cb60270d14e24d12ded778650ba093107feb633",
   "split_seed": 42,
   "train_lots": [
     "LOT_016",
@@ -78,7 +78,7 @@
   ],
   "blind_test_metrics": "DEFERRED — Phase 8 final evaluation only.",
   "uncertainty_method": "quantile_interval_envelope",
-  "registered_at_utc": "2026-09-27T15:51:28.291886+00:00",
+  "registered_at_utc": "2026-09-30T17:05:15.434308+00:00",
   "lab_version": "v1.0.0-phase3",
   "notes": "blind_lots_identity records which lots are locked for Phase 8. No predictions or metrics have been computed on blind lots in Phase 3."
 }

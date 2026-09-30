@@ -78,10 +78,10 @@ def main():
     print("==================================================================")
 
     if result.overall_status != "PASS":
-        print("\n❌ VALIDATION FAILED: Hard failures detected. Dataset BLOCKED from Phase 3.")
+        print("\nVALIDATION FAILED: Hard failures detected. Dataset BLOCKED from Phase 3.")
         sys.exit(1)
     else:
-        print("\n✅ VALIDATION PASSED: Dataset APPROVED for Phase 3 Model Lab.")
+        print("\nVALIDATION PASSED: Dataset APPROVED for Phase 3 Model Lab.")
         sys.exit(0)
 
 

@@ -4,7 +4,7 @@ HOPIUM is a prototype for AI-assisted anomaly detection and decision support dur
 
 HOPIUM is not a production screening system, certification system, or authorization to use a component. Its risk results and secondary-use recommendations support engineering review; engineers remain responsible for decisions.
 
-The datasets in this repository are synthetic. They are not real ISRO or industry data. Dataset reference limits are illustrative scenarios, not official component specifications. See [data/README.md](data/README.md).
+The datasets in this repository are synthetic. They are not real ISRO or industry data. Dataset reference limits are illustrative scenarios, not official component specifications. See [data/README.md](data/README.md). The optional `data/external/nasa_pcoe_derived_converted.csv` is derived from a legacy NASA PCoE baseline export, but its aging trajectories and labels were generated; it is not evidence of real-world model accuracy.
 
 ## Current screening workflow
 
@@ -146,6 +146,19 @@ python3 scripts/run_module_b_evaluation.py
 python3 scripts/run_model_lab.py
 python3 scripts/generate_v2.py
 ```
+
+To generate and train on the split-ready 10,000-component HOPIUM dataset without replacing the active screening models:
+
+```bash
+python3 scripts/generate_training_10k.py
+python3 scripts/run_data_tester.py --csv data/v2/training_10k_burnin_data.csv --output-dir reports/
+python3 scripts/run_model_lab.py --config configs/model_lab_10k_config.yaml
+python3 scripts/run_registered_evaluation.py --mode locked-blind
+```
+
+To retain the legacy SIH26170 wide exports in HOPIUM's long format, run `python3 scripts/import_sih26170_datasets.py`. These converted files have one and two lots respectively, so they are deliberately excluded from Model Lab selection.
+
+The NASA-derived converted file can be measured descriptively with `python3 scripts/run_registered_evaluation.py --mode external --csv data/external/nasa_pcoe_derived_converted.csv --output-prefix nasa_pcoe_derived_external_evaluation`. Its report is explicitly non-gating and must not be represented as real-world accuracy.
 
 The evaluation, training, and data generation scripts perform distinct operations. Review their arguments and configuration before using them on a dataset.
 

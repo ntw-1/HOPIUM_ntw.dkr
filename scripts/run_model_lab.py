@@ -17,6 +17,7 @@ Workflow:
     5. Print validation metrics summary and verification details.
 """
 
+import argparse
 import json
 import os
 import sys
@@ -55,7 +56,7 @@ def run_model_lab(config_path: str = "configs/model_lab_config.yaml") -> dict:
         with open(meta_path, "r", encoding="utf-8") as f:
             meta = json.load(f)
             dataset_id = meta.get("dataset_id", dataset_id)
-            dataset_sha256 = meta.get("sha256_hash", "")
+            dataset_sha256 = meta.get("content_hash_sha256", meta.get("sha256_hash", ""))
 
     df = pd.read_csv(csv_path)
 
@@ -185,4 +186,11 @@ def run_model_lab(config_path: str = "configs/model_lab_config.yaml") -> dict:
 
 
 if __name__ == "__main__":
-    run_model_lab()
+    parser = argparse.ArgumentParser(description="Run the HOPIUM Module B Model Lab.")
+    parser.add_argument(
+        "--config",
+        default="configs/model_lab_config.yaml",
+        help="Path to a Model Lab YAML configuration file.",
+    )
+    args = parser.parse_args()
+    run_model_lab(args.config)

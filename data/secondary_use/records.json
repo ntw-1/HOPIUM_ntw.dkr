@@ -1,0 +1,707 @@
+{
+  "assessments": [
+    {
+      "assessment_id": "956749ad-08d2-4c24-8da1-1d866a68b5aa",
+      "component_id": "LOT_001_CMP_0002",
+      "lot_id": "LOT_001",
+      "evidence_profile": {
+        "component_id": "LOT_001_CMP_0002",
+        "lot_id": "LOT_001",
+        "parameter_class": [
+          "Iddq",
+          "leakage_current",
+          "propagation_delay"
+        ],
+        "original_application": null,
+        "measurements": {
+          "Iddq": {
+            "unit": "uA",
+            "value_0h": 7.406895,
+            "value_24h": 7.461363,
+            "value_96h": 35.40599,
+            "value_168h": 166.326754,
+            "synthetic_spec_min": 0.0,
+            "synthetic_spec_max": 50.0
+          },
+          "leakage_current": {
+            "unit": "nA",
+            "value_0h": 3.656105,
+            "value_24h": 3.812957,
+            "value_96h": 9.135117,
+            "value_168h": 25.444069,
+            "synthetic_spec_min": 0.0,
+            "synthetic_spec_max": 30.0
+          },
+          "propagation_delay": {
+            "unit": "ps",
+            "value_0h": 190.600695,
+            "value_24h": 191.943075,
+            "value_96h": 191.902954,
+            "value_168h": 190.547261,
+            "synthetic_spec_min": 80.0,
+            "synthetic_spec_max": 180.0
+          }
+        },
+        "observed_behavior": {
+          "Iddq": {
+            "early_delta_24_0": 0.05446800000000085,
+            "observed_drift_168_0": 158.919859,
+            "reference_breach": true
+          },
+          "leakage_current": {
+            "early_delta_24_0": 0.15685199999999977,
+            "observed_drift_168_0": 21.787964,
+            "reference_breach": false
+          },
+          "propagation_delay": {
+            "early_delta_24_0": 1.3423799999999915,
+            "observed_drift_168_0": -0.053434000000009974,
+            "reference_breach": true
+          }
+        },
+        "module_a": {
+          "anomaly": true,
+          "classification": "STATE_D_POPULATION_ANOMALY_AND_SPEC_BREACH",
+          "score": 13.123210499888943
+        },
+        "module_b": {
+          "Iddq": {
+            "predicted_168h": 10.610382488651274,
+            "lower_bound_168h": 8.225059623311294,
+            "upper_bound_168h": 15.551593404344688,
+            "uncertainty_width": 7.326533781033394,
+            "uncertainty_method": "quantile_interval_envelope",
+            "risk": "LOW",
+            "module_a_anomaly": false,
+            "population_anomaly_score": 2.303527881402606
+          },
+          "leakage_current": {
+            "predicted_168h": 5.205166151693623,
+            "lower_bound_168h": 1.6588044244635705,
+            "upper_bound_168h": 8.751527878923676,
+            "uncertainty_width": 7.092723454460106,
+            "uncertainty_method": "residual_std",
+            "risk": "LOW",
+            "module_a_anomaly": false,
+            "population_anomaly_score": 2.467941760347554
+          },
+          "propagation_delay": {
+            "predicted_168h": 194.22370098617117,
+            "lower_bound_168h": 190.8080092315425,
+            "upper_bound_168h": 197.63939274079982,
+            "uncertainty_width": 6.831383509257307,
+            "uncertainty_method": "residual_std",
+            "risk": "HIGH",
+            "module_a_anomaly": true,
+            "population_anomaly_score": 13.123210499888943
+          }
+        },
+        "ai_risk": {
+          "available": true,
+          "ai_risk": "HIGH",
+          "module_a_anomaly": true,
+          "reference_breach": true,
+          "risk_reasons": [
+            "[HIGH] Observed measurement of propagation_delay breaches reference limit (spec_min=80.0, spec_max=180.0). value_0h=190.6, value_24h=191.9 [ps].",
+            "[HIGH] Module B predicts propagation_delay at 194.2 [ps] by 168h, crossing spec_max=180.",
+            "[HIGH] Module B 168h prediction upper bound (197.6 [ps]) crosses spec_max=180. Also population anomalous.",
+            "[MEDIUM] propagation_delay population anomaly score 13.123 >= strong threshold 6.0."
+          ]
+        },
+        "screening_history": {
+          "conditions": null,
+          "duration_hours": null,
+          "test_environment": null,
+          "status": "unavailable in source record"
+        },
+        "original_disposition": {
+          "ai_recommendation": "HIGH RISK \u2014 observed measurement currently breaches reference limits. Immediate engineering review required.",
+          "engineer_decision": "REJECT",
+          "rejection_reason": "[HIGH] Observed measurement of propagation_delay breaches reference limit (spec_min=80.0, spec_max=180.0). value_0h=190.6, value_24h=191.9 [ps].. [HIGH] Module B predicts propagation_delay at 194.2 [ps] by 168h, crossing spec_max=180.. [HIGH] Module B 168h prediction upper bound (197.6 [ps]) crosses spec_max=180. Also population anomalous.. [MEDIUM] propagation_delay population anomaly score 13.123 >= strong threshold 6.0.",
+          "timestamp_utc": "2026-09-30T17:08:10.168602+00:00"
+        },
+        "evidence_references": [
+          "screening:LOT_001:LOT_001_CMP_0002",
+          "audit:session_sih26170:2026-09-30T17:08:10.168602+00:00"
+        ]
+      },
+      "recommendation": {
+        "provider": "rule-based",
+        "version": "rule-based-v1",
+        "generated_at": "2026-09-30T17:08:25.695104+00:00",
+        "evidence_references": [
+          "screening:LOT_001:LOT_001_CMP_0002",
+          "audit:session_sih26170:2026-09-30T17:08:10.168602+00:00"
+        ],
+        "recommendations": [
+          {
+            "application_id": "high_criticality_electronics",
+            "application_name": "High-Criticality Electronics",
+            "compatibility_status": "INSUFFICIENT_EVIDENCE",
+            "requirements": [
+              {
+                "requirement_id": "lifetime_evidence_required",
+                "status": "UNKNOWN",
+                "observed_value": null,
+                "requirement": {
+                  "id": "lifetime_evidence_required",
+                  "parameter": null,
+                  "evidence_field": null,
+                  "minimum": 1000,
+                  "unit": "hours",
+                  "source": "prototype evidence requirement",
+                  "confidence": "low",
+                  "status": "prototype; lifetime evidence unavailable"
+                },
+                "reason": "evidence unavailable"
+              }
+            ],
+            "missing_evidence": [
+              "lifetime_evidence_required"
+            ],
+            "additional_testing_required": true,
+            "rationale": "Potential application cannot be assessed because required evidence is missing."
+          },
+          {
+            "application_id": "commercial_electronics",
+            "application_name": "Commercial Electronics",
+            "compatibility_status": "INCOMPATIBLE",
+            "requirements": [
+              {
+                "requirement_id": "leakage_current_max",
+                "status": "FAIL",
+                "observed_value": 25.444069,
+                "requirement": {
+                  "id": "leakage_current_max",
+                  "parameter": "leakage_current",
+                  "evidence_field": "value_168h",
+                  "maximum": 20.0,
+                  "unit": "nA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              },
+              {
+                "requirement_id": "propagation_delay_max",
+                "status": "FAIL",
+                "observed_value": 190.547261,
+                "requirement": {
+                  "id": "propagation_delay_max",
+                  "parameter": "propagation_delay",
+                  "evidence_field": "value_168h",
+                  "maximum": 170.0,
+                  "unit": "ps",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              }
+            ],
+            "missing_evidence": [],
+            "additional_testing_required": true,
+            "rationale": "At least one available measurement conflicts with the profile."
+          },
+          {
+            "application_id": "educational_development_hardware",
+            "application_name": "Educational / Development Hardware",
+            "compatibility_status": "INCOMPATIBLE",
+            "requirements": [
+              {
+                "requirement_id": "propagation_delay_max",
+                "status": "FAIL",
+                "observed_value": 190.547261,
+                "requirement": {
+                  "id": "propagation_delay_max",
+                  "parameter": "propagation_delay",
+                  "evidence_field": "value_168h",
+                  "maximum": 180.0,
+                  "unit": "ps",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              },
+              {
+                "requirement_id": "leakage_current_max",
+                "status": "PASS",
+                "observed_value": 25.444069,
+                "requirement": {
+                  "id": "leakage_current_max",
+                  "parameter": "leakage_current",
+                  "evidence_field": "value_168h",
+                  "maximum": 30.0,
+                  "unit": "nA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "meets illustrative requirement"
+              }
+            ],
+            "missing_evidence": [],
+            "additional_testing_required": true,
+            "rationale": "At least one available measurement conflicts with the profile."
+          },
+          {
+            "application_id": "ground_test_equipment",
+            "application_name": "Ground-Test Equipment",
+            "compatibility_status": "INCOMPATIBLE",
+            "requirements": [
+              {
+                "requirement_id": "iddq_max",
+                "status": "FAIL",
+                "observed_value": 166.326754,
+                "requirement": {
+                  "id": "iddq_max",
+                  "parameter": "Iddq",
+                  "evidence_field": "value_168h",
+                  "maximum": 40.0,
+                  "unit": "uA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              },
+              {
+                "requirement_id": "propagation_delay_max",
+                "status": "FAIL",
+                "observed_value": 190.547261,
+                "requirement": {
+                  "id": "propagation_delay_max",
+                  "parameter": "propagation_delay",
+                  "evidence_field": "value_168h",
+                  "maximum": 160.0,
+                  "unit": "ps",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              }
+            ],
+            "missing_evidence": [],
+            "additional_testing_required": true,
+            "rationale": "At least one available measurement conflicts with the profile."
+          },
+          {
+            "application_id": "industrial_instrumentation",
+            "application_name": "Industrial Instrumentation",
+            "compatibility_status": "INCOMPATIBLE",
+            "requirements": [
+              {
+                "requirement_id": "leakage_current_max",
+                "status": "FAIL",
+                "observed_value": 25.444069,
+                "requirement": {
+                  "id": "leakage_current_max",
+                  "parameter": "leakage_current",
+                  "evidence_field": "value_168h",
+                  "maximum": 12.0,
+                  "unit": "nA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              },
+              {
+                "requirement_id": "propagation_delay_max",
+                "status": "FAIL",
+                "observed_value": 190.547261,
+                "requirement": {
+                  "id": "propagation_delay_max",
+                  "parameter": "propagation_delay",
+                  "evidence_field": "value_168h",
+                  "maximum": 150.0,
+                  "unit": "ps",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              }
+            ],
+            "missing_evidence": [],
+            "additional_testing_required": true,
+            "rationale": "At least one available measurement conflicts with the profile."
+          },
+          {
+            "application_id": "legacy_equipment_maintenance",
+            "application_name": "Legacy Equipment Maintenance",
+            "compatibility_status": "INCOMPATIBLE",
+            "requirements": [
+              {
+                "requirement_id": "iddq_max",
+                "status": "FAIL",
+                "observed_value": 166.326754,
+                "requirement": {
+                  "id": "iddq_max",
+                  "parameter": "Iddq",
+                  "evidence_field": "value_168h",
+                  "maximum": 45.0,
+                  "unit": "uA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              },
+              {
+                "requirement_id": "propagation_delay_max",
+                "status": "FAIL",
+                "observed_value": 190.547261,
+                "requirement": {
+                  "id": "propagation_delay_max",
+                  "parameter": "propagation_delay",
+                  "evidence_field": "value_168h",
+                  "maximum": 175.0,
+                  "unit": "ps",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              }
+            ],
+            "missing_evidence": [],
+            "additional_testing_required": true,
+            "rationale": "At least one available measurement conflicts with the profile."
+          },
+          {
+            "application_id": "noncritical_monitoring",
+            "application_name": "Non-Critical Monitoring",
+            "compatibility_status": "INCOMPATIBLE",
+            "requirements": [
+              {
+                "requirement_id": "leakage_current_max",
+                "status": "FAIL",
+                "observed_value": 25.444069,
+                "requirement": {
+                  "id": "leakage_current_max",
+                  "parameter": "leakage_current",
+                  "evidence_field": "value_168h",
+                  "maximum": 25.0,
+                  "unit": "nA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              },
+              {
+                "requirement_id": "iddq_max",
+                "status": "FAIL",
+                "observed_value": 166.326754,
+                "requirement": {
+                  "id": "iddq_max",
+                  "parameter": "Iddq",
+                  "evidence_field": "value_168h",
+                  "maximum": 48.0,
+                  "unit": "uA",
+                  "source": "prototype illustrative profile",
+                  "confidence": "low",
+                  "status": "prototype"
+                },
+                "reason": "exceeds illustrative requirement"
+              }
+            ],
+            "missing_evidence": [],
+            "additional_testing_required": true,
+            "rationale": "At least one available measurement conflicts with the profile."
+          }
+        ]
+      },
+      "recommendations": [
+        {
+          "application_id": "high_criticality_electronics",
+          "application_name": "High-Criticality Electronics",
+          "compatibility_status": "INSUFFICIENT_EVIDENCE",
+          "requirements": [
+            {
+              "requirement_id": "lifetime_evidence_required",
+              "status": "UNKNOWN",
+              "observed_value": null,
+              "requirement": {
+                "id": "lifetime_evidence_required",
+                "parameter": null,
+                "evidence_field": null,
+                "minimum": 1000,
+                "unit": "hours",
+                "source": "prototype evidence requirement",
+                "confidence": "low",
+                "status": "prototype; lifetime evidence unavailable"
+              },
+              "reason": "evidence unavailable"
+            }
+          ],
+          "missing_evidence": [
+            "lifetime_evidence_required"
+          ],
+          "additional_testing_required": true,
+          "rationale": "Potential application cannot be assessed because required evidence is missing."
+        },
+        {
+          "application_id": "commercial_electronics",
+          "application_name": "Commercial Electronics",
+          "compatibility_status": "INCOMPATIBLE",
+          "requirements": [
+            {
+              "requirement_id": "leakage_current_max",
+              "status": "FAIL",
+              "observed_value": 25.444069,
+              "requirement": {
+                "id": "leakage_current_max",
+                "parameter": "leakage_current",
+                "evidence_field": "value_168h",
+                "maximum": 20.0,
+                "unit": "nA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            },
+            {
+              "requirement_id": "propagation_delay_max",
+              "status": "FAIL",
+              "observed_value": 190.547261,
+              "requirement": {
+                "id": "propagation_delay_max",
+                "parameter": "propagation_delay",
+                "evidence_field": "value_168h",
+                "maximum": 170.0,
+                "unit": "ps",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            }
+          ],
+          "missing_evidence": [],
+          "additional_testing_required": true,
+          "rationale": "At least one available measurement conflicts with the profile."
+        },
+        {
+          "application_id": "educational_development_hardware",
+          "application_name": "Educational / Development Hardware",
+          "compatibility_status": "INCOMPATIBLE",
+          "requirements": [
+            {
+              "requirement_id": "propagation_delay_max",
+              "status": "FAIL",
+              "observed_value": 190.547261,
+              "requirement": {
+                "id": "propagation_delay_max",
+                "parameter": "propagation_delay",
+                "evidence_field": "value_168h",
+                "maximum": 180.0,
+                "unit": "ps",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            },
+            {
+              "requirement_id": "leakage_current_max",
+              "status": "PASS",
+              "observed_value": 25.444069,
+              "requirement": {
+                "id": "leakage_current_max",
+                "parameter": "leakage_current",
+                "evidence_field": "value_168h",
+                "maximum": 30.0,
+                "unit": "nA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "meets illustrative requirement"
+            }
+          ],
+          "missing_evidence": [],
+          "additional_testing_required": true,
+          "rationale": "At least one available measurement conflicts with the profile."
+        },
+        {
+          "application_id": "ground_test_equipment",
+          "application_name": "Ground-Test Equipment",
+          "compatibility_status": "INCOMPATIBLE",
+          "requirements": [
+            {
+              "requirement_id": "iddq_max",
+              "status": "FAIL",
+              "observed_value": 166.326754,
+              "requirement": {
+                "id": "iddq_max",
+                "parameter": "Iddq",
+                "evidence_field": "value_168h",
+                "maximum": 40.0,
+                "unit": "uA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            },
+            {
+              "requirement_id": "propagation_delay_max",
+              "status": "FAIL",
+              "observed_value": 190.547261,
+              "requirement": {
+                "id": "propagation_delay_max",
+                "parameter": "propagation_delay",
+                "evidence_field": "value_168h",
+                "maximum": 160.0,
+                "unit": "ps",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            }
+          ],
+          "missing_evidence": [],
+          "additional_testing_required": true,
+          "rationale": "At least one available measurement conflicts with the profile."
+        },
+        {
+          "application_id": "industrial_instrumentation",
+          "application_name": "Industrial Instrumentation",
+          "compatibility_status": "INCOMPATIBLE",
+          "requirements": [
+            {
+              "requirement_id": "leakage_current_max",
+              "status": "FAIL",
+              "observed_value": 25.444069,
+              "requirement": {
+                "id": "leakage_current_max",
+                "parameter": "leakage_current",
+                "evidence_field": "value_168h",
+                "maximum": 12.0,
+                "unit": "nA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            },
+            {
+              "requirement_id": "propagation_delay_max",
+              "status": "FAIL",
+              "observed_value": 190.547261,
+              "requirement": {
+                "id": "propagation_delay_max",
+                "parameter": "propagation_delay",
+                "evidence_field": "value_168h",
+                "maximum": 150.0,
+                "unit": "ps",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            }
+          ],
+          "missing_evidence": [],
+          "additional_testing_required": true,
+          "rationale": "At least one available measurement conflicts with the profile."
+        },
+        {
+          "application_id": "legacy_equipment_maintenance",
+          "application_name": "Legacy Equipment Maintenance",
+          "compatibility_status": "INCOMPATIBLE",
+          "requirements": [
+            {
+              "requirement_id": "iddq_max",
+              "status": "FAIL",
+              "observed_value": 166.326754,
+              "requirement": {
+                "id": "iddq_max",
+                "parameter": "Iddq",
+                "evidence_field": "value_168h",
+                "maximum": 45.0,
+                "unit": "uA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            },
+            {
+              "requirement_id": "propagation_delay_max",
+              "status": "FAIL",
+              "observed_value": 190.547261,
+              "requirement": {
+                "id": "propagation_delay_max",
+                "parameter": "propagation_delay",
+                "evidence_field": "value_168h",
+                "maximum": 175.0,
+                "unit": "ps",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            }
+          ],
+          "missing_evidence": [],
+          "additional_testing_required": true,
+          "rationale": "At least one available measurement conflicts with the profile."
+        },
+        {
+          "application_id": "noncritical_monitoring",
+          "application_name": "Non-Critical Monitoring",
+          "compatibility_status": "INCOMPATIBLE",
+          "requirements": [
+            {
+              "requirement_id": "leakage_current_max",
+              "status": "FAIL",
+              "observed_value": 25.444069,
+              "requirement": {
+                "id": "leakage_current_max",
+                "parameter": "leakage_current",
+                "evidence_field": "value_168h",
+                "maximum": 25.0,
+                "unit": "nA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            },
+            {
+              "requirement_id": "iddq_max",
+              "status": "FAIL",
+              "observed_value": 166.326754,
+              "requirement": {
+                "id": "iddq_max",
+                "parameter": "Iddq",
+                "evidence_field": "value_168h",
+                "maximum": 48.0,
+                "unit": "uA",
+                "source": "prototype illustrative profile",
+                "confidence": "low",
+                "status": "prototype"
+              },
+              "reason": "exceeds illustrative requirement"
+            }
+          ],
+          "missing_evidence": [],
+          "additional_testing_required": true,
+          "rationale": "At least one available measurement conflicts with the profile."
+        }
+      ],
+      "created_at": "2026-09-30T17:08:25.695104+00:00",
+      "engineer_decisions": []
+    }
+  ],
+  "audit": [],
+  "register": []
+}

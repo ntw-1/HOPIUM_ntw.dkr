@@ -1,0 +1,45 @@
+# Isolated training configuration for the HOPIUM-native 10,000-component dataset.
+# Artifacts written here are candidates only; they do not change the active screening models.
+model_lab_config:
+  lab_version: "v1.1.0-10k-training"
+  dataset:
+    csv_path: "data/v2/training_10k_burnin_data.csv"
+    meta_path: "data/v2/training_10k_burnin_data.meta.json"
+  parameters:
+    - Iddq
+    - leakage_current
+    - propagation_delay
+  production_features:
+    - value_0h
+    - value_24h
+    - delta_24_0
+  target_column: value_168h
+  split:
+    seed: 42
+    train_frac: 0.60
+    val_frac: 0.20
+    blind_frac: 0.20
+    split_output_path: "models/registered/training_10k/split_info.json"
+  registry:
+    output_dir: "models/registered/training_10k"
+  random_seed: 42
+  candidates:
+    Ridge:
+      alpha: 1.0
+    RandomForestRegressor:
+      n_estimators: 100
+      max_depth: 5
+      min_samples_leaf: 3
+    GradientBoostingRegressor:
+      n_estimators: 100
+      max_depth: 3
+      learning_rate: 0.1
+      subsample: 0.8
+    DummyRegressor:
+      strategy: "mean"
+  uncertainty:
+    quantile_lo: 0.10
+    quantile_hi: 0.90
+    rf_uncertainty_method: "tree_std"
+    ridge_uncertainty_method: "residual_std"
+    dummy_uncertainty_method: "target_std"

@@ -3356,7 +3356,7 @@
     {
       "component_id": "LOT_001_CMP_0024",
       "parameter_name": "leakage_current",
-      "true_value_168h": 5.139000955929095,
+      "true_value_168h": 5.139000955929094,
       "true_drift_168h": 0.4156766782498931,
       "is_parameter_anomalous": true,
       "parameter_anomaly_severity": "strong"
@@ -4044,8 +4044,8 @@
     {
       "component_id": "LOT_002_CMP_0003",
       "parameter_name": "Iddq",
-      "true_value_168h": 112.6578593039714,
-      "true_drift_168h": 100.53222643798472,
+      "true_value_168h": 112.65785930397142,
+      "true_drift_168h": 100.53222643798473,
       "is_parameter_anomalous": true,
       "parameter_anomaly_severity": "mild"
     },
@@ -4060,8 +4060,8 @@
     {
       "component_id": "LOT_002_CMP_0003",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 133.3035810788347,
-      "true_drift_168h": 16.45060240423024,
+      "true_value_168h": 133.30358107883467,
+      "true_drift_168h": 16.45060240423021,
       "is_parameter_anomalous": true,
       "parameter_anomaly_severity": "mild"
     },
@@ -4508,8 +4508,8 @@
     {
       "component_id": "LOT_002_CMP_0022",
       "parameter_name": "leakage_current",
-      "true_value_168h": 11.040929096160319,
-      "true_drift_168h": 5.321651351760132,
+      "true_value_168h": 11.040929096160317,
+      "true_drift_168h": 5.3216513517601305,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
     },
@@ -5100,8 +5100,8 @@
     {
       "component_id": "LOT_002_CMP_0047",
       "parameter_name": "Iddq",
-      "true_value_168h": 13.944624391455255,
-      "true_drift_168h": 1.9651263750674879,
+      "true_value_168h": 13.944624391455257,
+      "true_drift_168h": 1.9651263750674897,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
     },
@@ -5188,7 +5188,7 @@
     {
       "component_id": "LOT_002_CMP_0050",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 139.91603038833722,
+      "true_value_168h": 139.91603038833725,
       "true_drift_168h": 1.1437510458874272,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -5380,7 +5380,7 @@
     {
       "component_id": "LOT_003_CMP_0008",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 138.0308026702312,
+      "true_value_168h": 138.03080267023122,
       "true_drift_168h": 3.1794033626428586,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -5716,7 +5716,7 @@
     {
       "component_id": "LOT_003_CMP_0022",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 117.96989125217577,
+      "true_value_168h": 117.96989125217576,
       "true_drift_168h": 1.4406380376682506,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -5756,7 +5756,7 @@
     {
       "component_id": "LOT_003_CMP_0024",
       "parameter_name": "leakage_current",
-      "true_value_168h": 5.468498634936588,
+      "true_value_168h": 5.468498634936589,
       "true_drift_168h": 0.27781249445810374,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -5853,14 +5853,14 @@
       "component_id": "LOT_003_CMP_0028",
       "parameter_name": "leakage_current",
       "true_value_168h": 4.281636349089913,
-      "true_drift_168h": 0.40455159882153824,
+      "true_drift_168h": 0.4045515988215387,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
     },
     {
       "component_id": "LOT_003_CMP_0028",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 116.17560849294534,
+      "true_value_168h": 116.17560849294533,
       "true_drift_168h": 1.4389283762224778,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -5956,7 +5956,7 @@
     {
       "component_id": "LOT_003_CMP_0032",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 117.16514692770954,
+      "true_value_168h": 117.16514692770953,
       "true_drift_168h": 3.1023745034731576,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -6396,8 +6396,8 @@
     {
       "component_id": "LOT_004_CMP_0001",
       "parameter_name": "Iddq",
-      "true_value_168h": 128.22308882350762,
-      "true_drift_168h": 117.9544638056347,
+      "true_value_168h": 128.22308882350765,
+      "true_drift_168h": 117.95446380563473,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
     },
@@ -6484,7 +6484,7 @@
     {
       "component_id": "LOT_004_CMP_0004",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 128.23701785282526,
+      "true_value_168h": 128.2370178528253,
       "true_drift_168h": -0.5251360457408509,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -6700,7 +6700,7 @@
     {
       "component_id": "LOT_004_CMP_0013",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 118.42587303257149,
+      "true_value_168h": 118.42587303257147,
       "true_drift_168h": 1.2496508292641693,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -7084,7 +7084,7 @@
     {
       "component_id": "LOT_004_CMP_0029",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 112.39687763853672,
+      "true_value_168h": 112.39687763853671,
       "true_drift_168h": 1.9914657705659522,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -7676,8 +7676,8 @@
     {
       "component_id": "LOT_005_CMP_0004",
       "parameter_name": "leakage_current",
-      "true_value_168h": 8.023434415422592,
-      "true_drift_168h": 2.0733228415766973,
+      "true_value_168h": 8.02343441542259,
+      "true_drift_168h": 2.0733228415766964,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
     },
@@ -7828,7 +7828,7 @@
     {
       "component_id": "LOT_005_CMP_0010",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 124.22640736540657,
+      "true_value_168h": 124.22640736540659,
       "true_drift_168h": 0.5975972073335356,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -8164,7 +8164,7 @@
     {
       "component_id": "LOT_005_CMP_0024",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 126.06543971919287,
+      "true_value_168h": 126.06543971919288,
       "true_drift_168h": 3.387790455035855,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -8540,8 +8540,8 @@
     {
       "component_id": "LOT_005_CMP_0040",
       "parameter_name": "leakage_current",
-      "true_value_168h": 9.202181568898146,
-      "true_drift_168h": 4.333650387169322,
+      "true_value_168h": 9.202181568898148,
+      "true_drift_168h": 4.333650387169324,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
     },
@@ -8644,7 +8644,7 @@
     {
       "component_id": "LOT_005_CMP_0044",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 112.68074673813744,
+      "true_value_168h": 112.68074673813743,
       "true_drift_168h": -0.8262452664808961,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null
@@ -8764,7 +8764,7 @@
     {
       "component_id": "LOT_005_CMP_0049",
       "parameter_name": "propagation_delay",
-      "true_value_168h": 127.51990777549727,
+      "true_value_168h": 127.51990777549729,
       "true_drift_168h": 0.623049287092158,
       "is_parameter_anomalous": false,
       "parameter_anomaly_severity": null

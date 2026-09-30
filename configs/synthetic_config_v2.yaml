@@ -15,6 +15,10 @@ synthetic_generator_config:
   # not scientifically mandated sample sizes.
   # -------------------------------------------------------
   dataset_sizes:
+    # Large, split-ready Model Lab training dataset: 100 lots x 100 components.
+    training_10k:
+      num_lots: 100
+      components_per_lot: 100
     dev:
       num_lots: 20
       components_per_lot: 100

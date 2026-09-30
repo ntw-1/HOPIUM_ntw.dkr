@@ -1,0 +1,60 @@
+{
+  "evaluation_type": "final_locked_blind_test",
+  "dataset_csv": "data/v2/training_10k_burnin_data.csv",
+  "evaluated_lots": [
+    "LOT_050",
+    "LOT_007",
+    "LOT_091",
+    "LOT_012",
+    "LOT_086",
+    "LOT_042",
+    "LOT_023",
+    "LOT_020",
+    "LOT_036",
+    "LOT_065",
+    "LOT_048",
+    "LOT_013",
+    "LOT_054",
+    "LOT_015",
+    "LOT_014",
+    "LOT_067",
+    "LOT_037",
+    "LOT_066",
+    "LOT_078",
+    "LOT_009"
+  ],
+  "selection_status": "Blind lots unsealed only for this final evaluation; no retraining or reselection occurred.",
+  "interpretation": "These are final held-out synthetic test metrics for the registered candidate artifacts. They are not evidence of real-world performance.",
+  "parameters": {
+    "Iddq": {
+      "model_id": "module_b_Iddq_v1",
+      "sample_count": 2000,
+      "lot_count": 20,
+      "metrics": {
+        "MAE": 11.086591,
+        "RMSE": 23.61065,
+        "R2": 0.115831
+      }
+    },
+    "leakage_current": {
+      "model_id": "module_b_leakage_current_v1",
+      "sample_count": 2000,
+      "lot_count": 20,
+      "metrics": {
+        "MAE": 1.58175,
+        "RMSE": 3.603238,
+        "R2": 0.468124
+      }
+    },
+    "propagation_delay": {
+      "model_id": "module_b_propagation_delay_v1",
+      "sample_count": 2000,
+      "lot_count": 20,
+      "metrics": {
+        "MAE": 1.705865,
+        "RMSE": 3.415342,
+        "R2": 0.912747
+      }
+    }
+  }
+}
