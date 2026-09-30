@@ -3258,7 +3258,7 @@
         let selectedDecision = "REJECT";
 
         // No local sample audit decisions are presented as actual backend records.
-        let localAuditRecords = [];
+        let localAuditRecords = [
             {
                 timestamp_utc: "2026-09-28T10:42:18Z",
                 component_id: "LOT_001_CMP_0002",
@@ -3471,6 +3471,11 @@
             if (!screeningData || !screeningData.lots) return;
 
             const lotsKeys = Object.keys(screeningData.lots);
+            const datasetSelect = document.getElementById('csvDatasetSelect');
+            if (datasetSelect && screeningData.csv_path) {
+                const matchingOption = [...datasetSelect.options].find(option => option.value === screeningData.csv_path);
+                if (matchingOption) datasetSelect.value = screeningData.csv_path;
+            }
             if (!selectedLotId || !screeningData.lots[selectedLotId]) {
                 selectedLotId = lotsKeys[0];
             }

@@ -106,6 +106,19 @@ Open <http://127.0.0.1:8501>. The server opens a browser by default; use `--no-b
 
 The server defaults to the repository's demo CSV when `/api/current` is requested and no screening run has been loaded. The UI also allows selecting available repository CSV datasets.
 
+### Windows launch
+
+The UI uses Python's standard-library HTTP server and the same launch flow on Windows. In PowerShell, run these commands from the repository root:
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python scripts\run_screening_ui.py --port 8501
+```
+
+Open <http://127.0.0.1:8501> after the server starts. To avoid opening a browser automatically, add `--no-browser` to the final command. If PowerShell blocks activation, run the script directly with `py -3 scripts\run_screening_ui.py --port 8501` after installing the dependencies.
+
 ## Tests and validation tools
 
 Run the test suite from the repository root:
