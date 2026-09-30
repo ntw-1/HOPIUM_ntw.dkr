@@ -1,4 +1,4 @@
-# HOPIUM_sih26170
+# HOPIUM_
 
 HOPIUM is a prototype for AI-assisted anomaly detection and decision support during semiconductor component burn-in and screening, developed for Smart India Hackathon problem SIH26170. It includes a CSV-based screening pipeline, a local browser UI, engineer disposition recording, and a separate secondary-use assessment workflow for components an engineer rejects.
 
